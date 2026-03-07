@@ -691,7 +691,7 @@ export const projectDetails: Record<ProjectSlug, ProjectDetail> = {
         ],
         links: {
             repository:
-                "https://github.com/LucasCerqueiraGalvao/personal-portifolio",
+                "https://github.com/LucasCerqueiraGalvao/personal-portfolio",
         },
         status: "public",
         sections: [
