@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { profile } from "../../data/profile";
 
 // Intentional for GitHub Pages contact form usage.
+// VITE_WEB3FORMS_ACCESS_KEY=96cd8c5e-7543-4f84-84c9-b986977f1fac
 const PUBLIC_WEB3FORMS_ACCESS_KEY =
     "96cd8c5e-7543-4f84-84c9-b986977f1fac";
 const VULNERABILITY_DISCLOSURE_MESSAGE =
