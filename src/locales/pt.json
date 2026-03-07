@@ -1,0 +1,213 @@
+﻿{
+  "header": {
+    "nav": {
+      "home": "Inicio",
+      "projects": "Projetos",
+      "experiences": "Experiencias",
+      "contact": "Contato"
+    },
+    "button1": "Ver Projetos",
+    "button2": "Baixar CV"
+  },
+  "hero": {
+    "title": "ENGENHEIRO E ANALISTA DE DADOS",
+    "description": "Construo solucoes de dados ponta a ponta: coleta, modelagem, automacao e analise para decisao de negocio.",
+    "button1": "Ver Projetos",
+    "button2": "Baixar CV"
+  },
+  "projects": {
+    "title": "Projetos em Destaque",
+    "sources": {
+      "data": "Data Engineering",
+      "automation": "Automacao",
+      "ai": "IA/Agentes",
+      "research": "Pesquisa",
+      "systems": "Sistemas",
+      "personal": "Pessoal"
+    },
+    "filters": {
+      "all": "Todas"
+    },
+    "noImage": "Previa do Projeto",
+    "buttons": {
+      "view": "Ver Detalhes",
+      "offline": "Indisponivel"
+    },
+    "event_driven_integration_api_on_gcp": {
+      "title": "Event-Driven Integration API on GCP",
+      "description": "API de integracao orientada a eventos em Flask, containerizada com Docker e publicada em Cloud Run (GCP), conectando fluxos de sistemas CRM/ERP via webhooks com seguranca operacional."
+    },
+    "fiscal_data_platform_emissions_product_analytics": {
+      "title": "Fiscal Data Platform for Emissions & Product Analytics",
+      "description": "Plataforma de dados fiscais e de produto em GCP (BigQuery) para ingestao em larga escala, modelagem de SKUs e geracao de metricas em dashboards para emissoes e analytics de negocio."
+    },
+    "legal_data_intelligence_platform": {
+      "title": "Legal Data Intelligence Platform",
+      "description": "Plataforma juridica end-to-end com captura serverless, etapas em Docker, deteccao automatica de eventos processuais e dashboards analiticos para monitoramento e decisao."
+    },
+    "crm_analytics_platform_dbt_data_vault": {
+      "title": "CRM Analytics Platform with DBT & Data Vault",
+      "description": "Estruturacao de dados de CRM com DBT e Data Vault, camada analitica em GCP, dashboards de acompanhamento e alertas de qualidade para reduzir divergencias operacionais."
+    },
+    "enterprise_data_validation_framework": {
+      "title": "Enterprise Data Validation Framework",
+      "description": "Framework reutilizavel de validacao e reconciliacao entre fontes para elevar confiabilidade, observabilidade e rastreabilidade dos pipelines."
+    },
+    "documents_reader": {
+      "title": "Documents Reader",
+      "description": "Pipeline para leitura de documentos de comercio exterior com OCR, extracao de campos e validacao automatizada. Focado em reduzir retrabalho manual e aumentar confiabilidade da operacao."
+    },
+    "cotation_scraper": {
+      "title": "Cotation Scraper",
+      "description": "Automacao de coleta e comparacao de cotacoes de frete com orquestracao diaria, consolidacao de resultados e preparo para evolucao por novas fontes."
+    },
+    "ic_machine_learning": {
+      "title": "IC Machine Learning",
+      "description": "Projeto academico voltado a experimentacao de modelos de machine learning e analise de desempenho para suporte a decisoes de modelagem."
+    },
+    "tech_case_analista_de_dados_jr": {
+      "title": "Tech Case - Analista de Dados Jr",
+      "description": "Estudo tecnico em notebook com tratamento, exploracao e comunicacao de dados. Estruturado para mostrar raciocinio analitico ponta a ponta."
+    },
+    "pcg_analise_de_dados": {
+      "title": "Analise de Dados de Energia",
+      "description": "Projeto de analise e comparacao de dados energeticos com dashboards, consultas SQL e interface React, com componentes em AWS para distribuicao e apoio a decisao."
+    },
+    "codex_discord_gateway": {
+      "title": "Codex Discord Gateway",
+      "description": "Projeto recente para integracao e automacao via Discord, com foco em produtividade tecnica, controle de fluxo e extensibilidade."
+    },
+    "aes_code_in_c": {
+      "title": "AES Code in C",
+      "description": "Implementacao de criptografia AES em C para demonstrar base solida em algoritmos, manipulacao de memoria e performance em baixo nivel."
+    },
+    "lucas_personal_portfolio": {
+      "title": "Personal Portfolio",
+      "description": "Este portfolio em React + Vite apresenta projetos, experiencia e foco em engenharia de dados com navegacao por rotas e estrutura escalavel para novos cases."
+    }
+  },
+  "experiences": {
+    "mainTitle": "Experiencias, Formacao e Conquistas",
+    "title": "Experiencias",
+    "linus_2026": {
+      "title": "Engenheiro de Dados Pleno",
+      "company": "Linus",
+      "period": "2026 - Atual",
+      "description": "- Desenvolvimento de pipelines ETL/ELT para integracao de dados de plataformas como Shopify, Omie e Tiny ERP.\n- Modelagem de dados em BigQuery com organizacao por camadas analiticas.\n- Criacao de dashboards estrategicos para vendas, marketing e operacoes.\n- Deploy de APIs e automacoes em Docker na GCP."
+    },
+    "excel_santos_2025": {
+      "title": "Engenheiro de Dados Pleno",
+      "company": "Excel Santos",
+      "period": "2025 - 2026",
+      "description": "- Automacao de scraping de cotacoes de frete maritimo com Python e Playwright.\n- Pipelines e dashboards Power BI integrados a SharePoint e Salesforce.\n- Analise de dados logisticos e financeiros para KPIs operacionais e comerciais.\n- Integracao com API OpenAI e deploy em Docker na Azure."
+    },
+    "cp_legal_claims_2024": {
+      "title": "Analista de Dados Junior",
+      "company": "CP Legal Claims",
+      "period": "2024 - 2025",
+      "description": "- Scraping do Diario Oficial com AWS Lambda/S3 para extracao juridica.\n- Estruturacao de dados em MongoDB e BigQuery para analise.\n- Pipelines ELT com DBT e Data Vault para padronizacao.\n- Dashboards e alertas de qualidade para reduzir retrabalho."
+    },
+    "lecex_brasil_2023": {
+      "title": "Analista de Dados Junior",
+      "company": "Lecex Brasil",
+      "period": "2023 - 2024",
+      "description": "- Desenvolvimento de dashboards financeiros e de marketing para ganho de previsibilidade.\n- Integracao de dados de multiplas bases SQL em fluxo unificado.\n- Automacoes em Python para acelerar operacoes analiticas e reduzir tarefas repetitivas."
+    }
+  },
+  "education": {
+    "title": "Educacao",
+    "fatec_ads_2026": {
+      "title": "Bacharelado em Analise e Desenvolvimento de Sistemas",
+      "company": "Faculdade de Tecnologia Rubens Lara (FATEC)",
+      "period": "Conclusao prevista: 06/2026",
+      "description": "Turno: Noturno",
+      "link": ""
+    },
+    "unisanta_cc_2026": {
+      "title": "Bacharelado em Ciencia da Computacao",
+      "company": "Universidade Catolica de Santos (UNISANTA)",
+      "period": "Conclusao prevista: 06/2026",
+      "description": "Turno: Noturno",
+      "link": ""
+    },
+    "usp_fisica_2023": {
+      "title": "Bacharelado em Fisica",
+      "company": "Universidade de Sao Paulo (USP)",
+      "period": "Interrompido em 10/2023",
+      "description": "Curso interrompido para transicao de carreira.",
+      "link": ""
+    },
+    "usp_poli_mba_2027": {
+      "title": "MBA em Data Science & Analytics",
+      "company": "USP Poli",
+      "period": "01/2027 - 07/2028 (previsto)",
+      "description": "Inicio planejado para janeiro de 2027.",
+      "link": ""
+    }
+  },
+  "achievements": {
+    "title": "Conquistas",
+    "seeAllOnLinkedIn": "Ver perfil completo no LinkedIn",
+    "seeCredential": "Ver referencia",
+    "aws_cloud_foundations": {
+      "title": "AWS Academy Cloud Foundations",
+      "company": "Amazon Web Services / Credly",
+      "period": "Certificacao",
+      "description": "Certificacao de fundamentos em cloud computing.",
+      "link": "https://www.credly.com/badges/7d9a2cc8-d89c-474f-99b8-8f454a62461f/linked_in?t=sx1uqn"
+    },
+    "ada_data_science": {
+      "title": "Data Science Program",
+      "company": "ADA",
+      "period": "Formacao complementar",
+      "description": "Conclusao do programa com foco em fundamentos e pratica aplicada em ciencia de dados.",
+      "link": "https://www.linkedin.com/feed/update/urn:li:activity:7130369487496695808/"
+    },
+    "obi_2023": {
+      "title": "OBI - Classificacao para 2a fase",
+      "company": "Olimpiada Brasileira de Informatica",
+      "period": "2023",
+      "description": "Classificado para a 2a fase, sendo o unico participante de Santos e primeiro da Baixada Santista.",
+      "link": ""
+    },
+    "sbc_regional_2024": {
+      "title": "Maratona SBC Regional - Destaque de equipe",
+      "company": "Sociedade Brasileira de Computacao",
+      "period": "2024",
+      "description": "Minha equipe foi a melhor entre as equipes de pequenos centros na competicao regional.",
+      "link": ""
+    },
+    "santo_scuderi_2024": {
+      "title": "3o lugar - Maratona Santo Scuderi",
+      "company": "UNISANTA",
+      "period": "2024",
+      "description": "Podio em maratona universitaria com desafios de estruturas de dados, grafos e otimizacao.",
+      "link": ""
+    }
+  },
+  "contact": {
+    "mainTitle": "Entre em Contato",
+    "form": {
+      "title": "Vamos Conversar",
+      "description": "Aberto a oportunidades, projetos e colaboracoes em dados, automacao e engenharia de software.",
+      "name": "Nome",
+      "email": "Email",
+      "message": "Digite sua mensagem",
+      "submit": "Enviar",
+      "sending": "Enviando...",
+      "success": "Mensagem enviada com sucesso!",
+      "error": "Erro ao enviar mensagem. Tente novamente.",
+      "validation": {
+        "nameMin": "Nome deve ter pelo menos 2 caracteres",
+        "nameMax": "Nome deve ter no maximo 50 caracteres",
+        "emailInvalid": "Por favor, insira um email valido",
+        "messageMin": "Mensagem deve ter pelo menos 5 caracteres",
+        "messageMax": "Mensagem deve ter no maximo 500 caracteres",
+        "error": "Por favor, corrija os erros no formulario"
+      }
+    }
+  },
+  "footer": {
+    "text": "© 2026 Lucas Cerqueira Galvao. Todos os direitos reservados."
+  }
+}

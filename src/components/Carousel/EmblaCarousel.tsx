@@ -1,18 +1,21 @@
 import React from "react";
 import { type EmblaOptionsType } from "embla-carousel";
-import { DotButton, useDotButton } from "./EmblaCarouselDotButton";
-import {
-    PrevButton,
-    NextButton,
-    usePrevNextButtons,
-} from "./EmblaCarouselArrowButtons";
+import { DotButton } from "./EmblaCarouselDotButton";
+import { PrevButton, NextButton } from "./EmblaCarouselArrowButtons";
 import useEmblaCarousel from "embla-carousel-react";
 import ProjectCard from "../ProjectsSection/ProjectCard";
+import { useDotButton } from "./useDotButton";
+import { usePrevNextButtons } from "./usePrevNextButtons";
 
 type Project = {
+    id: string;
+    slug?: string;
     title: string;
     description: string;
     techs: string[];
+    image?: string;
+    source?: string;
+    isOffline?: boolean;
     link?: string;
 };
 

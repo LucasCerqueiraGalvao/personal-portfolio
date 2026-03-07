@@ -1,22 +1,29 @@
-import { useRef, useState, useEffect } from "react";
-import { FaBriefcase, FaGraduationCap } from "react-icons/fa";
+﻿import { useRef, useState, useEffect } from "react";
+import { FaBriefcase, FaGraduationCap, FaTrophy } from "react-icons/fa";
 import QualificationItem from "./QualificationItem";
 import ExperienceItem from "./ExperienceItem";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
+import { profile } from "../../data/profile";
+
+type TabKey = "experiences" | "education" | "achievements";
 
 const ExperienceSection = () => {
-    const [activeTab, setActiveTab] = useState<
-        "experiences" | "qualifications"
-    >("experiences");
+    const [activeTab, setActiveTab] = useState<TabKey>("experiences");
     const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
 
-    const qualificationsRef = useRef<HTMLButtonElement>(null);
     const experiencesRef = useRef<HTMLButtonElement>(null);
+    const educationRef = useRef<HTMLButtonElement>(null);
+    const achievementsRef = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
-        const activeRef =
-            activeTab === "qualifications" ? qualificationsRef : experiencesRef;
+        let activeRef = experiencesRef;
+        if (activeTab === "education") {
+            activeRef = educationRef;
+        }
+        if (activeTab === "achievements") {
+            activeRef = achievementsRef;
+        }
 
         if (activeRef.current) {
             const { offsetLeft, offsetWidth } = activeRef.current;
@@ -27,10 +34,10 @@ const ExperienceSection = () => {
     const { t } = useTranslation();
 
     const experienceKeys = [
-        "quatrodois",
-        "viva_cred_2024",
-        "backsite_2023",
-        "viva_cred_2020",
+        "linus_2026",
+        "excel_santos_2025",
+        "cp_legal_claims_2024",
+        "lecex_brasil_2023",
     ];
 
     const experiences = experienceKeys.map((key) => ({
@@ -40,21 +47,43 @@ const ExperienceSection = () => {
         description: t(`experiences.${key}.description`),
     }));
 
-    const qualificationKeys = [
-        "aws_cloud",
-        "laravel_alura",
-        "python_impressionador",
+    const educationKeys = [
+        "fatec_ads_2026",
+        "unisanta_cc_2026",
+        "usp_fisica_2023",
+        "usp_poli_mba_2027",
     ];
 
-    const qualifications = qualificationKeys.map((key) => ({
-        title: t(`qualifications.${key}.title`),
-        company: t(`qualifications.${key}.company`),
-        period: t(`qualifications.${key}.period`),
-        description: t(`qualifications.${key}.description`),
-        link: t(`qualifications.${key}.link`, ""),
+    const education = educationKeys.map((key) => ({
+        title: t(`education.${key}.title`),
+        company: t(`education.${key}.company`),
+        period: t(`education.${key}.period`),
+        description: t(`education.${key}.description`),
+        link: t(`education.${key}.link`, ""),
     }));
 
-    const data = activeTab === "experiences" ? experiences : qualifications;
+    const achievementKeys = [
+        "aws_cloud_foundations",
+        "ada_data_science",
+        "obi_2023",
+        "sbc_regional_2024",
+        "santo_scuderi_2024",
+    ];
+
+    const achievements = achievementKeys.map((key) => ({
+        title: t(`achievements.${key}.title`),
+        company: t(`achievements.${key}.company`),
+        period: t(`achievements.${key}.period`),
+        description: t(`achievements.${key}.description`),
+        link: t(`achievements.${key}.link`, ""),
+    }));
+
+    const data =
+        activeTab === "experiences"
+            ? experiences
+            : activeTab === "education"
+              ? education
+              : achievements;
 
     return (
         <section
@@ -72,7 +101,7 @@ const ExperienceSection = () => {
             </motion.h2>
 
             <motion.div
-                className="relative flex justify-center gap-6 mb-10"
+                className="relative flex flex-wrap justify-center gap-4 mb-10"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -100,16 +129,28 @@ const ExperienceSection = () => {
                     {t("experiences.title").toUpperCase()}
                 </button>
                 <button
-                    ref={qualificationsRef}
-                    onClick={() => setActiveTab("qualifications")}
+                    ref={educationRef}
+                    onClick={() => setActiveTab("education")}
                     className={`flex items-center gap-2 px-4 py-2 text-sm rounded-md transition relative ${
-                        activeTab === "qualifications"
+                        activeTab === "education"
                             ? "text-white"
                             : "text-white/30"
                     }`}
                 >
                     <FaGraduationCap size={25} />
-                    {t("qualifications.title").toUpperCase()}
+                    {t("education.title").toUpperCase()}
+                </button>
+                <button
+                    ref={achievementsRef}
+                    onClick={() => setActiveTab("achievements")}
+                    className={`flex items-center gap-2 px-4 py-2 text-sm rounded-md transition relative ${
+                        activeTab === "achievements"
+                            ? "text-white"
+                            : "text-white/30"
+                    }`}
+                >
+                    <FaTrophy size={25} />
+                    {t("achievements.title").toUpperCase()}
                 </button>
             </motion.div>
 
@@ -118,9 +159,9 @@ const ExperienceSection = () => {
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={activeTab}
-                        initial={{ opacity: 0, x: activeTab === "experiences" ? -20 : 20 }}
+                        initial={{ opacity: 0, x: 12 }}
                         animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: activeTab === "experiences" ? 20 : -20 }}
+                        exit={{ opacity: 0, x: -12 }}
                         transition={{ duration: 0.3 }}
                     >
                         {activeTab === "experiences" ? (
@@ -133,16 +174,18 @@ const ExperienceSection = () => {
                                     <QualificationItem idx={idx} key={idx} {...item} />
                                 ))}
 
-                                {/* Botão Ver todos */}
-                                <div className="mt-6 text-center">
-                                    <a
-                                        href="https://www.linkedin.com/in/lucas-carmona-neto/details/certifications/"
-                                        target="_blank"
-                                        className="text-primary font-semibold hover:underline"
-                                    >
-                                        {t("qualifications.seeAllOnLinkedIn")} ↗
-                                    </a>
-                                </div>
+                                {activeTab === "achievements" && (
+                                    <div className="mt-6 text-center">
+                                        <a
+                                            href={`${profile.social.linkedin}details/certifications/`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-primary font-semibold hover:underline"
+                                        >
+                                            {t("achievements.seeAllOnLinkedIn")} {"->"}
+                                        </a>
+                                    </div>
+                                )}
                             </>
                         )}
                     </motion.div>

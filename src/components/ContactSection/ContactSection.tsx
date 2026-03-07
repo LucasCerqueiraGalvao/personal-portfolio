@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { z } from "zod";
 import toast, { Toaster } from "react-hot-toast";
 import { motion } from "framer-motion";
+import { profile } from "../../data/profile";
 
 function ContactSection() {
     const { t } = useTranslation();
@@ -280,7 +281,7 @@ function ContactSection() {
                 {/* Ícones sociais */}
                 <div className="flex justify-center gap-6 sm:gap-8 mt-8 text-white/80 text-xl sm:text-2xl lg:text-3xl">
                     <motion.a
-                        href="https://www.linkedin.com/in/lucas-carmona-neto/"
+                        href={profile.social.linkedin}
                         target="_blank"
                         aria-label="LinkedIn"
                         initial={{ opacity: 0, y: 20 }}
@@ -291,7 +292,7 @@ function ContactSection() {
                         <FaLinkedin className="hover:text-primary transition-transform duration-300 transform hover:scale-110 cursor-pointer" />
                     </motion.a>
                     <motion.a
-                        href="https://github.com/lucascarmon4"
+                        href={profile.social.github}
                         target="_blank"
                         aria-label="GitHub"
                         initial={{ opacity: 0, y: 20 }}
@@ -302,7 +303,7 @@ function ContactSection() {
                         <FaGithub className="hover:text-primary transition-transform duration-300 transform hover:scale-110 cursor-pointer" />
                     </motion.a>
                     <motion.a
-                        href="mailto:lucascarmonaneto510@gmail.com"
+                        href={profile.social.email}
                         aria-label="Email"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}

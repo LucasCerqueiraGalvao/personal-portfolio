@@ -1,20 +1,27 @@
 import { useTranslation } from "react-i18next";
+import { profile } from "../data/profile";
 
 function Footer() {
-    const { t } = useTranslation();
+    const { i18n } = useTranslation();
+    const year = new Date().getFullYear();
+    const rightsReserved =
+        i18n.language === "pt"
+            ? "Todos os direitos reservados."
+            : "All rights reserved.";
+    const footerText = `© ${year} ${profile.fullName}. ${rightsReserved}`;
 
     return (
         <footer className="bg-[#0a0a0a] text-white px-6 pt-10 pb-6">
             <div className="max-w-7xl mx-auto border-t border-white/10 pt-6 flex flex-col sm:flex-row justify-between items-center">
                 {/* Logo + direitos */}
                 <div className="w-full sm:w-auto text-sm text-white/30 flex justify-between items-center mb-6 sm:mb-0">
-                    <span className="font-['Michroma'] text-xs">LC</span>
-                    <span className="sm:hidden block">{t("footer.text")}</span>
+                    <span className="font-['Michroma'] text-xs">{profile.initials}</span>
+                    <span className="sm:hidden block">{footerText}</span>
                 </div>
 
                 {/* Direitos no lado direito (desktop) */}
                 <div className="hidden sm:block text-sm text-white/30">
-                    {t("footer.text")}
+                    {footerText}
                 </div>
             </div>
 
@@ -22,7 +29,7 @@ function Footer() {
             <div className="mt-8 text-center">
                 <div className="flex justify-center flex-wrap gap-10 text-sm sm:text-base font-semibold tracking-widest">
                     <a
-                        href="https://github.com/lucascarmon4"
+                        href={profile.social.github}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="hover-underline"
@@ -30,13 +37,13 @@ function Footer() {
                         GITHUB
                     </a>
                     <a
-                        href="mailto:lucascarmonaneto510@gmail.com"
+                        href={profile.social.email}
                         className="hover-underline"
                     >
                         EMAIL
                     </a>
                     <a
-                        href="https://linkedin.com/in/lucas-carmona-neto"
+                        href={profile.social.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="hover-underline"

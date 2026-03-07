@@ -1,12 +1,14 @@
 import { useTranslation } from "react-i18next";
 import Button from "./Button";
-import { Link } from "react-scroll";
+import { getCvPath, profile } from "../data/profile";
 import i18n from "../utils/i18n";
 import { TypeAnimation } from "react-type-animation";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 function Hero() {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const language = i18n.language as "en" | "pt";
     
     return (
@@ -24,7 +26,7 @@ function Hero() {
                     <TypeAnimation
                         key={language}
                         sequence={[
-                            "LUCAS CARMONA NETO",
+                            profile.fullName.toUpperCase(),
                             2000,
                             t("hero.title"),
                             2000,
@@ -54,13 +56,13 @@ function Hero() {
                     transition={{ duration: 0.8, delay: 0.4 }}
                 >
                     <Button type="primary">
-                        <a href={`/cv/lucascarmona-${language}.pdf`} download>
+                        <a href={getCvPath(language)} download>
                             {t("header.button2")}
                         </a>
                     </Button>
-                    <Link to="projects" smooth duration={500} offset={-50}>
-                        <Button type="secondary">{t("header.button1")}</Button>
-                    </Link>
+                    <Button type="secondary" onClick={() => navigate("/projects")}>
+                        {t("header.button1")}
+                    </Button>
                 </motion.div>
             </div>
         </section>

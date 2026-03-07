@@ -1,69 +1,172 @@
 [
     {
-        "id": "erp_vivacred",
-        "techs": ["React", "TypeScript", "PHP", "MySQL", "JWT"],
-        "source": "vivacred",
-        "image": "/images/projects/erp_vivacred.png",
-        "isOffline": false
+        "id":  "event_driven_integration_api_on_gcp",
+        "slug":  "event_driven_integration_api_on_gcp",
+        "techs":  [
+                      "Python",
+                      "Flask",
+                      "Docker",
+                      "Cloud Run",
+                      "Webhooks"
+                  ],
+        "source":  "automation",
+        "image":  "/images/projects/event_driven_integration_api_on_gcp.jpg",
+        "isOffline":  false
     },
     {
-        "id": "ead_tecnoponta",
-        "techs": ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
-        "link": "https://aluno.tecnoponta.com.br",
-        "source": "backsite",
-        "image": "/images/projects/ead_tecnoponta.png",
-        "isOffline": false
+        "id":  "fiscal_data_platform_emissions_product_analytics",
+        "slug":  "fiscal_data_platform_emissions_product_analytics",
+        "techs":  [
+                      "Python",
+                      "SQL",
+                      "BigQuery",
+                      "XML Parsing",
+                      "Data Modeling"
+                  ],
+        "source":  "data",
+        "image":  "/images/projects/fiscal_data_platform_emissions_product_analytics.jpg",
+        "isOffline":  false
     },
     {
-        "id": "smart_b3",
-        "techs": [
-            "React",
-            "Electron",
-            "Python",
-            "PostgreSQL",
-            "Scikit-learn",
-            "Chart.js"
-        ],
-        "link": "https://github.com/Portugol-Devoteers/pcg-5sem",
-        "source": "unisantos",
-        "image": "/images/projects/smart_b3.png",
-        "isOffline": false
+        "id":  "crm_analytics_platform_dbt_data_vault",
+        "slug":  "crm_analytics_platform_dbt_data_vault",
+        "techs":  [
+                      "DBT",
+                      "SQL",
+                      "Data Vault",
+                      "HubSpot",
+                      "Power BI"
+                  ],
+        "source":  "data",
+        "image":  "/images/projects/crm_analytics_platform_dbt_data_vault.jpg",
+        "isOffline":  false
     },
     {
-        "id": "extrato_fgts_shopee",
-        "techs": ["Python", "Selenium", "Tkinter", "Pandas", "SQL Server"],
-        "source": "freelance",
-        "image": "/images/projects/extrato_fgts_shopee.png",
-        "isOffline": false
+        "id":  "legal_data_intelligence_platform",
+        "slug":  "legal_data_intelligence_platform",
+        "techs":  [
+                      "Python",
+                      "AWS Lambda",
+                      "S3",
+                      "MongoDB",
+                      "BigQuery"
+                  ],
+        "source":  "data",
+        "image":  "/images/projects/legal_data_intelligence_platform.jpg",
+        "isOffline":  false
     },
     {
-        "id": "public_vivacred",
-        "techs": ["React", "TypeScript", "Tailwind CSS"],
-        "link": "https://www.vivacredpg.com.br",
-        "source": "vivacred",
-        "image": "/images/projects/public_vivacred.png",
-        "isOffline": false
+        "id":  "enterprise_data_validation_framework",
+        "slug":  "enterprise_data_validation_framework",
+        "techs":  [
+                      "Python",
+                      "SQL",
+                      "BigQuery",
+                      "Pandas",
+                      "Data Quality"
+                  ],
+        "source":  "data",
+        "image":  "/images/projects/enterprise_data_validation_framework.jpg",
+        "isOffline":  false
     },
     {
-        "id": "analyze_energy_costs",
-        "techs": ["React", "Flask", "Python", "Chart.js", "Pandas", "i18n"],
-        "link": "https://github.com/Portugol-Devoteers/pcg-analyze-energy-costs",
-        "source": "unisantos",
-        "image": "/images/projects/analyze_energy_costs.png",
-        "isOffline": false
+        "id":  "documents_reader",
+        "slug":  "documents_reader",
+        "techs":  [
+                      "Python",
+                      "OCR",
+                      "Regex",
+                      "Pandas",
+                      "Data Validation"
+                  ],
+        "link":  "https://github.com/LucasCerqueiraGalvao/documents_reader",
+        "source":  "data",
+        "image":  "/images/projects/documents_reader.png",
+        "isOffline":  false
     },
     {
-        "id": "farejador_produtos",
-        "techs": ["PHP", "MySQL", "HTML", "CSS", "JavaScript", "MVC"],
-        "source": "backsite",
-        "isOffline": true
+        "id":  "cotation_scraper",
+        "slug":  "cotation_scraper",
+        "techs":  [
+                      "Python",
+                      "Playwright",
+                      "Automation",
+                      "ETL",
+                      "Pandas"
+                  ],
+        "link":  "https://github.com/LucasCerqueiraGalvao/cotation-scraper",
+        "source":  "automation",
+        "image":  "/images/projects/cotation_scraper.jpg",
+        "isOffline":  false
     },
     {
-        "id": "lucascarmona_portfolio",
-        "techs": ["React", "Vite", "TypeScript", "Tailwind CSS", "i18next"],
-        "link": "https://github.com/lucascarmon4/portfolio",
-        "source": "pessoal",
-        "image": "/images/projects/lucascarmona_portfolio.png",
-        "isOffline": false
+        "id":  "ic_machine_learning",
+        "slug":  "ic_machine_learning",
+        "techs":  [
+                      "Python",
+                      "Machine Learning",
+                      "Data Analysis",
+                      "Model Evaluation"
+                  ],
+        "link":  "https://github.com/LucasCerqueiraGalvao/IC-Machine-Learning",
+        "source":  "research",
+        "image":  "/images/projects/smart_b3.png",
+        "isOffline":  false
+    },
+    {
+        "id":  "pcg_analise_de_dados",
+        "slug":  "pcg_analise_de_dados",
+        "techs":  [
+                      "Python",
+                      "Pandas",
+                      "Power BI",
+                      "Data Science"
+                  ],
+        "link":  "https://github.com/LucasCerqueiraGalvao/pcg-analise-de-dados",
+        "source":  "research",
+        "image":  "/images/projects/analyze_energy_costs.png",
+        "isOffline":  false
+    },
+    {
+        "id":  "codex_discord_gateway",
+        "slug":  "codex_discord_gateway",
+        "techs":  [
+                      "Python",
+                      "Discord",
+                      "API Integration",
+                      "Automation"
+                  ],
+        "source":  "ai",
+        "image":  "/images/projects/codex_discord_gateway.png",
+        "isOffline":  false
+    },
+    {
+        "id":  "lucas_personal_portfolio",
+        "slug":  "lucas_personal_portfolio",
+        "techs":  [
+                      "React",
+                      "Vite",
+                      "TypeScript",
+                      "Tailwind CSS",
+                      "i18next"
+                  ],
+        "link":  "https://github.com/LucasCerqueiraGalvao/personal-portifolio",
+        "source":  "personal",
+        "image":  "/images/projects/lucas_personal_portfolio.png",
+        "isOffline":  false
+    },
+    {
+        "id":  "aes_code_in_c",
+        "slug":  "aes_code_in_c",
+        "techs":  [
+                      "C",
+                      "Cryptography",
+                      "Algorithms",
+                      "Memory"
+                  ],
+        "link":  "https://github.com/LucasCerqueiraGalvao/AES-Code-In-C",
+        "source":  "systems",
+        "image":  "/images/projects/aes_code_in_c.jpg",
+        "isOffline":  false
     }
 ]

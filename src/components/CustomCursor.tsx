@@ -73,23 +73,23 @@ function CustomCursor() {
             width: 16,
             height: 16,
             backgroundColor: "transparent",
-            border: "1px solid #2dd4bf",
+            border: "1px solid #ef4444",
             mixBlendMode: "difference" as const,
             borderRadius: "50%",
         },
         pointer: {
             width: 48,
             height: 48,
-            backgroundColor: "rgba(45, 212, 191, 0.2)",
-            border: "1px solid rgba(45, 212, 191, 0.5)",
+            backgroundColor: "rgba(239, 68, 68, 0.2)",
+            border: "1px solid rgba(239, 68, 68, 0.5)",
             mixBlendMode: "normal" as const,
             borderRadius: "50%",
         },
         text: {
             width: 32,
             height: 32,
-            backgroundColor: "rgba(45, 212, 191, 0.1)",
-            border: "1px solid #2dd4bf",
+            backgroundColor: "rgba(239, 68, 68, 0.1)",
+            border: "1px solid #ef4444",
             mixBlendMode: "normal" as const,
             borderRadius: "50%",
         },
@@ -109,7 +109,7 @@ function CustomCursor() {
                     translateY: "-50%",
                     width: 8,
                     height: 8,
-                    backgroundColor: "#2dd4bf",
+                    backgroundColor: "#ef4444",
                 }}
             />
             
