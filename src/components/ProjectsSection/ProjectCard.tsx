@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import Button from "../Button";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { withBasePath } from "../../utils/withBasePath";
 
 type Props = {
     id: string;
@@ -45,7 +46,7 @@ function ProjectCard({
             <div className="h-40 sm:h-48 bg-gray-900 flex items-center justify-center text-white text-sm sm:text-base overflow-hidden">
                 {image ? (
                     <motion.img
-                        src={image}
+                        src={withBasePath(image)}
                         alt={title}
                         className="h-full w-full object-cover"
                         whileHover={{ scale: 1.1 }}

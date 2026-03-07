@@ -1,3 +1,5 @@
+import { withBasePath } from "../utils/withBasePath";
+
 export type SupportedLanguage = "pt" | "en";
 
 type LocalizedText = {
@@ -43,5 +45,5 @@ export const profile: ProfileData = {
 };
 
 export function getCvPath(language: SupportedLanguage): string {
-    return profile.cv[language] ?? profile.cv.pt;
+    return withBasePath(profile.cv[language] ?? profile.cv.pt);
 }

@@ -1,6 +1,7 @@
 ﻿import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { profile } from "../../data/profile";
+import { withBasePath } from "../../utils/withBasePath";
 
 type Props = {
     isMobileMenuOpen: boolean;
@@ -48,8 +49,8 @@ function MenuMobile({
                     <img
                         src={
                             language === "en"
-                                ? "/images/flags/br.svg"
-                                : "/images/flags/us.svg"
+                                ? withBasePath("/images/flags/br.svg")
+                                : withBasePath("/images/flags/us.svg")
                         }
                         alt={language === "en" ? "Portugues" : "English"}
                         className="w-5 h-5 cursor-pointer"

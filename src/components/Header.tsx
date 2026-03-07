@@ -4,6 +4,7 @@ import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { getCvPath, profile } from "../data/profile";
 import i18n from "../utils/i18n";
+import { withBasePath } from "../utils/withBasePath";
 import Button from "./Button";
 import MenuMobile from "./Header/MenuMobile";
 
@@ -117,8 +118,8 @@ function Header() {
                             <img
                                 src={
                                     language === "en"
-                                        ? "/images/flags/br.svg"
-                                        : "/images/flags/us.svg"
+                                        ? withBasePath("/images/flags/br.svg")
+                                        : withBasePath("/images/flags/us.svg")
                                 }
                                 alt={language === "en" ? "Portugues" : "English"}
                                 className="w-5 h-5 cursor-pointer"
