@@ -81,7 +81,7 @@
                   ],
         "link":  "https://github.com/LucasCerqueiraGalvao/documents_reader",
         "source":  "data",
-        "image":  "/images/projects/documents_reader.png",
+        "image":  "/images/projects/documents_reader.jpg",
         "isOffline":  false
     },
     {
@@ -110,7 +110,7 @@
                   ],
         "link":  "https://github.com/LucasCerqueiraGalvao/IC-Machine-Learning",
         "source":  "research",
-        "image":  "/images/projects/smart_b3.png",
+        "image":  "/images/projects/ic_machine_learning.jpg",
         "isOffline":  false
     },
     {
@@ -124,7 +124,7 @@
                   ],
         "link":  "https://github.com/LucasCerqueiraGalvao/pcg-analise-de-dados",
         "source":  "research",
-        "image":  "/images/projects/analyze_energy_costs.png",
+        "image":  "/images/projects/pcg_analise_de_dados.jpg",
         "isOffline":  false
     },
     {
@@ -137,7 +137,7 @@
                       "Automation"
                   ],
         "source":  "ai",
-        "image":  "/images/projects/codex_discord_gateway.png",
+        "image":  "/images/projects/codex_discord_gateway.jpg",
         "isOffline":  false
     },
     {
@@ -152,7 +152,7 @@
                   ],
         "link":  "https://github.com/LucasCerqueiraGalvao/personal-portfolio",
         "source":  "personal",
-        "image":  "/images/projects/lucas_personal_portfolio.png",
+        "image":  "/images/projects/lucas_personal_portfolio.jpg",
         "isOffline":  false
     },
     {

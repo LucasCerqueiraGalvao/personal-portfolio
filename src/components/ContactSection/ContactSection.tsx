@@ -6,6 +6,12 @@ import toast, { Toaster } from "react-hot-toast";
 import { motion } from "framer-motion";
 import { profile } from "../../data/profile";
 
+// Intentional for GitHub Pages contact form usage.
+const PUBLIC_WEB3FORMS_ACCESS_KEY =
+    "96cd8c5e-7543-4f84-84c9-b986977f1fac";
+const VULNERABILITY_DISCLOSURE_MESSAGE =
+    "Congratulations, you found the vulnerability. It is not a technical error; it was placed here on purpose.";
+
 function ContactSection() {
     const { t } = useTranslation();
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -53,6 +59,10 @@ function ContactSection() {
         }
     }, [isSubmitted]);
 
+    useEffect(() => {
+        console.info(VULNERABILITY_DISCLOSURE_MESSAGE);
+    }, []);
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
@@ -72,7 +82,8 @@ function ContactSection() {
             // Se chegou aqui, validação passou
             formData.append(
                 "access_key",
-                import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || ""
+                import.meta.env.VITE_WEB3FORMS_ACCESS_KEY ||
+                    PUBLIC_WEB3FORMS_ACCESS_KEY
             );
 
             await fetch("https://api.web3forms.com/submit", {
@@ -187,7 +198,7 @@ function ContactSection() {
                     <input
                         type="hidden"
                         name="subject"
-                        value="Nova mensagem do Portfolio"
+                        value="Nova mensagem do Portfólio"
                     />
                     <input type="hidden" name="redirect" value="false" />
 
@@ -330,3 +341,4 @@ function ContactSection() {
 }
 
 export default ContactSection;
+
