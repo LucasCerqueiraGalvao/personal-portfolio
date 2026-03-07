@@ -1,0 +1,213 @@
+﻿{
+  "header": {
+    "nav": {
+      "home": "Home",
+      "projects": "Projects",
+      "experiences": "Experiences",
+      "contact": "Contact"
+    },
+    "button1": "View Projects",
+    "button2": "Download CV"
+  },
+  "hero": {
+    "title": "DATA ENGINEER AND ANALYST",
+    "description": "I build end-to-end data solutions: ingestion, modeling, automation, and analysis for business decisions.",
+    "button1": "View Projects",
+    "button2": "Download CV"
+  },
+  "projects": {
+    "title": "Featured Projects",
+    "sources": {
+      "data": "Data Engineering",
+      "automation": "Automation",
+      "ai": "AI/Agents",
+      "research": "Research",
+      "systems": "Systems",
+      "personal": "Personal"
+    },
+    "filters": {
+      "all": "All"
+    },
+    "noImage": "Project Preview",
+    "buttons": {
+      "view": "View Details",
+      "offline": "Unavailable"
+    },
+    "event_driven_integration_api_on_gcp": {
+      "title": "Event-Driven Integration API on GCP",
+      "description": "Event-driven Flask integration API, containerized with Docker and deployed on Cloud Run (GCP), connecting CRM/ERP system workflows through secure webhooks."
+    },
+    "fiscal_data_platform_emissions_product_analytics": {
+      "title": "Fiscal Data Platform for Emissions & Product Analytics",
+      "description": "Fiscal and product data platform on GCP (BigQuery) for large-scale ingestion, SKU modeling, and dashboard metrics for emissions and business analytics."
+    },
+    "legal_data_intelligence_platform": {
+      "title": "Legal Data Intelligence Platform",
+      "description": "End-to-end legal data platform with serverless ingestion, Dockerized processing stages, automated procedural event detection, and analytics dashboards."
+    },
+    "crm_analytics_platform_dbt_data_vault": {
+      "title": "CRM Analytics Platform with DBT & Data Vault",
+      "description": "CRM data platform built with DBT and Data Vault, with analytics layers on GCP, governed dashboards, and data quality alerts to reduce operational divergence."
+    },
+    "enterprise_data_validation_framework": {
+      "title": "Enterprise Data Validation Framework",
+      "description": "Reusable validation and reconciliation framework across data sources to increase reliability, observability, and pipeline traceability."
+    },
+    "documents_reader": {
+      "title": "Documents Reader",
+      "description": "Pipeline for foreign trade document processing with OCR, field extraction, and automated validation. Designed to reduce manual effort and increase operational reliability."
+    },
+    "cotation_scraper": {
+      "title": "Cotation Scraper",
+      "description": "Automation for freight quote collection and comparison with daily orchestration, consolidated outputs, and scalable source expansion."
+    },
+    "ic_machine_learning": {
+      "title": "IC Machine Learning",
+      "description": "Academic project focused on machine learning experimentation and performance analysis to support modeling decisions."
+    },
+    "tech_case_analista_de_dados_jr": {
+      "title": "Tech Case - Junior Data Analyst",
+      "description": "Technical notebook case covering data treatment, exploration, and communication. Built to demonstrate end-to-end analytical reasoning."
+    },
+    "pcg_analise_de_dados": {
+      "title": "Energy Data Analysis",
+      "description": "Energy data analysis and comparison project with dashboarding, SQL workflows, and a React interface, using AWS components for delivery and decision support."
+    },
+    "codex_discord_gateway": {
+      "title": "Codex Discord Gateway",
+      "description": "Recent project focused on Discord-based integration and automation for technical productivity, flow control, and extensibility."
+    },
+    "aes_code_in_c": {
+      "title": "AES Code in C",
+      "description": "AES encryption implementation in C showcasing strong foundations in algorithms, memory handling, and low-level performance."
+    },
+    "lucas_personal_portfolio": {
+      "title": "Personal Portfolio",
+      "description": "This React + Vite portfolio presents projects, experience, and data engineering focus with route-based navigation and scalable case structure."
+    }
+  },
+  "experiences": {
+    "mainTitle": "Experience, Education, and Achievements",
+    "title": "Experience",
+    "linus_2026": {
+      "title": "Mid-level Data Engineer",
+      "company": "Linus",
+      "period": "2026 - Present",
+      "description": "- Developed ETL/ELT pipelines integrating data from platforms such as Shopify, Omie, and Tiny ERP.\n- Modeled analytics layers in BigQuery for reliable reporting.\n- Built strategic dashboards for sales, marketing, and operations.\n- Deployed APIs and automations in Docker on GCP."
+    },
+    "excel_santos_2025": {
+      "title": "Mid-level Data Engineer",
+      "company": "Excel Santos",
+      "period": "2025 - 2026",
+      "description": "- Automated maritime freight quote scraping with Python and Playwright.\n- Built data pipelines and Power BI dashboards integrated with SharePoint and Salesforce.\n- Modeled logistics and financial datasets for operational and commercial KPIs.\n- Integrated OpenAI API workflows and deployed services in Docker on Azure."
+    },
+    "cp_legal_claims_2024": {
+      "title": "Junior Data Analyst",
+      "company": "CP Legal Claims",
+      "period": "2024 - 2025",
+      "description": "- Automated legal journal scraping with AWS Lambda/S3.\n- Structured and queried unstructured data in MongoDB and BigQuery.\n- Built ELT pipelines with DBT and Data Vault standards.\n- Delivered dashboards and quality alerts to reduce manual rework."
+    },
+    "lecex_brasil_2023": {
+      "title": "Junior Data Analyst",
+      "company": "Lecex Brasil",
+      "period": "2023 - 2024",
+      "description": "- Developed financial and marketing dashboards to improve predictability.\n- Integrated data from multiple SQL sources into unified flows.\n- Built Python automations to accelerate analytics operations and remove repetitive work."
+    }
+  },
+  "education": {
+    "title": "Education",
+    "fatec_ads_2026": {
+      "title": "Bachelors Degree in Systems Analysis and Development",
+      "company": "Rubens Lara Faculty of Technology (FATEC)",
+      "period": "Expected graduation: 06/2026",
+      "description": "Evening program.",
+      "link": ""
+    },
+    "unisanta_cc_2026": {
+      "title": "Bachelors Degree in Computer Science",
+      "company": "Catholic University of Santos (UNISANTA)",
+      "period": "Expected graduation: 06/2026",
+      "description": "Evening program.",
+      "link": ""
+    },
+    "usp_fisica_2023": {
+      "title": "Bachelors Degree in Physics",
+      "company": "University of Sao Paulo (USP)",
+      "period": "Interrupted in 10/2023",
+      "description": "Program interrupted during career transition.",
+      "link": ""
+    },
+    "usp_poli_mba_2027": {
+      "title": "MBA in Data Science & Analytics",
+      "company": "USP Poli",
+      "period": "01/2027 - 07/2028 (planned)",
+      "description": "Planned start in January 2027.",
+      "link": ""
+    }
+  },
+  "achievements": {
+    "title": "Achievements",
+    "seeAllOnLinkedIn": "View full profile on LinkedIn",
+    "seeCredential": "View reference",
+    "aws_cloud_foundations": {
+      "title": "AWS Academy Cloud Foundations",
+      "company": "Amazon Web Services / Credly",
+      "period": "Certification",
+      "description": "Cloud computing fundamentals certification.",
+      "link": "https://www.credly.com/badges/7d9a2cc8-d89c-474f-99b8-8f454a62461f/linked_in?t=sx1uqn"
+    },
+    "ada_data_science": {
+      "title": "Data Science Program",
+      "company": "ADA",
+      "period": "Complementary education",
+      "description": "Completed program focused on data science fundamentals and applied practice.",
+      "link": "https://www.linkedin.com/feed/update/urn:li:activity:7130369487496695808/"
+    },
+    "obi_2023": {
+      "title": "OBI - Qualified for 2nd phase",
+      "company": "Brazilian Olympiad in Informatics",
+      "period": "2023",
+      "description": "Qualified for the 2nd phase as the only participant from Santos and first in Baixada Santista.",
+      "link": ""
+    },
+    "sbc_regional_2024": {
+      "title": "Regional SBC Programming Marathon - Team Distinction",
+      "company": "Brazilian Computer Society",
+      "period": "2024",
+      "description": "My team was the best-performing among teams from smaller centers in the regional competition.",
+      "link": ""
+    },
+    "santo_scuderi_2024": {
+      "title": "3rd Place - Santo Scuderi Programming Marathon",
+      "company": "UNISANTA",
+      "period": "2024",
+      "description": "Podium finish in a university coding marathon focused on data structures, graphs, and optimization.",
+      "link": ""
+    }
+  },
+  "contact": {
+    "mainTitle": "Get in Touch",
+    "form": {
+      "title": "Lets Talk",
+      "description": "Open to opportunities, projects, and collaborations in data, automation, and software engineering.",
+      "name": "Name",
+      "email": "Email",
+      "message": "Type your message",
+      "submit": "Send",
+      "sending": "Sending...",
+      "success": "Message sent successfully!",
+      "error": "Error sending message. Please try again.",
+      "validation": {
+        "nameMin": "Name must be at least 2 characters",
+        "nameMax": "Name must be at most 50 characters",
+        "emailInvalid": "Please enter a valid email",
+        "messageMin": "Message must be at least 5 characters",
+        "messageMax": "Message must be at most 500 characters",
+        "error": "Please fix the form errors"
+      }
+    }
+  },
+  "footer": {
+    "text": "© 2026 Lucas Cerqueira Galvao. All rights reserved."
+  }
+}

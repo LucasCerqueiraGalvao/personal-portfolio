@@ -23,12 +23,12 @@ function SceneContent() {
         <>
             <ambientLight intensity={0.5} />
             <pointLight position={[10, 10, 10]} intensity={1} />
-            <pointLight position={[-10, -10, -10]} color="#2dd4bf" intensity={2} />
+            <pointLight position={[-10, -10, -10]} color="#ef4444" intensity={2} />
             
             <Float speed={2} rotationIntensity={1} floatIntensity={1}>
                  <mesh ref={meshRef} scale={1.5}>
                     <icosahedronGeometry args={[1, 1]} />
-                    <meshStandardMaterial color="#2dd4bf" wireframe transparent opacity={0.3} />
+                    <meshStandardMaterial color="#ef4444" wireframe transparent opacity={0.3} />
                  </mesh>
             </Float>
             

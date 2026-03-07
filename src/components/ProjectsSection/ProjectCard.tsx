@@ -1,8 +1,11 @@
 import { useTranslation } from "react-i18next";
 import Button from "../Button";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
+    id: string;
+    slug?: string;
     title: string;
     description: string;
     techs: string[];
@@ -14,6 +17,7 @@ type Props = {
 };
 
 function ProjectCard({
+    slug,
     title,
     description,
     techs,
@@ -24,6 +28,9 @@ function ProjectCard({
     isOffline = false,
 }: Props) {
     const { t } = useTranslation();
+    const navigate = useNavigate();
+
+    const canOpen = !isOffline && Boolean(slug || link);
 
     return (
         <motion.div
@@ -91,11 +98,18 @@ function ProjectCard({
                 <Button
                     type="primary"
                     onClick={() => {
-                        if (!isOffline) window.open(link, "_blank");
+                        if (!canOpen) return;
+                        if (slug) {
+                            navigate(`/project/${slug}`);
+                            return;
+                        }
+                        if (link) {
+                            window.open(link, "_blank");
+                        }
                     }}
-                    disabled={isOffline || !link}
+                    disabled={!canOpen}
                 >
-                    {isOffline || !link
+                    {!canOpen
                         ? t("projects.buttons.offline")
                         : t("projects.buttons.view")}
                 </Button>

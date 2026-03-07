@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 @font-face {
     font-family: "Michroma";
@@ -13,7 +13,7 @@
 }
 
 @theme {
-    --color-primary: #2dd4bf;
+    --color-primary: #ef4444;
 }
 
 body,

@@ -1,69 +1,123 @@
-# React + TypeScript + Vite
+# Personal Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfolio profissional com React + Vite, focado em apresentacao de projetos de Data Engineering, Analytics e Integracoes.
 
-Currently, two official plugins are available:
+## Visao Geral
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- SPA com rotas reais (`/home`, `/projects`, `/experiences`, `/contact`)
+- Pagina dedicada por projeto (`/project/:slug`)
+- Internacionalizacao (PT/EN) com `i18next`
+- Conteudo orientado a dados via arquivos de configuracao
+- Ambientes Docker para desenvolvimento e producao
 
-## Expanding the ESLint configuration
+## Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- `React 19` + `TypeScript`
+- `Vite`
+- `React Router`
+- `i18next` / `react-i18next`
+- `Tailwind CSS`
+- `Framer Motion`
+- `Embla Carousel`
+- `Three.js` (`@react-three/fiber`, `@react-three/drei`)
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Estrutura do Projeto
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+personal-portfolio/
+  public/
+    cv/
+    fonts/
+    images/
+      flags/
+      projects/
+  src/
+    components/
+    data/
+      profile.ts
+      projects.json
+      projectDetails.ts
+    locales/
+      pt.json
+      en.json
+    pages/
+    utils/
+      i18n.ts
+  Dockerfile
+  Dockerfile.dev
+  docker-compose.yml
+  nginx.conf
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Requisitos
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `Node.js` 20+
+- `npm` 10+
+- Docker + Docker Compose (opcional)
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Configuracao de Ambiente
+
+1. Crie o arquivo `.env` com base no exemplo:
+
+```bash
+cp .env.example .env
 ```
+
+2. Defina a chave do Web3Forms:
+
+```env
+VITE_WEB3FORMS_ACCESS_KEY=your_web3forms_access_key_here
+```
+
+## Execucao Local
+
+```bash
+npm ci
+npm run dev
+```
+
+Aplicacao: `http://127.0.0.1:5173`
+
+## Docker
+
+### Desenvolvimento (hot reload)
+
+```bash
+docker compose up --build app-dev
+```
+
+Aplicacao: `http://127.0.0.1:5173`
+
+### Producao (build + nginx)
+
+```bash
+docker compose up --build app-prod
+```
+
+Aplicacao: `http://127.0.0.1:8080`
+
+O `nginx.conf` inclui fallback SPA para refresh direto em qualquer rota da aplicacao.
+
+## Scripts
+
+```bash
+npm run dev
+npm run build
+npm run lint
+npm run preview
+```
+
+## Gestao de Conteudo
+
+- Dados pessoais e links: `src/data/profile.ts`
+- Cards de projetos (ordem, imagem, tags): `src/data/projects.json`
+- Conteudo detalhado por projeto: `src/data/projectDetails.ts`
+- Traducoes: `src/locales/pt.json` e `src/locales/en.json`
+
+## Build de Producao
+
+```bash
+npm run build
+```
+
+Artefatos gerados em `dist/`.

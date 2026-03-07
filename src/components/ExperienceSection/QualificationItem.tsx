@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+﻿import { useTranslation } from "react-i18next";
 
 type Props = {
     title: string;
@@ -27,7 +27,7 @@ function QualificationItem({
         >
             <h4 className="text-lg text-white font-semibold">{title}</h4>
             <p className="text-sm text-white/60">
-                {company} — {period}
+                {company} - {period}
             </p>
             <p className="text-sm text-white/80 mt-2 whitespace-pre-line">
                 {description}
@@ -36,9 +36,10 @@ function QualificationItem({
                 <a
                     href={link}
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="text-primary text-sm mt-2 inline-block hover:underline"
                 >
-                    {t("qualifications.seeCredential")} ↗
+                    {t("achievements.seeCredential")} {"->"}
                 </a>
             )}
         </div>
