@@ -65,10 +65,6 @@
       "title": "IC Machine Learning",
       "description": "Academic project focused on machine learning experimentation and performance analysis to support modeling decisions."
     },
-    "tech_case_analista_de_dados_jr": {
-      "title": "Tech Case - Junior Data Analyst",
-      "description": "Technical notebook case covering data treatment, exploration, and communication. Built to demonstrate end-to-end analytical reasoning."
-    },
     "pcg_analise_de_dados": {
       "title": "Energy Data Analysis",
       "description": "Energy data analysis and comparison project with dashboarding, SQL workflows, and a React interface, using AWS components for delivery and decision support."
