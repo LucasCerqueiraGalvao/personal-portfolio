@@ -5,6 +5,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import SmoothScroll from "./components/SmoothScroll";
 import Scene3D from "./components/3d/Scene3D";
 import ContactPage from "./pages/ContactPage";
+import ExperienceCompanyPage from "./pages/ExperienceCompanyPage";
 import ExperiencesPage from "./pages/ExperiencesPage";
 import HomePage from "./pages/HomePage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
@@ -43,6 +44,10 @@ function App() {
                     <Route path="/home" element={<HomePage />} />
                     <Route path="/projects" element={<ProjectsPage />} />
                     <Route path="/experiences" element={<ExperiencesPage />} />
+                    <Route
+                        path="/experiences/:slug"
+                        element={<ExperienceCompanyPage />}
+                    />
                     <Route path="/contact" element={<ContactPage />} />
                     <Route path="/project/:slug" element={<ProjectDetailPage />} />
                     <Route path="*" element={<Navigate to="/home" replace />} />

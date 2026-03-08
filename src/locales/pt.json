@@ -85,6 +85,17 @@
     "experiences":  {
                         "mainTitle":  "Experiências, Formação e Conquistas",
                         "title":  "Experiências",
+                        "mainStacks":  "Stacks principais",
+                        "viewCompanyDetails":  "Ver detalhes da empresa",
+                        "backToExperiences":  "<- Voltar para experiencias",
+                        "companyNotFoundTitle":  "Empresa nao encontrada",
+                        "companyNotFoundDescription":  "Nao foi possivel localizar essa empresa com o slug informado.",
+                        "website":  "Website",
+                        "totalPeriod":  "Periodo total",
+                        "location":  "Localizacao",
+                        "employmentType":  "Tipo de vinculo",
+                        "notProvided":  "Nao informado",
+                        "careerTimeline":  "Timeline de cargos",
                         "linus_2026":  {
                                            "title":  "Engenheiro de Dados Pleno",
                                            "company":  "Linus",

@@ -1,10 +1,14 @@
-﻿import { useRef, useState, useEffect } from "react";
-import { FaBriefcase, FaGraduationCap, FaTrophy } from "react-icons/fa";
-import QualificationItem from "./QualificationItem";
-import ExperienceItem from "./ExperienceItem";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { motion, AnimatePresence } from "framer-motion";
+import { FaBriefcase, FaGraduationCap, FaTrophy } from "react-icons/fa";
+import { AnimatePresence, motion } from "framer-motion";
 import { profile } from "../../data/profile";
+import {
+    experiences as experienceCompanies,
+    type SupportedLanguage,
+} from "../../data/experiences";
+import ExperienceCompanyTimelineItem from "./ExperienceCompanyTimelineItem";
+import QualificationItem from "./QualificationItem";
 
 type TabKey = "experiences" | "education" | "achievements";
 
@@ -16,11 +20,18 @@ const ExperienceSection = () => {
     const educationRef = useRef<HTMLButtonElement>(null);
     const achievementsRef = useRef<HTMLButtonElement>(null);
 
+    const { t, i18n } = useTranslation();
+    const language: SupportedLanguage = i18n.language.startsWith("pt")
+        ? "pt"
+        : "en";
+
     useEffect(() => {
         let activeRef = experiencesRef;
+
         if (activeTab === "education") {
             activeRef = educationRef;
         }
+
         if (activeTab === "achievements") {
             activeRef = achievementsRef;
         }
@@ -30,22 +41,6 @@ const ExperienceSection = () => {
             setUnderlineStyle({ left: offsetLeft, width: offsetWidth });
         }
     }, [activeTab]);
-
-    const { t } = useTranslation();
-
-    const experienceKeys = [
-        "linus_2026",
-        "excel_santos_2025",
-        "cp_legal_claims_2024",
-        "lecex_brasil_2023",
-    ];
-
-    const experiences = experienceKeys.map((key) => ({
-        title: t(`experiences.${key}.title`),
-        company: t(`experiences.${key}.company`),
-        period: t(`experiences.${key}.period`),
-        description: t(`experiences.${key}.description`),
-    }));
 
     const educationKeys = [
         "fatec_ads_2026",
@@ -78,13 +73,6 @@ const ExperienceSection = () => {
         link: t(`achievements.${key}.link`, ""),
     }));
 
-    const data =
-        activeTab === "experiences"
-            ? experiences
-            : activeTab === "education"
-              ? education
-              : achievements;
-
     return (
         <section
             id="experiences"
@@ -107,7 +95,6 @@ const ExperienceSection = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 }}
             >
-                {/* Underline animado */}
                 <div
                     className="absolute bottom-0 h-[2px] bg-primary transition-all duration-300"
                     style={{
@@ -120,33 +107,29 @@ const ExperienceSection = () => {
                     ref={experiencesRef}
                     onClick={() => setActiveTab("experiences")}
                     className={`flex items-center gap-2 px-4 py-2 text-sm rounded-md transition relative ${
-                        activeTab === "experiences"
-                            ? "text-white"
-                            : "text-white/30"
+                        activeTab === "experiences" ? "text-white" : "text-white/30"
                     }`}
                 >
                     <FaBriefcase size={25} />
                     {t("experiences.title").toUpperCase()}
                 </button>
+
                 <button
                     ref={educationRef}
                     onClick={() => setActiveTab("education")}
                     className={`flex items-center gap-2 px-4 py-2 text-sm rounded-md transition relative ${
-                        activeTab === "education"
-                            ? "text-white"
-                            : "text-white/30"
+                        activeTab === "education" ? "text-white" : "text-white/30"
                     }`}
                 >
                     <FaGraduationCap size={25} />
                     {t("education.title").toUpperCase()}
                 </button>
+
                 <button
                     ref={achievementsRef}
                     onClick={() => setActiveTab("achievements")}
                     className={`flex items-center gap-2 px-4 py-2 text-sm rounded-md transition relative ${
-                        activeTab === "achievements"
-                            ? "text-white"
-                            : "text-white/30"
+                        activeTab === "achievements" ? "text-white" : "text-white/30"
                     }`}
                 >
                     <FaTrophy size={25} />
@@ -154,8 +137,11 @@ const ExperienceSection = () => {
                 </button>
             </motion.div>
 
-            {/* Linha do tempo */}
-            <div className="relative max-w-[500px] margin-auto">
+            <div
+                className={`relative w-full ${
+                    activeTab === "experiences" ? "max-w-[760px]" : "max-w-[500px]"
+                }`}
+            >
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={activeTab}
@@ -165,12 +151,22 @@ const ExperienceSection = () => {
                         transition={{ duration: 0.3 }}
                     >
                         {activeTab === "experiences" ? (
-                            data.map((item, idx) => (
-                                <ExperienceItem idx={idx} key={idx} {...item} />
-                            ))
+                            <div>
+                                {experienceCompanies.map((company, idx) => (
+                                    <ExperienceCompanyTimelineItem
+                                        key={company.slug}
+                                        company={company}
+                                        idx={idx}
+                                        language={language}
+                                    />
+                                ))}
+                            </div>
                         ) : (
                             <>
-                                {data.map((item, idx) => (
+                                {(activeTab === "education"
+                                    ? education
+                                    : achievements
+                                ).map((item, idx) => (
                                     <QualificationItem idx={idx} key={idx} {...item} />
                                 ))}
 

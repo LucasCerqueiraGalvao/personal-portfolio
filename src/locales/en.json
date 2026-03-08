@@ -85,6 +85,17 @@
   "experiences": {
     "mainTitle": "Experience, Education, and Achievements",
     "title": "Experience",
+    "mainStacks": "Main stacks",
+    "viewCompanyDetails": "View company details",
+    "backToExperiences": "<- Back to experiences",
+    "companyNotFoundTitle": "Company not found",
+    "companyNotFoundDescription": "The company slug could not be found.",
+    "website": "Website",
+    "totalPeriod": "Total period",
+    "location": "Location",
+    "employmentType": "Employment type",
+    "notProvided": "Not provided",
+    "careerTimeline": "Role timeline",
     "linus_2026": {
       "title": "Mid-level Data Engineer",
       "company": "Linus",
