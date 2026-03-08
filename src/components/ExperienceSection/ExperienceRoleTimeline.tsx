@@ -16,6 +16,11 @@ function ExperienceRoleTimeline({ roles, language, compact = false }: Props) {
         <div className="space-y-5">
             {roles.map((role, index) => {
                 const itemKey = `${role.title.en}-${role.startDate}-${role.endDate ?? "present"}`;
+                const descriptionItems = getLocalizedText(role.description, language)
+                    .split("\n")
+                    .map((line) => line.trim())
+                    .filter(Boolean)
+                    .map((line) => line.replace(/^-+\s*/, ""));
 
                 return (
                     <div key={itemKey} className="relative pl-7">
@@ -51,10 +56,12 @@ function ExperienceRoleTimeline({ roles, language, compact = false }: Props) {
                                 ))}
                             </div>
 
-                            {!compact && (
-                                <p className="text-sm text-white/80 mt-3 leading-relaxed whitespace-pre-line">
-                                    {getLocalizedText(role.description, language)}
-                                </p>
+                            {!compact && descriptionItems.length > 0 && (
+                                <ul className="mt-3 list-disc pl-5 space-y-1 text-sm text-white/80 leading-relaxed marker:text-primary">
+                                    {descriptionItems.map((item, descriptionIndex) => (
+                                        <li key={`${itemKey}-description-${descriptionIndex}`}>{item}</li>
+                                    ))}
+                                </ul>
                             )}
                         </div>
                     </div>
