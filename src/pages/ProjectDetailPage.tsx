@@ -32,11 +32,9 @@ function ProjectDetailPage() {
             : project?.status === "nda"
             ? "NDA"
             : project?.status === "offline"
-            ? language === "pt"
-                ? "Offline"
-                : "Offline"
+            ? "Offline"
             : language === "pt"
-            ? "Publico"
+            ? "Público"
             : "Public";
 
     if (!project) {
@@ -45,12 +43,12 @@ function ProjectDetailPage() {
                 <div className="max-w-4xl mx-auto">
                     <h1 className="text-3xl sm:text-4xl font-bold mb-4">
                         {language === "pt"
-                            ? "Projeto nao encontrado"
+                            ? "Projeto não encontrado"
                             : "Project not found"}
                     </h1>
                     <p className="text-white/70 mb-8">
                         {language === "pt"
-                            ? "Este slug de projeto ainda nao foi mapeado."
+                            ? "Este slug de projeto ainda não foi mapeado."
                             : "This project slug is not mapped yet."}
                     </p>
                     <Link to="/projects" className="text-primary hover-underline">
@@ -66,17 +64,26 @@ function ProjectDetailPage() {
     return (
         <section className="pt-[120px] min-h-screen bg-black text-white px-6 py-12 font-['Inter400']">
             <div className="max-w-4xl mx-auto">
-                <Link to="/projects" className="text-primary hover-underline text-sm">
-                    {language === "pt" ? "← Voltar para projetos" : "← Back to projects"}
+                <Link
+                    to="/projects"
+                    className="text-primary hover-underline text-sm"
+                >
+                    {language === "pt"
+                        ? "← Voltar para projetos"
+                        : "← Back to projects"}
                 </Link>
 
                 <p className="text-primary text-sm mb-3">
                     {language === "pt" ? "Projeto" : "Project"}: {project.slug}
                 </p>
 
-                <h1 className="text-3xl sm:text-4xl font-bold mb-3">{projectTitle}</h1>
+                <h1 className="text-3xl sm:text-4xl font-bold mb-3">
+                    {projectTitle}
+                </h1>
 
-                <p className="text-white/80 mb-4">{projectDescription || project.summary[language]}</p>
+                <p className="text-white/80 mb-4">
+                    {projectDescription || project.summary[language]}
+                </p>
 
                 <span className="inline-flex text-xs px-2 py-0.5 rounded-full bg-white/10 border border-white/20 mb-6">
                     {statusLabel}
@@ -99,7 +106,9 @@ function ProjectDetailPage() {
                     </h2>
                     <ul className="space-y-2 text-white/85">
                         {project.highlights.map((highlight, index) => (
-                            <li key={`${project.slug}-highlight-${index}`}>• {highlight[language]}</li>
+                            <li key={`${project.slug}-highlight-${index}`}>
+                                • {highlight[language]}
+                            </li>
                         ))}
                     </ul>
                 </div>
@@ -110,7 +119,9 @@ function ProjectDetailPage() {
                             <h2 className="text-xl font-semibold mb-2 text-primary">
                                 {section.title[language]}
                             </h2>
-                            <p className="text-white/80">{section.content[language]}</p>
+                            <p className="text-white/80">
+                                {section.content[language]}
+                            </p>
                         </article>
                     ))}
                 </div>
@@ -123,7 +134,7 @@ function ProjectDetailPage() {
                             rel="noopener noreferrer"
                             className="hover-underline"
                         >
-                            {language === "pt" ? "Repositorio" : "Repository"}
+                            {language === "pt" ? "Repositório" : "Repository"}
                         </a>
                     )}
                     {project.links.demo && (

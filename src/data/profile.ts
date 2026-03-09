@@ -27,7 +27,7 @@ export type ProfileData = {
 };
 
 export const profile: ProfileData = {
-    fullName: "Lucas Cerqueira Galvao",
+    fullName: "Lucas Cerqueira Galvão",
     initials: "LG",
     role: {
         pt: "Engenheiro de Dados e Analista de Dados",

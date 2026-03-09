@@ -121,7 +121,7 @@ function Header() {
                                         ? withBasePath("/images/flags/br.svg")
                                         : withBasePath("/images/flags/us.svg")
                                 }
-                                alt={language === "en" ? "Portugues" : "English"}
+                                alt={language === "en" ? "Português" : "English"}
                                 className="w-5 h-5 cursor-pointer"
                             />
                             <span className="cursor-pointer text-xs text-white font-semibold">
