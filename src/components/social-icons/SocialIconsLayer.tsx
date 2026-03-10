@@ -67,6 +67,13 @@ function getFallbackPoint(mode: TargetMode, index: number): Point {
     };
 }
 
+function snapPoint(point: Point): Point {
+    return {
+        x: Math.round(point.x * 2) / 2,
+        y: Math.round(point.y * 2) / 2,
+    };
+}
+
 function SocialIconsLayer() {
     const location = useLocation();
     const { sidebarAnchorsRef, contactAnchorsRef } = useSocialIconAnchors();
@@ -102,10 +109,26 @@ function SocialIconsLayer() {
         (mode: TargetMode, key: SocialKey, index: number): Point => {
             const anchorsRef =
                 mode === "contact" ? contactAnchorsRef : sidebarAnchorsRef;
-            return (
-                getAnchorCenter(anchorsRef.current[key]) ??
-                getFallbackPoint(mode, index)
-            );
+            const anchorCenter = getAnchorCenter(anchorsRef.current[key]);
+
+            if (anchorCenter) {
+                return snapPoint(anchorCenter);
+            }
+
+            if (mode === "contact") {
+                return currentPointsRef.current[key];
+            }
+
+            return snapPoint(getFallbackPoint(mode, index));
+        },
+        [contactAnchorsRef, sidebarAnchorsRef]
+    );
+
+    const hasAnchorsReady = useCallback(
+        (mode: TargetMode) => {
+            const anchorsRef =
+                mode === "contact" ? contactAnchorsRef : sidebarAnchorsRef;
+            return SOCIAL_ITEMS.every(({ key }) => Boolean(anchorsRef.current[key]));
         },
         [contactAnchorsRef, sidebarAnchorsRef]
     );
@@ -195,11 +218,29 @@ function SocialIconsLayer() {
         }
 
         const mode: TargetMode = isContactRoute ? "contact" : "sidebar";
-        setIsTransientVisible(true);
-        animateToMode(mode);
-        const settleTimeout = window.setTimeout(() => {
-            setToMode(mode);
-        }, 860);
+        let settleTimeout: number | null = null;
+        let frameRequest: number | null = null;
+
+        const runAnimation = (attempt = 0) => {
+            if (mode === "contact" && !hasAnchorsReady(mode)) {
+                if (attempt < 24) {
+                    frameRequest = window.requestAnimationFrame(() =>
+                        runAnimation(attempt + 1)
+                    );
+                } else {
+                    setToMode(mode);
+                }
+                return;
+            }
+
+            setIsTransientVisible(true);
+            animateToMode(mode);
+            settleTimeout = window.setTimeout(() => {
+                setToMode(mode);
+            }, 860);
+        };
+
+        runAnimation();
 
         if (!isContactRoute && !isDesktop) {
             hideTimeoutRef.current = window.setTimeout(() => {
@@ -208,10 +249,16 @@ function SocialIconsLayer() {
         }
 
         return () => {
-            window.clearTimeout(settleTimeout);
+            if (settleTimeout) {
+                window.clearTimeout(settleTimeout);
+            }
+            if (frameRequest) {
+                window.cancelAnimationFrame(frameRequest);
+            }
         };
     }, [
         animateToMode,
+        hasAnchorsReady,
         isContactRoute,
         isDesktop,
         location.pathname,
@@ -225,6 +272,11 @@ function SocialIconsLayer() {
             }
 
             const mode: TargetMode = isContactRoute ? "contact" : "sidebar";
+
+            if (mode === "contact" && !hasAnchorsReady(mode)) {
+                return;
+            }
+
             setToMode(mode);
         };
 
@@ -239,7 +291,7 @@ function SocialIconsLayer() {
             window.removeEventListener("resize", handleWindowChange);
             window.removeEventListener("scroll", handleWindowChange);
         };
-    }, [isContactRoute, setToMode]);
+    }, [hasAnchorsReady, isContactRoute, setToMode]);
 
     useEffect(() => {
         return () => {
@@ -251,7 +303,8 @@ function SocialIconsLayer() {
 
     const shouldRender = isDesktop || isContactRoute || isTransientVisible;
 
-    if (!shouldRender) {
+    // Mobile uses static icons in Contact and no cross-page icon flight.
+    if (!isDesktop || !shouldRender) {
         return null;
     }
 

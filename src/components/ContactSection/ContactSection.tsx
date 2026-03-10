@@ -1,8 +1,10 @@
-﻿import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { useCallback, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 import { z } from "zod";
+import { profile } from "../../data/profile";
 import { useSocialIconAnchors } from "../social-icons/useSocialIconAnchors";
 
 const PUBLIC_WEB3FORMS_ACCESS_KEY =
@@ -158,14 +160,35 @@ function ContactSection() {
     const inputClassName =
         "w-full border-b border-white/15 bg-transparent px-0 pb-3 pt-2 text-sm text-white placeholder:text-white/45 focus:border-[var(--accent)] focus:outline-none";
 
+    const setLinkedinAnchor = useCallback(
+        (node: HTMLDivElement | null) => {
+            setContactAnchor("linkedin", node);
+        },
+        [setContactAnchor]
+    );
+
+    const setGithubAnchor = useCallback(
+        (node: HTMLDivElement | null) => {
+            setContactAnchor("github", node);
+        },
+        [setContactAnchor]
+    );
+
+    const setEmailAnchor = useCallback(
+        (node: HTMLDivElement | null) => {
+            setContactAnchor("email", node);
+        },
+        [setContactAnchor]
+    );
+
     return (
         <section
             id="contact"
             className="relative z-10 min-h-[calc(100vh-98px)] px-4 pb-20 pt-8 sm:px-6 sm:pb-20 sm:pt-10"
         >
             <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
                 className="mx-auto w-full max-w-4xl"
@@ -252,22 +275,50 @@ function ContactSection() {
                         )}
                     </form>
 
-                    <div className="mt-7 flex items-center justify-center gap-6 text-2xl text-white/80">
+                    <div className="mt-7 hidden items-center justify-center gap-6 text-2xl text-white/80 xl:flex">
                         <div
-                            ref={(node) => setContactAnchor("linkedin", node)}
+                            ref={setLinkedinAnchor}
                             className="h-8 w-8"
                             aria-hidden="true"
                         />
                         <div
-                            ref={(node) => setContactAnchor("github", node)}
+                            ref={setGithubAnchor}
                             className="h-8 w-8"
                             aria-hidden="true"
                         />
                         <div
-                            ref={(node) => setContactAnchor("email", node)}
+                            ref={setEmailAnchor}
                             className="h-8 w-8"
                             aria-hidden="true"
                         />
+                    </div>
+
+                    <div className="mt-7 flex items-center justify-center gap-6 text-2xl text-white/80 xl:hidden">
+                        <a
+                            href={profile.social.linkedin}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="LinkedIn"
+                            className="flex h-8 w-8 items-center justify-center transition-colors duration-200 hover:text-[var(--accent)]"
+                        >
+                            <FaLinkedin />
+                        </a>
+                        <a
+                            href={profile.social.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="GitHub"
+                            className="flex h-8 w-8 items-center justify-center transition-colors duration-200 hover:text-[var(--accent)]"
+                        >
+                            <FaGithub />
+                        </a>
+                        <a
+                            href={profile.social.email}
+                            aria-label="Email"
+                            className="flex h-8 w-8 items-center justify-center transition-colors duration-200 hover:text-[var(--accent)]"
+                        >
+                            <FaEnvelope />
+                        </a>
                     </div>
                 </div>
             </motion.div>

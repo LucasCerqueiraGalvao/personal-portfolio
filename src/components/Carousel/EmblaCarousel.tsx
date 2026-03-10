@@ -38,13 +38,13 @@ const EmblaCarousel: React.FC<PropType> = ({ projects, options }) => {
     } = usePrevNextButtons(emblaApi);
 
     return (
-        <div className="mx-auto w-full max-w-screen-xl overflow-hidden px-0 sm:px-12 selection:bg-transparent">
-            <div className="overflow-hidden" ref={emblaRef}>
-                <div className="flex gap-2 sm:gap-6">
+        <div className="mx-auto w-full max-w-full overflow-hidden px-0 selection:bg-transparent sm:max-w-screen-xl sm:px-12">
+            <div className="w-full overflow-hidden" ref={emblaRef}>
+                <div className="flex gap-0 sm:gap-6">
                     {projects.map((proj, index) => (
                         <div
                             key={index}
-                            className="min-w-[calc(100%-1px)] shrink-0 sm:min-w-[60%] lg:min-w-[25%]"
+                            className="w-full min-w-0 flex-[0_0_100%] sm:min-w-[60%] sm:flex-[0_0_60%] lg:min-w-[25%] lg:flex-[0_0_25%]"
                         >
                             <ProjectCard {...proj} idx={index} />
                         </div>
@@ -52,7 +52,7 @@ const EmblaCarousel: React.FC<PropType> = ({ projects, options }) => {
                 </div>
             </div>
 
-            <div className="mt-2 flex flex-col items-center gap-2 sm:mt-8 sm:gap-4">
+            <div className="mt-1 flex flex-col items-center gap-2 sm:mt-8 sm:gap-4">
                 <div className="hidden gap-4 sm:flex">
                     <PrevButton
                         onClick={onPrevButtonClick}

@@ -101,7 +101,7 @@ function ProjectsSection() {
     return (
         <section
             id="projects"
-            className="relative z-10 min-h-[calc(100dvh-98px)] px-4 pb-6 pt-4 sm:min-h-0 sm:px-6 sm:pb-20 sm:pt-10"
+            className="relative z-10 min-h-[calc(100dvh-98px)] overflow-x-hidden px-4 pb-6 pt-4 sm:min-h-0 sm:px-6 sm:pb-20 sm:pt-10"
         >
             <div className="mx-auto flex h-full max-w-7xl flex-col">
                 <motion.div
@@ -116,11 +116,11 @@ function ProjectsSection() {
                     </h2>
                 </motion.div>
 
-                <div className="mb-4 flex gap-2 overflow-x-auto pb-2 sm:mb-8 sm:flex-wrap sm:overflow-visible sm:pb-0">
+                <div className="mb-4 flex flex-wrap gap-2 pb-1 sm:mb-8 sm:pb-0">
                     <button
                         type="button"
                         onClick={() => setActiveFilter("all")}
-                        className={`shrink-0 rounded-full border px-3 py-1.5 text-[11px] uppercase tracking-[0.12em] transition ${
+                        className={`rounded-full border px-3 py-1.5 text-[11px] uppercase tracking-[0.12em] transition ${
                             activeFilter === "all"
                                 ? "border-[var(--accent)] bg-[var(--accent)] text-[#102236]"
                                 : "border-[var(--line-soft)] bg-white/5 text-white/80 hover:bg-white/10"
@@ -134,7 +134,7 @@ function ProjectsSection() {
                             key={stack}
                             type="button"
                             onClick={() => setActiveFilter(stack)}
-                            className={`shrink-0 rounded-full border px-3 py-1.5 text-[11px] uppercase tracking-[0.12em] transition ${
+                            className={`rounded-full border px-3 py-1.5 text-[11px] uppercase tracking-[0.12em] transition ${
                                 activeFilter === stack
                                     ? "border-[var(--accent)] bg-[var(--accent)] text-[#102236]"
                                     : "border-[var(--line-soft)] bg-white/5 text-white/80 hover:bg-white/10"
@@ -153,7 +153,7 @@ function ProjectsSection() {
                     </p>
                 ) : (
                     <>
-                        <div className="sm:hidden">
+                        <div className="-mx-4 sm:mx-0">
                             <EmblaCarousel
                                 projects={filteredProjects}
                                 options={{ align: "start", containScroll: "trimSnaps" }}

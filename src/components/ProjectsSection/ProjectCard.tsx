@@ -42,14 +42,14 @@ function ProjectCard({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.4, delay: idx * 0.05 }}
-            className="surface-card group flex h-full min-h-[342px] flex-col overflow-hidden rounded-2xl sm:min-h-[500px]"
+            className="surface-card group flex h-full w-full max-w-full min-w-0 min-h-[clamp(372px,52dvh,432px)] flex-col overflow-hidden rounded-2xl sm:min-h-[500px]"
         >
-            <div className="relative h-32 overflow-hidden bg-[#061220] sm:aspect-[16/10] sm:h-auto">
+            <div className="relative h-[clamp(158px,24dvh,204px)] w-full overflow-hidden bg-[#061220] sm:aspect-[16/10] sm:h-auto">
                 {image ? (
                     <img
                         src={withBasePath(image)}
                         alt={title}
-                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                        className="h-full w-full object-cover object-center transition duration-500 group-hover:scale-105"
                     />
                 ) : (
                     <div className="flex h-full items-center justify-center text-sm text-white/60">
@@ -59,10 +59,10 @@ function ProjectCard({
                 <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#06111d] to-transparent" />
             </div>
 
-            <div className="flex flex-1 flex-col p-4 sm:p-5">
-                <div className="mb-2 flex min-h-[22px] items-center justify-between gap-2 sm:mb-3 sm:min-h-[24px]">
+            <div className="flex min-w-0 flex-1 flex-col p-4 sm:p-5">
+                <div className="mb-2 flex min-h-[22px] min-w-0 items-center justify-between gap-2 sm:mb-3 sm:min-h-[24px]">
                     {source ? (
-                        <span className="chip text-[10px]">
+                        <span className="chip max-w-full truncate text-[10px]">
                             {t(`projects.sources.${source}`)}
                         </span>
                     ) : (
@@ -76,10 +76,10 @@ function ProjectCard({
                     )}
                 </div>
 
-                <h3 className="min-h-[40px] text-[15px] font-semibold leading-snug text-white [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden sm:min-h-[56px] sm:text-lg">
+                <h3 className="min-h-[40px] min-w-0 break-words [overflow-wrap:anywhere] text-[15px] font-semibold leading-snug text-white [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden sm:min-h-[56px] sm:text-lg">
                     {title}
                 </h3>
-                <p className="mt-1 min-h-[38px] text-xs leading-relaxed text-[var(--text-muted)] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden sm:mt-2 sm:min-h-[72px] sm:text-sm sm:[-webkit-line-clamp:3]">
+                <p className="mt-1 min-h-[38px] min-w-0 break-words [overflow-wrap:anywhere] text-xs leading-relaxed text-[var(--text-muted)] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden sm:mt-2 sm:min-h-[72px] sm:text-sm sm:[-webkit-line-clamp:3]">
                     {description}
                 </p>
 
@@ -117,7 +117,7 @@ function ProjectCard({
                             }
                         }}
                         disabled={!canOpen}
-                        className="w-full"
+                        className="w-full !whitespace-normal !px-3 !py-2 !text-[10px] sm:!px-5 sm:!py-2.5 sm:!text-sm"
                     >
                         {!canOpen
                             ? t("projects.buttons.offline")
