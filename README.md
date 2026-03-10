@@ -1,7 +1,5 @@
 # Personal Portfolio
 
-> Credits: este projeto foi iniciado a partir de uma referencia open-source do repositorio original de Lucas Carmona (`lucascarmon4/portfolio-lucascarmona`) e evoluido com personalizacao completa para o portfolio de Lucas Cerqueira Galvao.
-
 Portfolio profissional com React + Vite, focado em apresentacao de projetos de Data Engineering, Analytics e Integracoes.
 
 ## Visao Geral
