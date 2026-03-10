@@ -1,6 +1,7 @@
-﻿import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import ExperienceRoleTimeline from "../components/ExperienceSection/ExperienceRoleTimeline";
+import { APP_ROUTES } from "../config/routes";
 import {
     formatExperiencePeriod,
     getExperienceBySlug,
@@ -16,7 +17,7 @@ function normalizeWebsiteUrl(website: string): string {
     return `https://${website}`;
 }
 
-function ExperienceCompanyPage() {
+function JourneyCompanyPage() {
     const { slug } = useParams<{ slug: string }>();
     const { t, i18n } = useTranslation();
     const language: SupportedLanguage = i18n.language.startsWith("pt")
@@ -27,7 +28,7 @@ function ExperienceCompanyPage() {
 
     if (!company) {
         return (
-            <section className="pt-[120px] min-h-screen bg-black text-white px-6 py-12 font-['Inter400'] relative z-10">
+            <section className="relative z-10 min-h-screen px-6 py-12 pt-[104px] font-['Inter400'] text-white">
                 <div className="max-w-4xl mx-auto">
                     <h1 className="text-3xl sm:text-4xl font-bold mb-4">
                         {t("experiences.companyNotFoundTitle")}
@@ -35,7 +36,10 @@ function ExperienceCompanyPage() {
                     <p className="text-white/70 mb-8">
                         {t("experiences.companyNotFoundDescription")}
                     </p>
-                    <Link to="/experiences" className="text-primary hover-underline">
+                    <Link
+                        to={APP_ROUTES.journey}
+                        className="text-primary hover-underline"
+                    >
                         {t("experiences.backToExperiences")}
                     </Link>
                 </div>
@@ -44,10 +48,10 @@ function ExperienceCompanyPage() {
     }
 
     return (
-        <section className="pt-[120px] min-h-screen bg-black text-white px-6 py-12 font-['Inter400'] relative z-10">
+        <section className="relative z-10 min-h-screen px-6 py-12 pt-[104px] font-['Inter400'] text-white">
             <div className="max-w-5xl mx-auto">
                 <Link
-                    to="/experiences"
+                    to={APP_ROUTES.journey}
                     className="text-primary hover-underline text-sm"
                 >
                     {t("experiences.backToExperiences")}
@@ -60,7 +64,7 @@ function ExperienceCompanyPage() {
                 </p>
 
                 <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-8">
-                    <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                    <div className="rounded-lg border border-white/10 bg-white/[0.03] p-4 backdrop-blur-sm">
                         <p className="text-xs uppercase tracking-wide text-white/50 mb-1">
                             {t("experiences.website")}
                         </p>
@@ -74,7 +78,7 @@ function ExperienceCompanyPage() {
                         </a>
                     </div>
 
-                    <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                    <div className="rounded-lg border border-white/10 bg-white/[0.03] p-4 backdrop-blur-sm">
                         <p className="text-xs uppercase tracking-wide text-white/50 mb-1">
                             {t("experiences.totalPeriod")}
                         </p>
@@ -83,7 +87,7 @@ function ExperienceCompanyPage() {
                         </p>
                     </div>
 
-                    <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                    <div className="rounded-lg border border-white/10 bg-white/[0.03] p-4 backdrop-blur-sm">
                         <p className="text-xs uppercase tracking-wide text-white/50 mb-1">
                             {t("experiences.location")}
                         </p>
@@ -92,7 +96,7 @@ function ExperienceCompanyPage() {
                         </p>
                     </div>
 
-                    <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                    <div className="rounded-lg border border-white/10 bg-white/[0.03] p-4 backdrop-blur-sm">
                         <p className="text-xs uppercase tracking-wide text-white/50 mb-1">
                             {t("experiences.employmentType")}
                         </p>
@@ -109,8 +113,11 @@ function ExperienceCompanyPage() {
                         {t("experiences.careerTimeline")}
                     </h2>
 
-                    <div className="rounded-xl border border-white/10 bg-black/50 p-5 sm:p-6">
-                        <ExperienceRoleTimeline roles={company.roles} language={language} />
+                    <div className="rounded-xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm sm:p-6">
+                        <ExperienceRoleTimeline
+                            roles={company.roles}
+                            language={language}
+                        />
                     </div>
                 </div>
             </div>
@@ -118,4 +125,4 @@ function ExperienceCompanyPage() {
     );
 }
 
-export default ExperienceCompanyPage;
+export default JourneyCompanyPage;

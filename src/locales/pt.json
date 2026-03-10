@@ -16,7 +16,7 @@
                  "button2":  "Baixar CV"
              },
     "projects":  {
-                     "title":  "Projetos em Destaque",
+                     "title":  "Projetos",
                      "sources":  {
                                      "data":  "Data Engineering",
                                      "automation":  "Automação",

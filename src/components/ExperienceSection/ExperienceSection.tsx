@@ -76,7 +76,7 @@ const ExperienceSection = () => {
     return (
         <section
             id="experiences"
-            className="bg-black text-white px-6 py-20 font-['Inter400'] flex flex-col items-center min-h-[calc(100vh-98px)] relative z-10"
+            className="text-white px-6 py-20 font-['Inter400'] flex flex-col items-center min-h-[calc(100vh-98px)] relative z-10"
         >
             <motion.h2
                 className="text-3xl sm:text-4xl font-bold mb-8 text-center"

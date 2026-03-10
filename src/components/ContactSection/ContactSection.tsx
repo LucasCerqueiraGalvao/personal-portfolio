@@ -1,13 +1,10 @@
-import { useTranslation } from "react-i18next";
-import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
-import { useState, useEffect } from "react";
-import { z } from "zod";
+﻿import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { motion } from "framer-motion";
-import { profile } from "../../data/profile";
+import { useTranslation } from "react-i18next";
+import { z } from "zod";
+import { useSocialIconAnchors } from "../social-icons/useSocialIconAnchors";
 
-// Intentional for GitHub Pages contact form usage.
-// VITE_WEB3FORMS_ACCESS_KEY=96cd8c5e-7543-4f84-84c9-b986977f1fac
 const PUBLIC_WEB3FORMS_ACCESS_KEY =
     "96cd8c5e-7543-4f84-84c9-b986977f1fac";
 const VULNERABILITY_DISCLOSURE_MESSAGE =
@@ -15,11 +12,11 @@ const VULNERABILITY_DISCLOSURE_MESSAGE =
 
 function ContactSection() {
     const { t } = useTranslation();
+    const { setContactAnchor } = useSocialIconAnchors();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [errors, setErrors] = useState<Record<string, string>>({});
 
-    // Schema de validação com Zod
     const contactSchema = z.object({
         name: z
             .string()
@@ -32,55 +29,53 @@ function ContactSection() {
             .max(500, t("contact.form.validation.messageMax")),
     });
 
-    // Limpa os erros quando o usuário edita um campo
     const clearFieldError = (fieldName: string) => {
-        if (errors[fieldName]) {
-            setErrors((prev) => {
-                const newErrors = { ...prev };
-                delete newErrors[fieldName];
-                return newErrors;
-            });
+        if (!errors[fieldName]) {
+            return;
         }
+
+        setErrors((prev) => {
+            const next = { ...prev };
+            delete next[fieldName];
+            return next;
+        });
     };
 
-    // Reset do estado de sucesso após 5 segundos
     useEffect(() => {
-        if (isSubmitted) {
-            const timer = setTimeout(() => {
-                setIsSubmitted(false);
-                // Limpa o formulário apenas depois que o estado de sucesso é resetado
-                const form = document.querySelector(
-                    "#contact-form"
-                ) as HTMLFormElement;
-                if (form) {
-                    form.reset();
-                }
-            }, 5000);
-            return () => clearTimeout(timer);
+        if (!isSubmitted) {
+            return;
         }
+
+        const timer = setTimeout(() => {
+            setIsSubmitted(false);
+            const form = document.querySelector("#contact-form") as
+                | HTMLFormElement
+                | null;
+            form?.reset();
+        }, 5000);
+
+        return () => clearTimeout(timer);
     }, [isSubmitted]);
 
     useEffect(() => {
         console.info(VULNERABILITY_DISCLOSURE_MESSAGE);
     }, []);
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         setIsSubmitting(true);
         setErrors({});
 
-        const formData = new FormData(e.currentTarget);
+        const formData = new FormData(event.currentTarget);
         const data = {
-            name: formData.get("name") as string,
-            email: formData.get("email") as string,
-            message: formData.get("message") as string,
+            name: String(formData.get("name") ?? ""),
+            email: String(formData.get("email") ?? ""),
+            message: String(formData.get("message") ?? ""),
         };
 
         try {
-            // Validação com Zod
             contactSchema.parse(data);
 
-            // Se chegou aqui, validação passou
             formData.append(
                 "access_key",
                 import.meta.env.VITE_WEB3FORMS_ACCESS_KEY ||
@@ -98,59 +93,59 @@ function ContactSection() {
             toast.success(t("contact.form.success"), {
                 duration: 4000,
                 style: {
-                    background: "#10B981",
-                    color: "#fff",
+                    background: "#2e1418",
+                    color: "#fff1f2",
+                    border: "1px solid rgba(239,68,68,0.45)",
                 },
             });
         } catch (error) {
             if (error instanceof z.ZodError) {
-                // Erros de validação
                 const fieldErrors: Record<string, string> = {};
+
                 error.issues.forEach((issue) => {
-                    if (issue.path[0]) {
-                        fieldErrors[issue.path[0] as string] = issue.message;
+                    if (!issue.path[0]) {
+                        return;
                     }
+                    fieldErrors[String(issue.path[0])] = issue.message;
                 });
+
                 setErrors(fieldErrors);
                 toast.error(t("contact.form.validation.error"), {
                     duration: 4000,
                     style: {
-                        background: "#EF4444",
-                        color: "#fff",
+                        background: "#2e1418",
+                        color: "#fff1f2",
+                        border: "1px solid rgba(239,68,68,0.45)",
                     },
                 });
             } else {
-                // Verificar se é erro CORS, 301 ou similar (redirecionamento)
                 const errorMessage =
                     error instanceof Error ? error.message : String(error);
-                if (
+                const isRedirectIssue =
                     errorMessage.includes("301") ||
                     errorMessage.includes("redirect") ||
-                    errorMessage.includes("CORS") ||
                     errorMessage.toLowerCase().includes("cors") ||
                     errorMessage.includes("NetworkError") ||
-                    errorMessage.includes("Failed to fetch")
-                ) {
-                    // Erro CORS/301 mas email provavelmente enviado
-                    console.log(
-                        "Erro CORS/redirecionamento detectado, mas email enviado com sucesso"
-                    );
+                    errorMessage.includes("Failed to fetch");
+
+                if (isRedirectIssue) {
                     setIsSubmitted(true);
                     setErrors({});
                     toast.success(t("contact.form.success"), {
                         duration: 4000,
                         style: {
-                            background: "#10B981",
-                            color: "#fff",
+                            background: "#2e1418",
+                            color: "#fff1f2",
+                            border: "1px solid rgba(239,68,68,0.45)",
                         },
                     });
                 } else {
-                    console.error("Erro ao enviar email:", error);
                     toast.error(t("contact.form.error"), {
                         duration: 4000,
                         style: {
-                            background: "#EF4444",
-                            color: "#fff",
+                            background: "#2e1418",
+                            color: "#fff1f2",
+                            border: "1px solid rgba(239,68,68,0.45)",
                         },
                     });
                 }
@@ -160,180 +155,129 @@ function ContactSection() {
         }
     };
 
+    const inputClassName =
+        "w-full border-b border-white/15 bg-transparent px-0 pb-3 pt-2 text-sm text-white placeholder:text-white/45 focus:border-[var(--accent)] focus:outline-none";
+
     return (
         <section
             id="contact"
-            className="font-['Inter400'] min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-20 bg-black text-white relative z-10"
+            className="relative z-10 min-h-[calc(100vh-98px)] px-4 pb-20 pt-8 sm:px-6 sm:pb-20 sm:pt-10"
         >
-            <motion.h2
-                className="hidden sm:block sm:text-5xl font-extrabold text-center mb-12"
-                initial={{ opacity: 0, y: 50 }}
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.5 }}
+                className="mx-auto w-full max-w-4xl"
             >
-                {t("contact.mainTitle").toUpperCase()}
-            </motion.h2>
+                <div className="relative overflow-hidden rounded-[30px] border border-[var(--line-soft)] bg-[linear-gradient(145deg,rgba(255,255,255,0.05),rgba(255,255,255,0.015))] p-8 sm:p-10">
+                    <div className="pointer-events-none absolute right-[-100px] top-[-100px] h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(239,68,68,0.28),transparent_70%)]" />
 
-            <motion.div
-                className="bg-[#111] border border-white/10 rounded-2xl p-6 sm:p-10 w-full max-w-md sm:max-w-xl lg:max-w-2xl shadow-lg"
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-            >
-                <h3 className="text-xl sm:text-2xl font-bold text-center mb-2">
-                    {t("contact.form.title").toUpperCase()}
-                </h3>
-                <p className="text-sm sm:text-base text-white/60 text-center mb-8 px-2">
-                    {t("contact.form.description")}
-                </p>
+                    <h3 className="text-base font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+                        {t("contact.form.title")}
+                    </h3>
 
-                <form
-                    id="contact-form"
-                    className="flex flex-col gap-5"
-                    onSubmit={handleSubmit}
-                    method="POST"
-                >
-                    {/* Campo oculto para Web3Forms */}
-                    <input
-                        type="hidden"
-                        name="subject"
-                        value="Nova mensagem do Portfólio"
-                    />
-                    <input type="hidden" name="redirect" value="false" />
-
-                    <div>
-                        <input
-                            type="text"
-                            name="name"
-                            placeholder={t("contact.form.name")}
-                            onChange={() => clearFieldError("name")}
-                            className={`bg-black border text-sm sm:text-base text-white px-5 py-3 rounded-md placeholder:text-white/30 focus:outline-none focus:ring-2 transition-colors w-full ${
-                                errors.name
-                                    ? "border-red-500 focus:ring-red-500"
-                                    : "border-white/20 focus:ring-primary"
-                            }`}
-                        />
-                        {errors.name && (
-                            <p className="text-red-400 text-sm mt-1 px-1">
-                                {errors.name}
-                            </p>
-                        )}
-                    </div>
-
-                    <div>
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder={t("contact.form.email")}
-                            onChange={() => clearFieldError("email")}
-                            className={`bg-black border text-sm sm:text-base text-white px-5 py-3 rounded-md placeholder:text-white/30 focus:outline-none focus:ring-2 transition-colors w-full ${
-                                errors.email
-                                    ? "border-red-500 focus:ring-red-500"
-                                    : "border-white/20 focus:ring-primary"
-                            }`}
-                        />
-                        {errors.email && (
-                            <p className="text-red-400 text-sm mt-1 px-1">
-                                {errors.email}
-                            </p>
-                        )}
-                    </div>
-
-                    <div>
-                        <textarea
-                            name="message"
-                            placeholder={t("contact.form.message")}
-                            rows={6}
-                            onChange={() => clearFieldError("message")}
-                            className={`bg-black border text-sm sm:text-base text-white px-5 py-3 rounded-md placeholder:text-white/30 resize-none focus:outline-none focus:ring-2 transition-colors w-full ${
-                                errors.message
-                                    ? "border-red-500 focus:ring-red-500"
-                                    : "border-white/20 focus:ring-primary"
-                            }`}
-                        />
-                        {errors.message && (
-                            <p className="text-red-400 text-sm mt-1 px-1">
-                                {errors.message}
-                            </p>
-                        )}
-                    </div>
-
-                    {/* Botão */}
-                    <motion.div
-                        className="mt-3"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.4 }}
+                    <form
+                        id="contact-form"
+                        className="mt-7 flex flex-col gap-6"
+                        onSubmit={handleSubmit}
+                        method="POST"
                     >
+                        <input
+                            type="hidden"
+                            name="subject"
+                            value="New message from portfolio"
+                        />
+                        <input type="hidden" name="redirect" value="false" />
+
+                        <div>
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder={t("contact.form.name")}
+                                onChange={() => clearFieldError("name")}
+                                className={inputClassName}
+                            />
+                            {errors.name && (
+                                <p className="mt-2 text-xs text-rose-300">{errors.name}</p>
+                            )}
+                        </div>
+
+                        <div>
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder={t("contact.form.email")}
+                                onChange={() => clearFieldError("email")}
+                                className={inputClassName}
+                            />
+                            {errors.email && (
+                                <p className="mt-2 text-xs text-rose-300">{errors.email}</p>
+                            )}
+                        </div>
+
+                        <div>
+                            <textarea
+                                name="message"
+                                placeholder={t("contact.form.message")}
+                                rows={7}
+                                onChange={() => clearFieldError("message")}
+                                className={`${inputClassName} resize-none`}
+                            />
+                            {errors.message && (
+                                <p className="mt-2 text-xs text-rose-300">
+                                    {errors.message}
+                                </p>
+                            )}
+                        </div>
+
                         {isSubmitted ? (
-                            <div className="w-full bg-green-600 text-white font-semibold py-3 text-base sm:text-lg rounded-md text-center">
+                            <div className="rounded-xl border border-emerald-300/40 bg-emerald-300/10 px-4 py-3 text-center text-sm font-semibold uppercase tracking-[0.14em] text-emerald-200">
                                 {t("contact.form.success")}
                             </div>
                         ) : (
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className={`w-full font-semibold py-3 text-base sm:text-lg rounded-md transition-all hover:translate-y-[-4px] duration-300 ${
+                                className={`inline-flex w-full items-center justify-center rounded-xl border px-4 py-3 text-sm font-semibold uppercase tracking-[0.16em] transition ${
                                     isSubmitting
-                                        ? "bg-gray-400 text-gray-700 cursor-not-allowed"
-                                        : "bg-white text-black hover:bg-primary hover:text-white"
+                                        ? "cursor-not-allowed border-slate-500/60 bg-slate-600/40 text-slate-300"
+                                        : "border-[var(--accent)] bg-[var(--accent)] text-[#180b10] hover:bg-[var(--accent-strong)]"
                                 }`}
                             >
                                 {isSubmitting
                                     ? t("contact.form.sending")
-                                    : t("contact.form.submit").toUpperCase()}
+                                    : t("contact.form.submit")}
                             </button>
                         )}
-                    </motion.div>
-                </form>
+                    </form>
 
-                {/* Ícones sociais */}
-                <div className="flex justify-center gap-6 sm:gap-8 mt-8 text-white/80 text-xl sm:text-2xl lg:text-3xl">
-                    <motion.a
-                        href={profile.social.linkedin}
-                        target="_blank"
-                        aria-label="LinkedIn"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.5 }}
-                    >
-                        <FaLinkedin className="hover:text-primary transition-transform duration-300 transform hover:scale-110 cursor-pointer" />
-                    </motion.a>
-                    <motion.a
-                        href={profile.social.github}
-                        target="_blank"
-                        aria-label="GitHub"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.6 }}
-                    >
-                        <FaGithub className="hover:text-primary transition-transform duration-300 transform hover:scale-110 cursor-pointer" />
-                    </motion.a>
-                    <motion.a
-                        href={profile.social.email}
-                        aria-label="Email"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.7 }}
-                    >
-                        <FaEnvelope className="hover:text-primary transition-transform duration-300 transform hover:scale-110 cursor-pointer" />
-                    </motion.a>
+                    <div className="mt-7 flex items-center justify-center gap-6 text-2xl text-white/80">
+                        <div
+                            ref={(node) => setContactAnchor("linkedin", node)}
+                            className="h-8 w-8"
+                            aria-hidden="true"
+                        />
+                        <div
+                            ref={(node) => setContactAnchor("github", node)}
+                            className="h-8 w-8"
+                            aria-hidden="true"
+                        />
+                        <div
+                            ref={(node) => setContactAnchor("email", node)}
+                            className="h-8 w-8"
+                            aria-hidden="true"
+                        />
+                    </div>
                 </div>
             </motion.div>
 
-            {/* Toaster para as notificações */}
             <Toaster
                 position="top-right"
                 toastOptions={{
                     style: {
-                        borderRadius: "8px",
-                        fontFamily: "Inter",
+                        borderRadius: "10px",
+                        fontFamily: "Inter400",
                     },
                 }}
             />
@@ -342,4 +286,3 @@ function ContactSection() {
 }
 
 export default ContactSection;
-

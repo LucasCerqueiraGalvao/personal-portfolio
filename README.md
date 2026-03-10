@@ -4,8 +4,9 @@ Portfolio profissional com React + Vite, focado em apresentacao de projetos de D
 
 ## Visao Geral
 
-- SPA com rotas reais (`/home`, `/projects`, `/experiences`, `/contact`)
-- Pagina dedicada por projeto (`/project/:slug`)
+- SPA com rotas principais (`/about`, `/work`, `/journey`, `/reach`)
+- Compatibilidade legada para (`/home`, `/projects`, `/experiences`, `/contact`)
+- Pagina dedicada por projeto (`/work/:slug`)
 - Internacionalizacao (PT/EN) com `i18next`
 - Conteudo orientado a dados via arquivos de configuracao
 - Ambientes Docker para desenvolvimento e producao

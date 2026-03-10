@@ -1,8 +1,9 @@
-import EmblaCarousel from "../Carousel/EmblaCarousel";
-import projectsRaw from "../../data/projects.json";
-import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import projectsRaw from "../../data/projects.json";
+import EmblaCarousel from "../Carousel/EmblaCarousel";
+import ProjectCard from "./ProjectCard";
 
 type ProjectItem = {
     id: string;
@@ -80,8 +81,9 @@ const PROJECT_FILTERS: Record<string, string[]> = {
 };
 
 function ProjectsSection() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [activeFilter, setActiveFilter] = useState("all");
+    const language = i18n.language.startsWith("pt") ? "pt" : "en";
 
     const projects: ProjectItem[] = projectsRaw.map((project) => ({
         ...project,
@@ -99,27 +101,29 @@ function ProjectsSection() {
     return (
         <section
             id="projects"
-            className="bg-black text-white sm:px-6 px-0 py-20 font-['Inter400'] relative z-10"
+            className="relative z-10 min-h-[calc(100dvh-98px)] px-4 pb-6 pt-4 sm:min-h-0 sm:px-6 sm:pb-20 sm:pt-10"
         >
-            <motion.h2
-                className="text-3xl sm:text-4xl font-bold mb-12 text-center"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-            >
-                {t("projects.title").toUpperCase()}
-            </motion.h2>
+            <div className="mx-auto flex h-full max-w-7xl flex-col">
+                <motion.div
+                    initial={{ opacity: 0, y: 22 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.55 }}
+                    className="mb-5 text-center sm:mb-10"
+                >
+                    <h2 className="font-['Michroma'] text-2xl sm:text-3xl">
+                        {t("header.nav.projects")}
+                    </h2>
+                </motion.div>
 
-            <div className="w-full max-w-screen-xl mx-auto px-4 sm:px-12 mb-6 sm:mb-8">
-                <div className="flex flex-wrap items-center gap-2 pb-2">
+                <div className="mb-4 flex gap-2 overflow-x-auto pb-2 sm:mb-8 sm:flex-wrap sm:overflow-visible sm:pb-0">
                     <button
                         type="button"
                         onClick={() => setActiveFilter("all")}
-                        className={`text-xs sm:text-sm px-3 py-1.5 rounded-full border transition whitespace-nowrap ${
+                        className={`shrink-0 rounded-full border px-3 py-1.5 text-[11px] uppercase tracking-[0.12em] transition ${
                             activeFilter === "all"
-                                ? "bg-primary border-primary text-black"
-                                : "bg-white/10 border-white/20 text-white"
+                                ? "border-[var(--accent)] bg-[var(--accent)] text-[#102236]"
+                                : "border-[var(--line-soft)] bg-white/5 text-white/80 hover:bg-white/10"
                         }`}
                     >
                         {t("projects.filters.all")}
@@ -130,33 +134,40 @@ function ProjectsSection() {
                             key={stack}
                             type="button"
                             onClick={() => setActiveFilter(stack)}
-                            className={`text-xs sm:text-sm px-3 py-1.5 rounded-full border transition whitespace-nowrap ${
+                            className={`shrink-0 rounded-full border px-3 py-1.5 text-[11px] uppercase tracking-[0.12em] transition ${
                                 activeFilter === stack
-                                    ? "bg-primary border-primary text-black"
-                                    : "bg-white/10 border-white/20 text-white"
+                                    ? "border-[var(--accent)] bg-[var(--accent)] text-[#102236]"
+                                    : "border-[var(--line-soft)] bg-white/5 text-white/80 hover:bg-white/10"
                             }`}
                         >
                             {stack}
                         </button>
                     ))}
                 </div>
-            </div>
 
-            {filteredProjects.length === 0 ? (
-                <p className="text-center text-white/70 px-4">
-                    Nenhum projeto nesta categoria ainda.
-                </p>
-            ) : (
-                <EmblaCarousel
-                    key={`project-filter-${activeFilter}`}
-                    projects={filteredProjects}
-                    options={{
-                        align: "start",
-                        slidesToScroll: 1,
-                        loop: false,
-                    }}
-                />
-            )}
+                {filteredProjects.length === 0 ? (
+                    <p className="rounded-2xl border border-[var(--line-soft)] bg-white/5 p-5 text-sm text-white/70">
+                        {language === "pt"
+                            ? "Nenhum projeto encontrado para esse filtro."
+                            : "No projects found for this filter."}
+                    </p>
+                ) : (
+                    <>
+                        <div className="sm:hidden">
+                            <EmblaCarousel
+                                projects={filteredProjects}
+                                options={{ align: "start", containScroll: "trimSnaps" }}
+                            />
+                        </div>
+
+                        <div className="hidden gap-5 sm:grid sm:grid-cols-2 xl:grid-cols-3">
+                            {filteredProjects.map((project, index) => (
+                                <ProjectCard key={project.id} {...project} idx={index} />
+                            ))}
+                        </div>
+                    </>
+                )}
+            </div>
         </section>
     );
 }

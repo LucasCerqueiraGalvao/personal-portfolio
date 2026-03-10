@@ -16,7 +16,7 @@
     "button2": "Download CV"
   },
   "projects": {
-    "title": "Featured Projects",
+    "title": "Projects",
     "sources": {
       "data": "Data Engineering",
       "automation": "Automation",
@@ -83,7 +83,7 @@
     }
   },
   "experiences": {
-    "mainTitle": "Experience, Education, and Achievements",
+    "mainTitle": "Experience, Education and Achievements",
     "title": "Experience",
     "mainStacks": "Main stacks",
     "viewCompanyDetails": "View company details",

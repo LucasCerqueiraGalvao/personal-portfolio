@@ -20,67 +20,95 @@ function MenuMobile({
 }: Props) {
     return (
         <nav
-            className={`p-10 fixed top-0 left-0 w-full h-screen bg-black flex flex-col items-center justify-between transition-transform duration-300 ${
-                isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-            } xl:hidden`}
+            className={`fixed inset-0 z-40 xl:hidden transition-all duration-300 ${
+                isMobileMenuOpen
+                    ? "pointer-events-auto opacity-100"
+                    : "pointer-events-none opacity-0"
+            }`}
         >
-            <ul className="text-lg space-y-12 text-center">
-                {navLinks.map(({ to, label }) => (
-                    <li key={to}>
-                        <NavLink
-                            to={to}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className={({ isActive }) =>
-                                isActive ? "text-primary" : ""
+            <div
+                className="absolute inset-0"
+                style={{
+                    background:
+                        "radial-gradient(circle at 14% -8%, rgba(239, 68, 68, 0.09), transparent 34%), radial-gradient(circle at 88% 4%, rgba(248, 113, 113, 0.07), transparent 32%), linear-gradient(145deg, #020103, #070307)",
+                }}
+                onClick={() => setIsMobileMenuOpen(false)}
+            />
+
+            <div
+                className={`absolute inset-x-0 top-16 bottom-0 px-6 py-8 transition-all duration-300 ${
+                    isMobileMenuOpen
+                        ? "translate-y-0 opacity-100"
+                        : "-translate-y-4 opacity-0"
+                }`}
+            >
+                <ul className="space-y-5">
+                    {navLinks.map(({ to, label }) => (
+                        <li key={to}>
+                            <NavLink
+                                to={to}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className={({ isActive }) =>
+                                    `block text-sm uppercase tracking-[0.18em] transition ${
+                                        isActive
+                                            ? "font-semibold text-[var(--accent)]"
+                                            : "text-white/82 hover:text-white"
+                                    }`
+                                }
+                            >
+                                {label}
+                            </NavLink>
+                        </li>
+                    ))}
+                </ul>
+
+                <div className="mt-8 flex items-center justify-between gap-3 border-t border-white/10 pt-6">
+                    <button
+                        type="button"
+                        onClick={toggleLanguage}
+                        className="flex items-center gap-2 rounded-lg border border-[var(--line-soft)] px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-white/90"
+                        title="Change language"
+                    >
+                        <img
+                            src={
+                                language === "en"
+                                    ? withBasePath("/images/flags/br.svg")
+                                    : withBasePath("/images/flags/us.svg")
                             }
-                        >
-                            {label}
-                        </NavLink>
-                    </li>
-                ))}
-            </ul>
-
-            <div className="flex gap-6 text-2xl">
-                <button
-                    onClick={toggleLanguage}
-                    className="flex items-center gap-2 px-3 py-1 rounded-full bg-gray-800 transition-all duration-300"
-                    title="Change language"
-                >
-                    <img
-                        src={
-                            language === "en"
-                                ? withBasePath("/images/flags/br.svg")
-                                : withBasePath("/images/flags/us.svg")
-                        }
-                        alt={language === "en" ? "Português" : "English"}
-                        className="w-5 h-5 cursor-pointer"
-                    />
-                    <span className="text-xs text-white font-semibold cursor-pointer">
+                            alt={language === "en" ? "Portuguese" : "English"}
+                            className="h-4 w-4 rounded-full"
+                        />
                         {language === "en" ? "PT" : "EN"}
-                    </span>
-                </button>
+                    </button>
 
-                <a
-                    href={profile.social.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <FaLinkedin className="hover:text-primary transition duration-400 hover:scale-110 cursor-pointer" />
-                </a>
-                <a
-                    href={profile.social.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <FaGithub className="hover:text-primary transition duration-400 hover:scale-110 cursor-pointer" />
-                </a>
-                <a href={profile.social.email}>
-                    <FaEnvelope className="hover:text-primary transition duration-400 hover:scale-110 cursor-pointer" />
-                </a>
+                    <div className="flex items-center gap-5 text-lg text-white/80">
+                        <a
+                            href={profile.social.linkedin}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="transition hover:text-[var(--accent)]"
+                        >
+                            <FaLinkedin />
+                        </a>
+                        <a
+                            href={profile.social.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="transition hover:text-[var(--accent)]"
+                        >
+                            <FaGithub />
+                        </a>
+                        <a
+                            href={profile.social.email}
+                            className="transition hover:text-[var(--accent)]"
+                        >
+                            <FaEnvelope />
+                        </a>
+                    </div>
+                </div>
             </div>
         </nav>
     );
 }
 
 export default MenuMobile;
-

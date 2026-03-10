@@ -1,8 +1,9 @@
+﻿import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import Button from "../Button";
-import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "../../config/routes";
 import { withBasePath } from "../../utils/withBasePath";
+import Button from "../Button";
 
 type Props = {
     id: string;
@@ -32,90 +33,99 @@ function ProjectCard({
     const navigate = useNavigate();
 
     const canOpen = !isOffline && Boolean(slug || link);
+    const visibleTechs = techs.slice(0, 3);
+    const hiddenTechCount = Math.max(0, techs.length - visibleTechs.length);
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 50 }}
+        <motion.article
+            initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: idx * 0.1 }}
-            whileHover={{ y: -10, scale: 1.02 }}
-            className="bg-black border border-white/10 rounded-lg overflow-hidden flex flex-col shadow-lg w-full max-w-sm sm:max-w-md lg:max-w-md h-full"
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.4, delay: idx * 0.05 }}
+            className="surface-card group flex h-full min-h-[342px] flex-col overflow-hidden rounded-2xl sm:min-h-[500px]"
         >
-            {/* imagem */}
-            <div className="h-40 sm:h-48 bg-gray-900 flex items-center justify-center text-white text-sm sm:text-base overflow-hidden">
+            <div className="relative h-32 overflow-hidden bg-[#061220] sm:aspect-[16/10] sm:h-auto">
                 {image ? (
-                    <motion.img
+                    <img
                         src={withBasePath(image)}
                         alt={title}
-                        className="h-full w-full object-cover"
-                        whileHover={{ scale: 1.1 }}
-                        transition={{ duration: 0.3 }}
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                     />
                 ) : (
-                    t("projects.noImage")
+                    <div className="flex h-full items-center justify-center text-sm text-white/60">
+                        {t("projects.noImage")}
+                    </div>
                 )}
+                <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#06111d] to-transparent" />
             </div>
 
-            {/* conteúdo */}
-            <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between bg-black/80 backdrop-blur-sm">
-                <div>
-                    <h3 className="text-base sm:text-lg lg:text-xl font-semibold mb-1">
-                        {title}
-                    </h3>
+            <div className="flex flex-1 flex-col p-4 sm:p-5">
+                <div className="mb-2 flex min-h-[22px] items-center justify-between gap-2 sm:mb-3 sm:min-h-[24px]">
+                    {source ? (
+                        <span className="chip text-[10px]">
+                            {t(`projects.sources.${source}`)}
+                        </span>
+                    ) : (
+                        <span />
+                    )}
 
-                    {/* fonte */}
-                    <div className="flex items-center flex-wrap gap-2 mb-2">
-                        {source && (
-                            <span className="text-xs px-2 py-0.5 rounded-full bg-white/10 border border-white/20 text-gray-200">
-                                {t(`projects.sources.${source}`)}
-                            </span>
-                        )}
-                        {isOffline && (
-                            <span className="text-xs px-2 py-0.5 rounded-full text-red-400 border border-red-400">
-                                Offline
-                            </span>
-                        )}
-                    </div>
-
-                    <p className="text-sm sm:text-base text-gray-300 mb-4">
-                        {description}
-                    </p>
-
-                    {/* techs */}
-                    <div className="flex flex-wrap gap-2 mb-4">
-                        {techs.map((tech) => (
-                            <span
-                                key={tech}
-                                className="text-xs sm:text-sm px-2 py-0.5 rounded-full bg-white/10 border border-white/20"
-                            >
-                                {tech}
-                            </span>
-                        ))}
-                    </div>
+                    {isOffline && (
+                        <span className="rounded-full border border-rose-300/55 bg-rose-300/15 px-2 py-0.5 text-[10px] uppercase tracking-[0.12em] text-rose-200">
+                            Offline
+                        </span>
+                    )}
                 </div>
 
-                {/* botão */}
-                <Button
-                    type="primary"
-                    onClick={() => {
-                        if (!canOpen) return;
-                        if (slug) {
-                            navigate(`/project/${slug}`);
-                            return;
-                        }
-                        if (link) {
-                            window.open(link, "_blank");
-                        }
-                    }}
-                    disabled={!canOpen}
-                >
-                    {!canOpen
-                        ? t("projects.buttons.offline")
-                        : t("projects.buttons.view")}
-                </Button>
+                <h3 className="min-h-[40px] text-[15px] font-semibold leading-snug text-white [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden sm:min-h-[56px] sm:text-lg">
+                    {title}
+                </h3>
+                <p className="mt-1 min-h-[38px] text-xs leading-relaxed text-[var(--text-muted)] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden sm:mt-2 sm:min-h-[72px] sm:text-sm sm:[-webkit-line-clamp:3]">
+                    {description}
+                </p>
+
+                <div className="mt-3 flex min-h-[28px] flex-wrap content-start gap-1.5 sm:mt-4 sm:min-h-[56px] sm:gap-2">
+                    {visibleTechs.map((tech) => (
+                        <span
+                            key={tech}
+                            className="rounded-full border border-[var(--line-soft)] bg-white/5 px-2 py-0.5 text-[10px] uppercase tracking-[0.12em] text-white/80"
+                        >
+                            {tech}
+                        </span>
+                    ))}
+                    {hiddenTechCount > 0 && (
+                        <span className="rounded-full border border-[var(--line-soft)] bg-white/5 px-2 py-0.5 text-[10px] uppercase tracking-[0.12em] text-white/70">
+                            +{hiddenTechCount}
+                        </span>
+                    )}
+                </div>
+
+                <div className="mt-auto pt-3 sm:pt-5">
+                    <Button
+                        type={canOpen ? "primary" : "secondary"}
+                        onClick={() => {
+                            if (!canOpen) {
+                                return;
+                            }
+
+                            if (slug) {
+                                navigate(APP_ROUTES.workDetail(slug));
+                                return;
+                            }
+
+                            if (link) {
+                                window.open(link, "_blank", "noopener,noreferrer");
+                            }
+                        }}
+                        disabled={!canOpen}
+                        className="w-full"
+                    >
+                        {!canOpen
+                            ? t("projects.buttons.offline")
+                            : t("projects.buttons.view")}
+                    </Button>
+                </div>
             </div>
-        </motion.div>
+        </motion.article>
     );
 }
 

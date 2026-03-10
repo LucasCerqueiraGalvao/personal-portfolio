@@ -2,8 +2,9 @@ import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { projectDetails, type ProjectDetail } from "../data/projectDetails";
 import projectsRaw from "../data/projects.json";
+import { APP_ROUTES } from "../config/routes";
 
-function ProjectDetailPage() {
+function WorkDetailPage() {
     const { slug } = useParams<{ slug: string }>();
     const { i18n, t } = useTranslation();
     const language = i18n.language.startsWith("pt") ? "pt" : "en";
@@ -34,24 +35,27 @@ function ProjectDetailPage() {
             : project?.status === "offline"
             ? "Offline"
             : language === "pt"
-            ? "Público"
+            ? "Publico"
             : "Public";
+
+    const sectionClassName =
+        "relative z-10 min-h-screen px-6 py-12 pt-[104px] font-['Inter400'] text-white";
 
     if (!project) {
         return (
-            <section className="pt-[120px] min-h-screen bg-black text-white px-6 py-12 font-['Inter400']">
-                <div className="max-w-4xl mx-auto">
-                    <h1 className="text-3xl sm:text-4xl font-bold mb-4">
+            <section className={sectionClassName}>
+                <div className="mx-auto max-w-4xl">
+                    <h1 className="mb-4 text-3xl font-bold sm:text-4xl">
                         {language === "pt"
-                            ? "Projeto não encontrado"
+                            ? "Projeto nao encontrado"
                             : "Project not found"}
                     </h1>
-                    <p className="text-white/70 mb-8">
+                    <p className="mb-8 text-white/70">
                         {language === "pt"
-                            ? "Este slug de projeto ainda não foi mapeado."
+                            ? "Este slug de projeto ainda nao foi mapeado."
                             : "This project slug is not mapped yet."}
                     </p>
-                    <Link to="/projects" className="text-primary hover-underline">
+                    <Link to={APP_ROUTES.work} className="text-primary hover-underline">
                         {language === "pt"
                             ? "Voltar para projetos"
                             : "Back to projects"}
@@ -62,38 +66,36 @@ function ProjectDetailPage() {
     }
 
     return (
-        <section className="pt-[120px] min-h-screen bg-black text-white px-6 py-12 font-['Inter400']">
-            <div className="max-w-4xl mx-auto">
+        <section className={sectionClassName}>
+            <div className="mx-auto max-w-4xl">
                 <Link
-                    to="/projects"
+                    to={APP_ROUTES.work}
                     className="text-primary hover-underline text-sm"
                 >
                     {language === "pt"
-                        ? "← Voltar para projetos"
-                        : "← Back to projects"}
+                        ? "<- Voltar para projetos"
+                        : "<- Back to projects"}
                 </Link>
 
-                <p className="text-primary text-sm mb-3">
+                <p className="text-primary mb-3 text-sm">
                     {language === "pt" ? "Projeto" : "Project"}: {project.slug}
                 </p>
 
-                <h1 className="text-3xl sm:text-4xl font-bold mb-3">
-                    {projectTitle}
-                </h1>
+                <h1 className="mb-3 text-3xl font-bold sm:text-4xl">{projectTitle}</h1>
 
-                <p className="text-white/80 mb-4">
+                <p className="mb-4 text-white/80">
                     {projectDescription || project.summary[language]}
                 </p>
 
-                <span className="inline-flex text-xs px-2 py-0.5 rounded-full bg-white/10 border border-white/20 mb-6">
+                <span className="mb-6 inline-flex rounded-full border border-white/20 bg-white/10 px-2 py-0.5 text-xs">
                     {statusLabel}
                 </span>
 
-                <div className="flex flex-wrap gap-2 mb-8">
+                <div className="mb-8 flex flex-wrap gap-2">
                     {project.stack.map((tech) => (
                         <span
                             key={tech}
-                            className="text-xs sm:text-sm px-2 py-0.5 rounded-full bg-white/10 border border-white/20"
+                            className="rounded-full border border-white/20 bg-white/10 px-2 py-0.5 text-xs sm:text-sm"
                         >
                             {tech}
                         </span>
@@ -101,13 +103,13 @@ function ProjectDetailPage() {
                 </div>
 
                 <div className="mb-8">
-                    <h2 className="text-xl font-semibold mb-2 text-primary">
+                    <h2 className="text-primary mb-2 text-xl font-semibold">
                         {language === "pt" ? "Destaques" : "Highlights"}
                     </h2>
                     <ul className="space-y-2 text-white/85">
                         {project.highlights.map((highlight, index) => (
                             <li key={`${project.slug}-highlight-${index}`}>
-                                • {highlight[language]}
+                                - {highlight[language]}
                             </li>
                         ))}
                     </ul>
@@ -116,12 +118,10 @@ function ProjectDetailPage() {
                 <div className="space-y-6">
                     {project.sections.map((section) => (
                         <article key={section.id}>
-                            <h2 className="text-xl font-semibold mb-2 text-primary">
+                            <h2 className="text-primary mb-2 text-xl font-semibold">
                                 {section.title[language]}
                             </h2>
-                            <p className="text-white/80">
-                                {section.content[language]}
-                            </p>
+                            <p className="text-white/80">{section.content[language]}</p>
                         </article>
                     ))}
                 </div>
@@ -134,7 +134,7 @@ function ProjectDetailPage() {
                             rel="noopener noreferrer"
                             className="hover-underline"
                         >
-                            {language === "pt" ? "Repositório" : "Repository"}
+                            {language === "pt" ? "Repositorio" : "Repository"}
                         </a>
                     )}
                     {project.links.demo && (
@@ -163,4 +163,4 @@ function ProjectDetailPage() {
     );
 }
 
-export default ProjectDetailPage;
+export default WorkDetailPage;

@@ -1,27 +1,27 @@
+﻿import { motion } from "framer-motion";
+import { TypeAnimation } from "react-type-animation";
 import { useTranslation } from "react-i18next";
-import Button from "./Button";
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "../config/routes";
 import { getCvPath, profile } from "../data/profile";
 import i18n from "../utils/i18n";
-import { TypeAnimation } from "react-type-animation";
-import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import Button from "./Button";
 
-function Hero() {
+function IntroSection() {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const language = i18n.language as "en" | "pt";
-    
+    const language = i18n.language.startsWith("pt") ? "pt" : "en";
+
     return (
         <section
             id="header"
-            className="mt-[98px] min-h-[calc(100vh-98px)] flex items-center justify-center text-white px-6 relative z-10"
+            className="relative z-10 flex min-h-[calc(100vh-98px)] items-center justify-center px-6 pb-24 pt-10 text-white sm:pt-14 sm:pb-28"
         >
-            {/* Content */}
-            <div className="text-center max-w-2xl">
+            <div className="max-w-2xl text-center">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 0.7 }}
                 >
                     <TypeAnimation
                         key={language}
@@ -32,35 +32,38 @@ function Hero() {
                             2000,
                         ]}
                         wrapper="h1"
-                        className="text-2xl sm:text-3xl md:text-4xl font-['Inter400'] font-bold leading-tight mb-6"
-                        cursor={true}
+                        className="font-['Inter400'] text-2xl font-bold leading-tight sm:text-3xl md:text-4xl"
+                        cursor
                         repeat={Infinity}
                         speed={20}
-                        deletionSpeed={30}
+                        deletionSpeed={32}
                     />
                 </motion.div>
 
                 <motion.p
-                    className="text-sm sm:text-base text-gray-300 mb-8 font-[Inter400]"
+                    className="mx-auto mt-6 max-w-xl text-sm text-[var(--text-muted)] sm:text-base"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
+                    transition={{ duration: 0.7, delay: 0.15 }}
                 >
                     {t("hero.description")}
                 </motion.p>
 
                 <motion.div
-                    className="flex justify-center gap-4 flex-wrap"
+                    className="mt-8 flex flex-wrap justify-center gap-3"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
+                    transition={{ duration: 0.7, delay: 0.3 }}
                 >
-                    <Button type="primary">
+                    <Button type="secondary">
                         <a href={getCvPath(language)} download>
                             {t("header.button2")}
                         </a>
                     </Button>
-                    <Button type="secondary" onClick={() => navigate("/projects")}>
+                    <Button
+                        type="primary"
+                        onClick={() => navigate(APP_ROUTES.work)}
+                    >
                         {t("header.button1")}
                     </Button>
                 </motion.div>
@@ -69,4 +72,4 @@ function Hero() {
     );
 }
 
-export default Hero;
+export default IntroSection;

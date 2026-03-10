@@ -38,13 +38,13 @@ const EmblaCarousel: React.FC<PropType> = ({ projects, options }) => {
     } = usePrevNextButtons(emblaApi);
 
     return (
-        <div className="w-full max-w-screen-xl mx-auto overflow-hidden px-0 sm:px-12 selection:bg-transparent">
+        <div className="mx-auto w-full max-w-screen-xl overflow-hidden px-0 sm:px-12 selection:bg-transparent">
             <div className="overflow-hidden" ref={emblaRef}>
-                <div className="flex gap-3 sm:gap-6">
+                <div className="flex gap-2 sm:gap-6">
                     {projects.map((proj, index) => (
                         <div
                             key={index}
-                            className="min-w-[90%] sm:min-w-[60%] lg:min-w-[25%] shrink-0"
+                            className="min-w-[calc(100%-1px)] shrink-0 sm:min-w-[60%] lg:min-w-[25%]"
                         >
                             <ProjectCard {...proj} idx={index} />
                         </div>
@@ -52,10 +52,8 @@ const EmblaCarousel: React.FC<PropType> = ({ projects, options }) => {
                 </div>
             </div>
 
-            <div
-                className="mt-0 sm:mt-8 flex flex-col items-center sm:gap-4 gap-2"
-            >
-                <div className="flex gap-4">
+            <div className="mt-2 flex flex-col items-center gap-2 sm:mt-8 sm:gap-4">
+                <div className="hidden gap-4 sm:flex">
                     <PrevButton
                         onClick={onPrevButtonClick}
                         disabled={prevBtnDisabled}
@@ -65,16 +63,16 @@ const EmblaCarousel: React.FC<PropType> = ({ projects, options }) => {
                         disabled={nextBtnDisabled}
                     />
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 pb-1 pt-1">
                     {scrollSnaps.map((_, index) => (
                         <DotButton
                             key={index}
                             onClick={() => onDotButtonClick(index)}
                             className={
-                                "w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-gray-500 transition " +
+                                "h-2.5 w-2.5 rounded-full border transition sm:h-3 sm:w-3 " +
                                 (index === selectedIndex
-                                    ? "bg-white"
-                                    : "opacity-50")
+                                    ? "border-[var(--accent)] bg-[var(--accent)]"
+                                    : "border-white/35 bg-white/20")
                             }
                         />
                     ))}

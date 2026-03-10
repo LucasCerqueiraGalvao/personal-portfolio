@@ -1,5 +1,6 @@
-﻿import { FaCalendar } from "react-icons/fa";
+import { FaCalendar } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { APP_ROUTES } from "../../config/routes";
 import {
     formatExperienceDuration,
     formatExperiencePeriod,
@@ -27,7 +28,7 @@ function ExperienceCompanyTimelineItem({ company, idx, language }: Props) {
     });
 
     return (
-        <Link to={`/experiences/${company.slug}`} className="block group">
+        <Link to={APP_ROUTES.journeyDetail(company.slug)} className="block group">
             <div
                 className="relative pl-6"
                 data-aos="fade-right"
@@ -52,7 +53,11 @@ function ExperienceCompanyTimelineItem({ company, idx, language }: Props) {
                             return (
                                 <div
                                     key={`${company.slug}-${role.title.en}-${role.startDate}`}
-                                    className={roleIdx > 0 ? "pt-4 border-t border-white/10" : ""}
+                                    className={
+                                        roleIdx > 0
+                                            ? "pt-4 border-t border-white/10"
+                                            : ""
+                                    }
                                 >
                                     <p className="text-xs text-white/60 flex items-center gap-2">
                                         <FaCalendar className="text-white/35" />
