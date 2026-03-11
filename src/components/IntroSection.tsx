@@ -1,21 +1,17 @@
-﻿import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import { APP_ROUTES } from "../config/routes";
-import { getCvPath, profile } from "../data/profile";
+import { profile } from "../data/profile";
 import i18n from "../utils/i18n";
-import Button from "./Button";
 
 function IntroSection() {
     const { t } = useTranslation();
-    const navigate = useNavigate();
     const language = i18n.language.startsWith("pt") ? "pt" : "en";
 
     return (
         <section
             id="header"
-            className="relative z-10 flex min-h-[calc(100vh-98px)] items-center justify-center px-6 pb-24 pt-10 text-white sm:pt-14 sm:pb-28"
+            className="relative z-10 flex min-h-[calc(100vh-98px)] items-center justify-center px-6 pb-24 pt-10 text-white sm:pb-28 sm:pt-14"
         >
             <div className="max-w-2xl text-center">
                 <motion.div
@@ -48,25 +44,6 @@ function IntroSection() {
                 >
                     {t("hero.description")}
                 </motion.p>
-
-                <motion.div
-                    className="mt-8 flex flex-wrap justify-center gap-3"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.7, delay: 0.3 }}
-                >
-                    <Button type="secondary">
-                        <a href={getCvPath(language)} download>
-                            {t("header.button2")}
-                        </a>
-                    </Button>
-                    <Button
-                        type="primary"
-                        onClick={() => navigate(APP_ROUTES.work)}
-                    >
-                        {t("header.button1")}
-                    </Button>
-                </motion.div>
             </div>
         </section>
     );

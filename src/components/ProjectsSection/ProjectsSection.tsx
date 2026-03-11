@@ -153,7 +153,7 @@ function ProjectsSection() {
                     </p>
                 ) : (
                     <>
-                        <div className="-mx-4 sm:mx-0">
+                        <div className="-mx-4 sm:hidden">
                             <EmblaCarousel
                                 projects={filteredProjects}
                                 options={{ align: "start", containScroll: "trimSnaps" }}

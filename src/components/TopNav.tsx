@@ -22,8 +22,6 @@ function TopNav() {
         i18n.language.startsWith("pt") ? "pt" : "en"
     );
     const { setSidebarAnchor } = useSocialIconAnchors();
-    const isHomeRoute =
-        location.pathname === APP_ROUTES.about || location.pathname === "/";
     const isContactRoute =
         location.pathname === APP_ROUTES.reach || location.pathname === "/reach";
 
@@ -100,18 +98,11 @@ function TopNav() {
                             </button>
 
                             <div className="w-[208px] flex-none">
-                                {isHomeRoute ? (
-                                    <div
-                                        aria-hidden="true"
-                                        className="h-[42px] w-full"
-                                    />
-                                ) : (
-                                    <Button type="secondary" className="w-full">
-                                        <a href={getCvPath(language)} download>
-                                            {t("header.button2")}
-                                        </a>
-                                    </Button>
-                                )}
+                                <Button type="secondary" className="w-full">
+                                    <a href={getCvPath(language)} download>
+                                        {t("header.button2")}
+                                    </a>
+                                </Button>
                             </div>
                         </div>
 

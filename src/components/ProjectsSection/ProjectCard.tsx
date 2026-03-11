@@ -1,9 +1,9 @@
-﻿import { motion } from "framer-motion";
+import type { KeyboardEvent } from "react";
+import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../../config/routes";
 import { withBasePath } from "../../utils/withBasePath";
-import Button from "../Button";
 
 type Props = {
     id: string;
@@ -35,6 +35,33 @@ function ProjectCard({
     const canOpen = !isOffline && Boolean(slug || link);
     const visibleTechs = techs.slice(0, 3);
     const hiddenTechCount = Math.max(0, techs.length - visibleTechs.length);
+    const cardAriaLabel = `${t("projects.buttons.view")}: ${title}`;
+
+    const handleOpen = () => {
+        if (!canOpen) {
+            return;
+        }
+
+        if (slug) {
+            navigate(APP_ROUTES.workDetail(slug));
+            return;
+        }
+
+        if (link) {
+            window.open(link, "_blank", "noopener,noreferrer");
+        }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+        if (!canOpen) {
+            return;
+        }
+
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            handleOpen();
+        }
+    };
 
     return (
         <motion.article
@@ -42,8 +69,23 @@ function ProjectCard({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.4, delay: idx * 0.05 }}
-            className="surface-card group flex h-full w-full max-w-full min-w-0 min-h-[clamp(372px,52dvh,432px)] flex-col overflow-hidden rounded-2xl sm:min-h-[500px]"
+            onClick={canOpen ? handleOpen : undefined}
+            onKeyDown={canOpen ? handleKeyDown : undefined}
+            role={canOpen ? "button" : undefined}
+            tabIndex={canOpen ? 0 : -1}
+            aria-label={canOpen ? cardAriaLabel : undefined}
+            className={`surface-card group relative flex h-full w-full max-w-full min-h-[clamp(372px,52dvh,432px)] min-w-0 flex-col overflow-hidden rounded-2xl transition-[transform,border-color,box-shadow] duration-300 sm:min-h-[500px] ${
+                canOpen
+                    ? "cursor-pointer hover:-translate-y-1 hover:border-[var(--accent)]/70 hover:shadow-[0_18px_45px_rgba(239,68,68,0.2)] focus-visible:-translate-y-1 focus-visible:border-[var(--accent)]/80 focus-visible:shadow-[0_18px_45px_rgba(239,68,68,0.2)] focus-visible:outline-none"
+                    : "cursor-default"
+            }`}
         >
+            {canOpen && (
+                <span className="pointer-events-none absolute right-3 top-3 z-20 rounded-full border border-[var(--accent)]/55 bg-black/55 px-2 py-0.5 text-[10px] uppercase tracking-[0.1em] text-[var(--accent)] opacity-0 transition-all duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
+                    {t("projects.buttons.view")}
+                </span>
+            )}
+
             <div className="relative h-[clamp(158px,24dvh,204px)] w-full overflow-hidden bg-[#061220] sm:aspect-[16/10] sm:h-auto">
                 {image ? (
                     <img
@@ -97,32 +139,6 @@ function ProjectCard({
                             +{hiddenTechCount}
                         </span>
                     )}
-                </div>
-
-                <div className="mt-auto pt-3 sm:pt-5">
-                    <Button
-                        type={canOpen ? "primary" : "secondary"}
-                        onClick={() => {
-                            if (!canOpen) {
-                                return;
-                            }
-
-                            if (slug) {
-                                navigate(APP_ROUTES.workDetail(slug));
-                                return;
-                            }
-
-                            if (link) {
-                                window.open(link, "_blank", "noopener,noreferrer");
-                            }
-                        }}
-                        disabled={!canOpen}
-                        className="w-full !whitespace-normal !px-3 !py-2 !text-[10px] sm:!px-5 sm:!py-2.5 sm:!text-sm"
-                    >
-                        {!canOpen
-                            ? t("projects.buttons.offline")
-                            : t("projects.buttons.view")}
-                    </Button>
                 </div>
             </div>
         </motion.article>
