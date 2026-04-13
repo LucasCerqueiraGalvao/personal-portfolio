@@ -1,6 +1,6 @@
 # Personal Portfolio
 
-Portfolio profissional com React + Vite, focado em apresentacao de projetos de Data Engineering, Analytics e Integracoes.
+Personal portfolio repository.
 
 ## Visao Geral
 
