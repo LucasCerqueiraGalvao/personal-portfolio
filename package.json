@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "extract:wallpaper": "node scripts/extract-wallpaper-assets.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },

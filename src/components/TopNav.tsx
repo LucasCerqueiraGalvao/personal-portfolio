@@ -146,6 +146,8 @@ function TopNav() {
                 toggleLanguage={toggleLanguage}
                 navLinks={navLinks}
                 language={language}
+                cvHref={getCvPath(language)}
+                cvLabel={t("header.button2")}
             />
 
             {!isContactRoute && (
