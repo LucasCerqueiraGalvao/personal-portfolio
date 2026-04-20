@@ -11,7 +11,7 @@ function IntroSection() {
     return (
         <section
             id="header"
-            className="relative z-10 flex min-h-[calc(100vh-98px)] items-center justify-center px-6 pb-24 pt-10 text-white sm:pb-28 sm:pt-14"
+            className="relative z-10 flex min-h-[calc(100vh-98px)] select-none items-center justify-center px-6 pb-24 pt-10 text-white sm:pb-28 sm:pt-14"
         >
             <div className="max-w-2xl text-center">
                 <motion.div

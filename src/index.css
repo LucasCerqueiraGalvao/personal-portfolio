@@ -129,3 +129,13 @@ html.lenis body {
 .lenis.lenis-scrolling iframe {
     pointer-events: none;
 }
+
+body.wallpaper-dragging,
+body.wallpaper-dragging * {
+    user-select: none !important;
+    -webkit-user-select: none !important;
+}
+
+body.wallpaper-dragging {
+    cursor: grabbing;
+}
