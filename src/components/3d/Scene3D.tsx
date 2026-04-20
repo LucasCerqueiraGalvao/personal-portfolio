@@ -104,10 +104,10 @@ const BODY_CONFIGS: BodyConfig[] = [
         kind: "star",
         mass: 5_000_000,
         radius: 0.03,
-        color: "#fff6df",
-        emissive: "#ffd5ad",
-        glow: "#ffb075",
-        trail: "#fff4de",
+        color: "#d8ebff",
+        emissive: "#99c6ff",
+        glow: "#c7e1ff",
+        trail: "#e2f1ff",
         glowScale: 2.78,
         lightIntensity: 2.1,
         brightness: 0.7,
@@ -149,8 +149,8 @@ const BODY_CONFIGS: BodyConfig[] = [
         kind: "planet",
         mass: 5_000,
         radius: 0.011,
-        color: "#418dff",
-        emissive: "#123bff",
+        color: "#ffffff",
+        emissive: "#2a3f86",
         glow: "#6eb8ff",
         trail: "#69a7ff",
         glowScale: 0.82,
@@ -184,7 +184,7 @@ const BACKGROUND_ROTATION_FOLLOW = 0.32;
 const BACKGROUND_VERTICAL_FOLLOW = 0.035;
 const BACKGROUND_MIN_VERTICAL_OFFSET = 0;
 const BACKGROUND_MAX_VERTICAL_OFFSET = 1 - BACKGROUND_TEXTURE_ZOOM;
-const MOUSE_GRAVITY_MASS = STAR_MASS * 0.14;
+const MOUSE_GRAVITY_MASS = STAR_MASS * 0;
 const MOUSE_GRAVITY_SOFTENING = 0.16;
 const MOUSE_GRAVITY_INFLUENCE_RADIUS = 1.9;
 const MOUSE_GRAVITY_MAX_ACCEL = 1.6;
@@ -213,6 +213,17 @@ const G_SIM =
     Math.pow(60 * 60 * 24 * 365, 2) /
     Math.pow(1e12, 3);
 
+const TEXTURE_HMR_KEY = (() => {
+    if (import.meta.hot) {
+        const data = import.meta.hot.data as { textureVersion?: number };
+        data.textureVersion = (data.textureVersion ?? 0) + 1;
+
+        return data.textureVersion;
+    }
+
+    return 0;
+})();
+
 function getBodyGlowStrength(config: BodyConfig) {
     if (config.kind !== "star") {
         return 0;
@@ -237,7 +248,7 @@ function getBodyGlowOpacity(config: BodyConfig) {
 
 function getBodyEmissiveIntensity(config: BodyConfig) {
     if (config.kind === "planet") {
-        return 0.14;
+        return 0.05;
     }
 
     const strength = getBodyGlowStrength(config);
@@ -340,6 +351,7 @@ function makeStarTexture(config: BodyConfig) {
     const random = mulberry32(config.textureSeed);
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
+    const isBlueWhiteStar = config.name === "Star 1";
 
     canvas.width = size;
     canvas.height = size;
@@ -367,13 +379,16 @@ function makeStarTexture(config: BodyConfig) {
     gradient.addColorStop(0, "#ffffff");
     gradient.addColorStop(0.34, config.color);
     gradient.addColorStop(0.72, config.emissive);
-    gradient.addColorStop(1, "#44120d");
+    gradient.addColorStop(1, isBlueWhiteStar ? "#cfe3ff" : "#44120d");
 
     context.globalAlpha = 0.92;
     context.fillStyle = gradient;
     context.fillRect(0, 0, size, size);
 
-    context.globalCompositeOperation = "overlay";
+    context.globalCompositeOperation = isBlueWhiteStar ? "screen" : "overlay";
+    const darkPatchColor = isBlueWhiteStar
+        ? "rgba(244, 251, 255, 0.62)"
+        : "rgba(35, 14, 10, 0.08)";
 
     for (let i = 0; i < 8; i += 1) {
         const x = size * (0.2 + random() * 0.6);
@@ -383,10 +398,24 @@ function makeStarTexture(config: BodyConfig) {
         context.fillStyle =
             random() > 0.5
                 ? colorToRgba(config.emissive, alpha)
-                : "rgba(35, 14, 10, 0.08)";
+                : darkPatchColor;
         context.beginPath();
         context.arc(x, y, radius, 0, Math.PI * 2);
         context.fill();
+    }
+
+    if (isBlueWhiteStar) {
+        context.globalCompositeOperation = "screen";
+
+        for (let i = 0; i < 14; i += 1) {
+            const x = size * (0.16 + random() * 0.68);
+            const y = size * (0.16 + random() * 0.68);
+            const radius = 14 + random() * 34;
+            context.fillStyle = `rgba(246, 252, 255, ${0.24 + random() * 0.28})`;
+            context.beginPath();
+            context.arc(x, y, radius, 0, Math.PI * 2);
+            context.fill();
+        }
     }
 
     for (let i = 0; i < 180; i += 1) {
@@ -452,14 +481,61 @@ function makePlanetTexture(config: BodyConfig) {
 
     gradient.addColorStop(0, "#bde1ff");
     gradient.addColorStop(0.28, config.color);
-    gradient.addColorStop(0.72, "#153cff");
-    gradient.addColorStop(1, "#071039");
+    gradient.addColorStop(0.72, "#215ebf");
+    gradient.addColorStop(1, "#0e2957");
 
     context.fillStyle = gradient;
     context.fillRect(0, 0, size, size);
     context.globalCompositeOperation = "source-over";
 
-    for (let i = 0; i < 34; i += 1) {
+    const drawContinentBlob = (x: number, y: number, scale: number, alpha: number) => {
+        const vertexCount = 7 + Math.floor(random() * 4);
+
+        context.beginPath();
+
+        for (let index = 0; index < vertexCount; index += 1) {
+            const angle = (index / vertexCount) * Math.PI * 2;
+            const radiusJitter = 0.62 + random() * 0.76;
+            const radius = scale * radiusJitter;
+            const px = x + Math.cos(angle) * radius;
+            const py = y + Math.sin(angle) * radius * (0.72 + random() * 0.58);
+
+            if (index === 0) {
+                context.moveTo(px, py);
+            } else {
+                context.lineTo(px, py);
+            }
+        }
+
+        context.closePath();
+        context.fillStyle = `rgba(64, 184, 74, ${alpha})`;
+        context.fill();
+
+        context.strokeStyle = `rgba(226, 247, 198, ${Math.min(alpha * 0.58, 0.42)})`;
+        context.lineWidth = 1.6 + random() * 2.2;
+        context.stroke();
+    };
+
+    for (let i = 0; i < 7; i += 1) {
+        const baseX = size * (0.18 + random() * 0.64);
+        const baseY = size * (0.2 + random() * 0.62);
+        const baseScale = 42 + random() * 86;
+
+        drawContinentBlob(baseX, baseY, baseScale, 0.52 + random() * 0.28);
+
+        if (random() > 0.35) {
+            drawContinentBlob(
+                baseX + (-18 + random() * 36),
+                baseY + (-14 + random() * 28),
+                baseScale * (0.44 + random() * 0.36),
+                0.38 + random() * 0.24
+            );
+        }
+    }
+
+    context.globalCompositeOperation = "soft-light";
+
+    for (let i = 0; i < 8; i += 1) {
         const x = random() * size;
         const y = random() * size;
         const width = 38 + random() * 120;
@@ -467,8 +543,8 @@ function makePlanetTexture(config: BodyConfig) {
 
         context.fillStyle =
             random() > 0.48
-                ? `rgba(34, 198, 154, ${0.16 + random() * 0.18})`
-                : `rgba(9, 28, 98, ${0.2 + random() * 0.22})`;
+                ? `rgba(42, 178, 86, ${0.04 + random() * 0.06})`
+                : `rgba(9, 28, 98, ${0.015 + random() * 0.03})`;
         context.beginPath();
         context.ellipse(x, y, width, height, random() * Math.PI, 0, Math.PI * 2);
         context.fill();
@@ -1035,10 +1111,10 @@ function ThreeBodyWallpaper({
     const accumulatorRef = useRef(0);
     const frameRef = useRef(0);
     const trails = useMemo(makeTrailGeometries, []);
-    const glowTexture = useMemo(makeGlowTexture, []);
+    const glowTexture = useMemo(makeGlowTexture, [TEXTURE_HMR_KEY]);
     const bodyTextures = useMemo(
         () => BODY_CONFIGS.map((config) => makeBodyTexture(config)),
-        []
+        [TEXTURE_HMR_KEY]
     );
     const gravityRaycasterRef = useRef(new THREE.Raycaster());
     const gravityPlaneRef = useRef(new THREE.Plane(new THREE.Vector3(0, 0, 1), 0));
@@ -1159,7 +1235,7 @@ function ThreeBodyWallpaper({
                     ? 1 + Math.sin(elapsed * 1.7 + index) * 0.025
                     : 1 + Math.sin(elapsed * 2.2 + index * 1.3) * 0.065;
             const visualRadius = Math.max(
-                body.config.kind === "planet" ? 0.07 : 0.105,
+                body.config.kind === "planet" ? 0.09 : 0.105,
                 body.config.radius * 5.8
             );
             const glowStrength = getBodyGlowStrength(body.config);
