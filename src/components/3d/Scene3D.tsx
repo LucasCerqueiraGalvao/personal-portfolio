@@ -27,6 +27,7 @@ type BodyConfig = {
     trail: string;
     glowScale: number;
     lightIntensity: number;
+    brightness: number;
     textureSeed: number;
     spinSpeed: number;
 };
@@ -55,6 +56,19 @@ type DragState = {
     dragging: boolean;
     lastX: number;
     lastY: number;
+};
+
+type MouseGravityState = {
+    pointerX: number;
+    pointerY: number;
+    active: boolean;
+    strength: number;
+    target: THREE.Vector3;
+};
+
+type MouseGravityInfluence = {
+    strength: number;
+    target: THREE.Vector3;
 };
 
 type SeedState = {
@@ -96,6 +110,7 @@ const BODY_CONFIGS: BodyConfig[] = [
         trail: "#fff4de",
         glowScale: 2.78,
         lightIntensity: 2.1,
+        brightness: 0.7,
         textureSeed: 17,
         spinSpeed: 0.2,
     },
@@ -110,6 +125,7 @@ const BODY_CONFIGS: BodyConfig[] = [
         trail: "#ffc081",
         glowScale: 2.38,
         lightIntensity: 1.8,
+        brightness: 0.7,
         textureSeed: 41,
         spinSpeed: -0.26,
     },
@@ -124,6 +140,7 @@ const BODY_CONFIGS: BodyConfig[] = [
         trail: "#ff8d76",
         glowScale: 2.12,
         lightIntensity: 1.55,
+        brightness: 1.0,
         textureSeed: 73,
         spinSpeed: 0.32,
     },
@@ -138,6 +155,7 @@ const BODY_CONFIGS: BodyConfig[] = [
         trail: "#69a7ff",
         glowScale: 0.82,
         lightIntensity: 0.16,
+        brightness: 0,
         textureSeed: 109,
         spinSpeed: 0.55,
     },
@@ -166,6 +184,12 @@ const BACKGROUND_ROTATION_FOLLOW = 0.32;
 const BACKGROUND_VERTICAL_FOLLOW = 0.035;
 const BACKGROUND_MIN_VERTICAL_OFFSET = 0;
 const BACKGROUND_MAX_VERTICAL_OFFSET = 1 - BACKGROUND_TEXTURE_ZOOM;
+const MOUSE_GRAVITY_MASS = STAR_MASS * 0.14;
+const MOUSE_GRAVITY_SOFTENING = 0.16;
+const MOUSE_GRAVITY_INFLUENCE_RADIUS = 1.9;
+const MOUSE_GRAVITY_MAX_ACCEL = 1.6;
+const MOUSE_GRAVITY_RAMP_IN = 0.16;
+const MOUSE_GRAVITY_RAMP_OUT = 0.28;
 
 const YOSHIDA = {
     w1: 1.35120719196,
@@ -188,6 +212,48 @@ const G_SIM =
     (1e30 / 5e6) *
     Math.pow(60 * 60 * 24 * 365, 2) /
     Math.pow(1e12, 3);
+
+function getBodyGlowStrength(config: BodyConfig) {
+    if (config.kind !== "star") {
+        return 0;
+    }
+
+    return THREE.MathUtils.clamp(config.brightness, 0, 1);
+}
+
+function getBodyGlowScaleFactor(config: BodyConfig) {
+    const strength = getBodyGlowStrength(config);
+
+    if (strength <= 0) {
+        return 0;
+    }
+
+    return THREE.MathUtils.lerp(0.52, 1, Math.sqrt(strength));
+}
+
+function getBodyGlowOpacity(config: BodyConfig) {
+    return 0.48 * getBodyGlowStrength(config);
+}
+
+function getBodyEmissiveIntensity(config: BodyConfig) {
+    if (config.kind === "planet") {
+        return 0.14;
+    }
+
+    const strength = getBodyGlowStrength(config);
+
+    return THREE.MathUtils.lerp(0.45, 1.05, strength);
+}
+
+function getBodyLightIntensity(config: BodyConfig) {
+    if (config.kind !== "star") {
+        return 0;
+    }
+
+    const strength = getBodyGlowStrength(config);
+
+    return config.lightIntensity * 0.17 * strength;
+}
 
 function mulberry32(seed: number) {
     let state = seed >>> 0;
@@ -239,32 +305,29 @@ function makeGlowTexture() {
         center
     );
 
-    gradient.addColorStop(0, "rgba(255, 255, 255, 1)");
-    gradient.addColorStop(0.12, "rgba(255, 255, 255, 0.76)");
-    gradient.addColorStop(0.32, "rgba(255, 92, 56, 0.25)");
-    gradient.addColorStop(1, "rgba(255, 92, 56, 0)");
+    gradient.addColorStop(0, "rgba(255, 255, 255, 0.86)");
+    gradient.addColorStop(0.16, "rgba(255, 214, 178, 0.36)");
+    gradient.addColorStop(0.45, "rgba(255, 104, 66, 0.12)");
+    gradient.addColorStop(1, "rgba(255, 104, 66, 0)");
 
     context.fillStyle = gradient;
     context.fillRect(0, 0, size, size);
 
     context.globalCompositeOperation = "screen";
-    context.strokeStyle = "rgba(255, 255, 255, 0.42)";
-    context.lineWidth = 2;
-    context.beginPath();
-    context.moveTo(0, center);
-    context.lineTo(size, center);
-    context.moveTo(center, 0);
-    context.lineTo(center, size);
-    context.stroke();
-
-    context.strokeStyle = "rgba(255, 170, 120, 0.18)";
-    context.lineWidth = 1;
-    context.beginPath();
-    context.moveTo(34, 34);
-    context.lineTo(size - 34, size - 34);
-    context.moveTo(size - 34, 34);
-    context.lineTo(34, size - 34);
-    context.stroke();
+    const halo = context.createRadialGradient(
+        center,
+        center,
+        size * 0.08,
+        center,
+        center,
+        center
+    );
+    halo.addColorStop(0, "rgba(255, 255, 255, 0.24)");
+    halo.addColorStop(0.5, "rgba(255, 186, 142, 0.09)");
+    halo.addColorStop(1, "rgba(255, 186, 142, 0)");
+    context.fillStyle = halo;
+    context.fillRect(0, 0, size, size);
+    context.globalCompositeOperation = "source-over";
 
     const texture = new THREE.CanvasTexture(canvas);
     texture.colorSpace = THREE.SRGBColorSpace;
@@ -288,13 +351,17 @@ function makeStarTexture(config: BodyConfig) {
     context.fillStyle = config.color;
     context.fillRect(0, 0, size, size);
 
+    const hotspotX = size * (0.3 + random() * 0.4);
+    const hotspotY = size * (0.28 + random() * 0.44);
+    const hotspotRadius = size * (0.05 + random() * 0.06);
+    const falloffRadius = size * (0.62 + random() * 0.16);
     const gradient = context.createRadialGradient(
-        size * 0.42,
-        size * 0.38,
-        size * 0.08,
+        hotspotX,
+        hotspotY,
+        hotspotRadius,
         size / 2,
         size / 2,
-        size * 0.72
+        falloffRadius
     );
 
     gradient.addColorStop(0, "#ffffff");
@@ -307,6 +374,20 @@ function makeStarTexture(config: BodyConfig) {
     context.fillRect(0, 0, size, size);
 
     context.globalCompositeOperation = "overlay";
+
+    for (let i = 0; i < 8; i += 1) {
+        const x = size * (0.2 + random() * 0.6);
+        const y = size * (0.2 + random() * 0.6);
+        const radius = 26 + random() * 72;
+        const alpha = 0.06 + random() * 0.09;
+        context.fillStyle =
+            random() > 0.5
+                ? colorToRgba(config.emissive, alpha)
+                : "rgba(35, 14, 10, 0.08)";
+        context.beginPath();
+        context.arc(x, y, radius, 0, Math.PI * 2);
+        context.fill();
+    }
 
     for (let i = 0; i < 180; i += 1) {
         const x = random() * size;
@@ -686,7 +767,47 @@ function addConstraintAcceleration(
     acceleration.addScaledVector(offset, -magnitude / distance);
 }
 
-function computeAccelerations(bodies: SimBody[]) {
+function addMouseAcceleration(
+    body: SimBody,
+    mouseGravity: MouseGravityInfluence,
+    acceleration: THREE.Vector3
+) {
+    if (mouseGravity.strength <= 0) {
+        return;
+    }
+
+    const offset = new THREE.Vector3().subVectors(mouseGravity.target, body.position);
+    const distance = offset.length();
+
+    if (distance < MIN_DISTANCE || distance > MOUSE_GRAVITY_INFLUENCE_RADIUS) {
+        return;
+    }
+
+    const softSq = MOUSE_GRAVITY_SOFTENING * MOUSE_GRAVITY_SOFTENING;
+    const distanceSq = distance * distance;
+    const attenuation = THREE.MathUtils.clamp(
+        (MOUSE_GRAVITY_INFLUENCE_RADIUS - distance) / MOUSE_GRAVITY_INFLUENCE_RADIUS,
+        0,
+        1
+    );
+    const falloff = attenuation * attenuation;
+    const magnitude =
+        (G_SIM * MOUSE_GRAVITY_MASS * falloff * mouseGravity.strength) /
+        Math.pow(distanceSq + softSq, 1.5);
+    const force = offset.multiplyScalar(magnitude);
+    const maxAccel = MOUSE_GRAVITY_MAX_ACCEL * mouseGravity.strength;
+
+    if (force.lengthSq() > maxAccel * maxAccel) {
+        force.setLength(maxAccel);
+    }
+
+    acceleration.add(force);
+}
+
+function computeAccelerations(
+    bodies: SimBody[],
+    mouseGravity: MouseGravityInfluence | null = null
+) {
     const center = new THREE.Vector3();
 
     computeCenterOfMass(bodies, center);
@@ -701,6 +822,10 @@ function computeAccelerations(bodies: SimBody[]) {
         });
 
         addConstraintAcceleration(body, center, body.acceleration);
+
+        if (mouseGravity) {
+            addMouseAcceleration(body, mouseGravity, body.acceleration);
+        }
     });
 }
 
@@ -710,21 +835,30 @@ function drift(bodies: SimBody[], coefficient: number, delta: number) {
     });
 }
 
-function kick(bodies: SimBody[], coefficient: number, delta: number) {
-    computeAccelerations(bodies);
+function kick(
+    bodies: SimBody[],
+    coefficient: number,
+    delta: number,
+    mouseGravity: MouseGravityInfluence | null
+) {
+    computeAccelerations(bodies, mouseGravity);
 
     bodies.forEach((body) => {
         body.velocity.addScaledVector(body.acceleration, coefficient * delta);
     });
 }
 
-function yoshidaStep(bodies: SimBody[], delta: number) {
+function yoshidaStep(
+    bodies: SimBody[],
+    delta: number,
+    mouseGravity: MouseGravityInfluence | null
+) {
     drift(bodies, YOSHIDA_COEFFICIENTS.c1, delta);
-    kick(bodies, YOSHIDA_COEFFICIENTS.d1, delta);
+    kick(bodies, YOSHIDA_COEFFICIENTS.d1, delta, mouseGravity);
     drift(bodies, YOSHIDA_COEFFICIENTS.c2, delta);
-    kick(bodies, YOSHIDA_COEFFICIENTS.d2, delta);
+    kick(bodies, YOSHIDA_COEFFICIENTS.d2, delta, mouseGravity);
     drift(bodies, YOSHIDA_COEFFICIENTS.c3, delta);
-    kick(bodies, YOSHIDA_COEFFICIENTS.d3, delta);
+    kick(bodies, YOSHIDA_COEFFICIENTS.d3, delta, mouseGravity);
     drift(bodies, YOSHIDA_COEFFICIENTS.c4, delta);
     centerPhysicsState(bodies);
 }
@@ -888,8 +1022,10 @@ function OriginalSkyboxBackdrop({
 
 function ThreeBodyWallpaper({
     dragStateRef,
+    mouseGravityRef,
 }: {
     dragStateRef: MutableRefObject<DragState>;
+    mouseGravityRef: MutableRefObject<MouseGravityState>;
 }) {
     const rootRef = useRef<Group>(null);
     const bodyRefs = useRef<Array<Mesh | null>>([]);
@@ -904,18 +1040,69 @@ function ThreeBodyWallpaper({
         () => BODY_CONFIGS.map((config) => makeBodyTexture(config)),
         []
     );
+    const gravityRaycasterRef = useRef(new THREE.Raycaster());
+    const gravityPlaneRef = useRef(new THREE.Plane(new THREE.Vector3(0, 0, 1), 0));
+    const gravityWorldPointRef = useRef(new THREE.Vector3());
+    const mouseGravityInfluenceRef = useRef<MouseGravityInfluence>({
+        strength: 0,
+        target: new THREE.Vector3(),
+    });
 
     useFrame(({ clock, camera }, delta) => {
         const elapsed = clock.getElapsedTime();
         const dragState = dragStateRef.current;
+        const mouseGravity = mouseGravityRef.current;
         const bodies = bodiesRef.current;
         const safeDelta = Math.min(delta, 0.05) * WALLPAPER_CONFIG.timeScale;
         let steps = 0;
+        const stepDuration =
+            mouseGravity.active || mouseGravity.strength < 1 ? MOUSE_GRAVITY_RAMP_IN : MOUSE_GRAVITY_RAMP_OUT;
+        const strengthStep = safeDelta / Math.max(stepDuration, MIN_DISTANCE);
+        const targetStrength = mouseGravity.active ? 1 : 0;
+
+        if (targetStrength > mouseGravity.strength) {
+            mouseGravity.strength = Math.min(1, mouseGravity.strength + strengthStep);
+        } else if (targetStrength < mouseGravity.strength) {
+            const decayStep = safeDelta / Math.max(MOUSE_GRAVITY_RAMP_OUT, MIN_DISTANCE);
+            mouseGravity.strength = Math.max(0, mouseGravity.strength - decayStep);
+        }
+
+        if (mouseGravity.strength > 0.0001) {
+            const raycaster = gravityRaycasterRef.current;
+            const worldPoint = gravityWorldPointRef.current;
+            const pointer = new THREE.Vector2(mouseGravity.pointerX, mouseGravity.pointerY);
+
+            raycaster.setFromCamera(pointer, camera);
+
+            if (raycaster.ray.intersectPlane(gravityPlaneRef.current, worldPoint)) {
+                if (rootRef.current) {
+                    rootRef.current.worldToLocal(worldPoint);
+                }
+
+                mouseGravity.target
+                    .copy(worldPoint)
+                    .divideScalar(SCENE_SCALE);
+                mouseGravity.target.z = THREE.MathUtils.clamp(mouseGravity.target.z, -1.6, 1.6);
+            }
+        }
+
+        if (mouseGravity.strength > 0.0001) {
+            mouseGravityInfluenceRef.current.strength = mouseGravity.strength;
+            mouseGravityInfluenceRef.current.target.copy(mouseGravity.target);
+        } else {
+            mouseGravityInfluenceRef.current.strength = 0;
+        }
 
         accumulatorRef.current += safeDelta;
 
         while (accumulatorRef.current >= FIXED_TIMESTEP && steps < MAX_FIXED_STEPS) {
-            yoshidaStep(bodies, FIXED_TIMESTEP);
+            yoshidaStep(
+                bodies,
+                FIXED_TIMESTEP,
+                mouseGravityInfluenceRef.current.strength > 0
+                    ? mouseGravityInfluenceRef.current
+                    : null
+            );
             accumulatorRef.current -= FIXED_TIMESTEP;
             steps += 1;
         }
@@ -975,7 +1162,9 @@ function ThreeBodyWallpaper({
                 body.config.kind === "planet" ? 0.07 : 0.105,
                 body.config.radius * 5.8
             );
-            const glowSize = body.config.glowScale * pulse;
+            const glowStrength = getBodyGlowStrength(body.config);
+            const glowScaleFactor = getBodyGlowScaleFactor(body.config);
+            const glowSize = body.config.glowScale * pulse * glowScaleFactor;
             const mesh = bodyRefs.current[index];
 
             mesh?.position.set(x, y, z);
@@ -986,9 +1175,23 @@ function ThreeBodyWallpaper({
                 mesh.rotation.x += delta * body.config.spinSpeed * 0.23;
             }
 
-            glowRefs.current[index]?.position.set(x, y, z);
-            glowRefs.current[index]?.scale.set(glowSize, glowSize, glowSize);
-            lightRefs.current[index]?.position.set(x, y, z);
+            const glow = glowRefs.current[index];
+
+            if (glow) {
+                glow.visible = glowStrength > 0.01;
+
+                if (glow.visible) {
+                    glow.position.set(x, y, z);
+                    glow.scale.set(glowSize, glowSize, glowSize);
+                }
+            }
+
+            const light = lightRefs.current[index];
+
+            if (light) {
+                light.position.set(x, y, z);
+                light.intensity = getBodyLightIntensity(body.config);
+            }
 
             if (frameRef.current % 2 === 0) {
                 updateTrailGeometry(body, trails[index]);
@@ -1016,11 +1219,10 @@ function ThreeBodyWallpaper({
                                 map={glowTexture}
                                 color={body.glow}
                                 transparent
-                                opacity={body.kind === "planet" ? 0.36 : 0.74}
+                                opacity={getBodyGlowOpacity(body)}
                                 blending={THREE.AdditiveBlending}
                                 depthWrite={false}
                                 depthTest={false}
-                                toneMapped={false}
                             />
                         </sprite>
 
@@ -1031,18 +1233,17 @@ function ThreeBodyWallpaper({
                                 emissiveMap={body.kind === "star" ? bodyTextures[index] : null}
                                 color={body.color}
                                 emissive={body.emissive}
-                                emissiveIntensity={body.kind === "planet" ? 0.7 : 2.8}
+                                emissiveIntensity={getBodyEmissiveIntensity(body)}
                                 roughness={body.kind === "planet" ? 0.52 : 0.22}
                                 metalness={0}
-                                toneMapped={false}
                             />
                         </mesh>
 
                         <pointLight
                             ref={(node) => { lightRefs.current[index] = node; }}
                             color={body.emissive}
-                            intensity={body.lightIntensity}
-                            distance={body.kind === "planet" ? 3.2 : 7.6}
+                            intensity={getBodyLightIntensity(body)}
+                            distance={body.kind === "planet" ? 0 : 5.2}
                             decay={2}
                         />
                     </group>
@@ -1064,14 +1265,27 @@ function Scene3D() {
         lastX: 0,
         lastY: 0,
     });
+    const mouseGravityRef = useRef<MouseGravityState>({
+        pointerX: 0,
+        pointerY: 0,
+        active: false,
+        strength: 0,
+        target: new THREE.Vector3(),
+    });
 
     useEffect(() => {
+        const setDragging = (active: boolean) => {
+            dragStateRef.current.dragging = active;
+            document.body.classList.toggle("wallpaper-dragging", active);
+        };
+
         const handlePointerDown = (event: PointerEvent) => {
             if (event.button !== 0 || isInteractiveTarget(event.target)) {
                 return;
             }
 
-            dragStateRef.current.dragging = true;
+            event.preventDefault();
+            setDragging(true);
             dragStateRef.current.velocityX = 0;
             dragStateRef.current.velocityY = 0;
             dragStateRef.current.lastX = event.clientX;
@@ -1080,6 +1294,12 @@ function Scene3D() {
 
         const handlePointerMove = (event: PointerEvent) => {
             const dragState = dragStateRef.current;
+            const mouseGravity = mouseGravityRef.current;
+            const interactiveTarget = isInteractiveTarget(event.target);
+
+            mouseGravity.pointerX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseGravity.pointerY = -(event.clientY / window.innerHeight) * 2 + 1;
+            mouseGravity.active = !interactiveTarget;
 
             if (!dragState.dragging) {
                 return;
@@ -1101,7 +1321,22 @@ function Scene3D() {
         };
 
         const handlePointerUp = () => {
-            dragStateRef.current.dragging = false;
+            setDragging(false);
+        };
+
+        const handleWindowBlur = () => {
+            setDragging(false);
+            mouseGravityRef.current.active = false;
+        };
+
+        const handlePointerLeave = () => {
+            mouseGravityRef.current.active = false;
+        };
+
+        const handleSelectStart = (event: Event) => {
+            if (dragStateRef.current.dragging) {
+                event.preventDefault();
+            }
         };
 
         window.addEventListener("pointerdown", handlePointerDown, {
@@ -1111,14 +1346,22 @@ function Scene3D() {
         window.addEventListener("pointermove", handlePointerMove, { passive: true });
         window.addEventListener("pointerup", handlePointerUp, { passive: true });
         window.addEventListener("pointercancel", handlePointerUp, { passive: true });
+        window.addEventListener("blur", handleWindowBlur);
+        document.addEventListener("pointerleave", handlePointerLeave);
+        document.addEventListener("selectstart", handleSelectStart);
 
         return () => {
+            setDragging(false);
+            mouseGravityRef.current.active = false;
             window.removeEventListener("pointerdown", handlePointerDown, {
                 capture: true,
             });
             window.removeEventListener("pointermove", handlePointerMove);
             window.removeEventListener("pointerup", handlePointerUp);
             window.removeEventListener("pointercancel", handlePointerUp);
+            window.removeEventListener("blur", handleWindowBlur);
+            document.removeEventListener("pointerleave", handlePointerLeave);
+            document.removeEventListener("selectstart", handleSelectStart);
         };
     }, []);
 
@@ -1142,7 +1385,10 @@ function Scene3D() {
                 />
                 <ambientLight intensity={0.09} />
                 <fog attach="fog" args={["#000000", 10, 34]} />
-                <ThreeBodyWallpaper dragStateRef={dragStateRef} />
+                <ThreeBodyWallpaper
+                    dragStateRef={dragStateRef}
+                    mouseGravityRef={mouseGravityRef}
+                />
             </Canvas>
         </div>
     );
