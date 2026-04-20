@@ -102,7 +102,7 @@ const BODY_CONFIGS: BodyConfig[] = [
     {
         name: "Star 1",
         kind: "star",
-        mass: 5_000_000,
+        mass: 6_000_000,
         radius: 0.03,
         color: "#d8ebff",
         emissive: "#99c6ff",
@@ -132,7 +132,7 @@ const BODY_CONFIGS: BodyConfig[] = [
     {
         name: "Star 3",
         kind: "star",
-        mass: 5_000_000,
+        mass: 4_000_000,
         radius: 0.016,
         color: "#ff9a77",
         emissive: "#ff4f42",
