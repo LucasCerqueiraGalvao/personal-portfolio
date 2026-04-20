@@ -84,7 +84,7 @@ const WALLPAPER_CONFIG = {
     hardConstraint: true,
     re: 0.1,
     rc: 0.2,
-    Rc: 2.45,
+    Rc: 2.35,
     escapeDistance: 4,
     fov: 40,
     cameraDistance: 2.4519999,
@@ -92,7 +92,7 @@ const WALLPAPER_CONFIG = {
     randomVelocityRange: 0.1,
     constraintMass: 15_000_000,
     constraintK1: 0,
-    constraintK2: 0.3,
+    constraintK2: 0.36,
     constraintN: 2,
     fixedSeed: 3509243656,
     timeScale: 1,
@@ -212,11 +212,11 @@ const G_SIM =
     (1e30 / 5e6) *
     Math.pow(60 * 60 * 24 * 365, 2) /
     Math.pow(1e12, 3);
-const EDGE_DAMPING_START = WALLPAPER_CONFIG.Rc;
-const EDGE_DAMPING_END = WALLPAPER_CONFIG.escapeDistance * 0.96;
-const EDGE_RADIAL_DAMPING = 2.4;
-const EDGE_SPEED_LIMIT_NEAR = 5.4;
-const EDGE_SPEED_LIMIT_FAR = 3.7;
+const EDGE_DAMPING_START = WALLPAPER_CONFIG.Rc * 0.9;
+const EDGE_DAMPING_END = WALLPAPER_CONFIG.escapeDistance * 0.9;
+const EDGE_RADIAL_DAMPING = 3.9;
+const EDGE_SPEED_LIMIT_NEAR = 4.4;
+const EDGE_SPEED_LIMIT_FAR = 2.7;
 
 const TEXTURE_HMR_KEY = (() => {
     if (import.meta.hot) {
@@ -651,8 +651,9 @@ function constraintAccelerationMagnitude(distance: number) {
     );
     const outerRamp =
         1 +
-        1.6 * normalizedBeyond +
-        0.8 * Math.pow(normalizedBeyond, Math.max(1, constraintN));
+        2.1 * normalizedBeyond +
+        1.25 * Math.pow(normalizedBeyond, Math.max(1, constraintN)) +
+        0.65 * Math.pow(normalizedBeyond, Math.max(2, constraintN + 1));
 
     return edgeAcceleration * outerRamp;
 }
