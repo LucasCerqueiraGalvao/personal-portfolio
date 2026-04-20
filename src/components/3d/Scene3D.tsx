@@ -76,6 +76,8 @@ type SeedState = {
     velocity: THREE.Vector3;
 };
 
+type DragPointerType = "mouse" | "touch" | "pen";
+
 const WALLPAPER_CONFIG = {
     stepMs: 0.75,
     kg: 1000,
@@ -190,6 +192,20 @@ const MOUSE_GRAVITY_INFLUENCE_RADIUS = 1.9;
 const MOUSE_GRAVITY_MAX_ACCEL = 1.6;
 const MOUSE_GRAVITY_RAMP_IN = 0.16;
 const MOUSE_GRAVITY_RAMP_OUT = 0.28;
+const DRAG_RESPONSE = {
+    mouse: {
+        rotationY: 0.0056,
+        rotationX: 0.0048,
+        inertiaY: 0.0008,
+        inertiaX: 0.00065,
+    },
+    touch: {
+        rotationY: 0.0078,
+        rotationX: 0.0066,
+        inertiaY: 0.0011,
+        inertiaX: 0.0009,
+    },
+};
 
 const YOSHIDA = {
     w1: 1.35120719196,
@@ -1093,6 +1109,10 @@ function TrailLine({
     return <primitive object={line} />;
 }
 
+function getDragResponse(pointerType: DragPointerType | null) {
+    return pointerType === "touch" ? DRAG_RESPONSE.touch : DRAG_RESPONSE.mouse;
+}
+
 function OriginalSkyboxBackdrop({
     dragStateRef,
 }: {
@@ -1477,11 +1497,26 @@ function Scene3D() {
         strength: 0,
         target: new THREE.Vector3(),
     });
+    const activePointerIdRef = useRef<number | null>(null);
+    const activePointerTypeRef = useRef<DragPointerType | null>(null);
 
     useEffect(() => {
         const setDragging = (active: boolean) => {
             dragStateRef.current.dragging = active;
             document.body.classList.toggle("wallpaper-dragging", active);
+            const touchDragging =
+                active && activePointerTypeRef.current === "touch";
+            document.body.classList.toggle("wallpaper-touch-dragging", touchDragging);
+            document.documentElement.classList.toggle(
+                "wallpaper-touch-dragging",
+                touchDragging
+            );
+        };
+
+        const resetDrag = () => {
+            setDragging(false);
+            activePointerIdRef.current = null;
+            activePointerTypeRef.current = null;
         };
 
         const handlePointerDown = (event: PointerEvent) => {
@@ -1489,7 +1524,29 @@ function Scene3D() {
                 return;
             }
 
-            event.preventDefault();
+            if (event.pointerType === "touch" && !event.isPrimary) {
+                return;
+            }
+
+            if (
+                activePointerIdRef.current !== null &&
+                activePointerIdRef.current !== event.pointerId
+            ) {
+                return;
+            }
+
+            activePointerIdRef.current = event.pointerId;
+            activePointerTypeRef.current =
+                event.pointerType === "touch" ||
+                event.pointerType === "pen" ||
+                event.pointerType === "mouse"
+                    ? event.pointerType
+                    : "mouse";
+
+            if (event.cancelable) {
+                event.preventDefault();
+            }
+
             setDragging(true);
             dragStateRef.current.velocityX = 0;
             dragStateRef.current.velocityY = 0;
@@ -1510,27 +1567,44 @@ function Scene3D() {
                 return;
             }
 
+            if (activePointerIdRef.current !== event.pointerId) {
+                return;
+            }
+
+            if (event.cancelable) {
+                event.preventDefault();
+            }
+
             const deltaX = event.clientX - dragState.lastX;
             const deltaY = event.clientY - dragState.lastY;
+            const dragResponse = getDragResponse(activePointerTypeRef.current);
 
-            dragState.targetY += deltaX * 0.0056;
+            dragState.targetY += deltaX * dragResponse.rotationY;
             dragState.targetX = THREE.MathUtils.clamp(
-                dragState.targetX + deltaY * 0.0048,
+                dragState.targetX + deltaY * dragResponse.rotationX,
                 -1.08,
                 1.08
             );
-            dragState.velocityY = deltaX * 0.0008;
-            dragState.velocityX = deltaY * 0.00065;
+            dragState.velocityY = deltaX * dragResponse.inertiaY;
+            dragState.velocityX = deltaY * dragResponse.inertiaX;
             dragState.lastX = event.clientX;
             dragState.lastY = event.clientY;
         };
 
-        const handlePointerUp = () => {
-            setDragging(false);
+        const handlePointerUp = (event: PointerEvent) => {
+            if (
+                activePointerIdRef.current !== null &&
+                activePointerIdRef.current !== event.pointerId
+            ) {
+                return;
+            }
+
+            resetDrag();
+            mouseGravityRef.current.active = false;
         };
 
         const handleWindowBlur = () => {
-            setDragging(false);
+            resetDrag();
             mouseGravityRef.current.active = false;
         };
 
@@ -1544,26 +1618,48 @@ function Scene3D() {
             }
         };
 
+        const handleTouchMove = (event: TouchEvent) => {
+            if (!dragStateRef.current.dragging) {
+                return;
+            }
+
+            if (event.cancelable) {
+                event.preventDefault();
+            }
+        };
+
         window.addEventListener("pointerdown", handlePointerDown, {
             capture: true,
-            passive: true,
+            passive: false,
         });
-        window.addEventListener("pointermove", handlePointerMove, { passive: true });
+        window.addEventListener("pointermove", handlePointerMove, {
+            capture: true,
+            passive: false,
+        });
         window.addEventListener("pointerup", handlePointerUp, { passive: true });
         window.addEventListener("pointercancel", handlePointerUp, { passive: true });
+        window.addEventListener("touchmove", handleTouchMove, {
+            capture: true,
+            passive: false,
+        });
         window.addEventListener("blur", handleWindowBlur);
         document.addEventListener("pointerleave", handlePointerLeave);
         document.addEventListener("selectstart", handleSelectStart);
 
         return () => {
-            setDragging(false);
+            resetDrag();
             mouseGravityRef.current.active = false;
             window.removeEventListener("pointerdown", handlePointerDown, {
                 capture: true,
             });
-            window.removeEventListener("pointermove", handlePointerMove);
+            window.removeEventListener("pointermove", handlePointerMove, {
+                capture: true,
+            });
             window.removeEventListener("pointerup", handlePointerUp);
             window.removeEventListener("pointercancel", handlePointerUp);
+            window.removeEventListener("touchmove", handleTouchMove, {
+                capture: true,
+            });
             window.removeEventListener("blur", handleWindowBlur);
             document.removeEventListener("pointerleave", handlePointerLeave);
             document.removeEventListener("selectstart", handleSelectStart);
@@ -1571,9 +1667,16 @@ function Scene3D() {
     }, []);
 
     return (
-        <div className="three-body-wallpaper pointer-events-none fixed inset-0 -z-10">
+        <div className="three-body-wallpaper pointer-events-none -z-10">
             <Canvas
                 dpr={[1, 1.7]}
+                resize={{
+                    scroll: false,
+                    debounce: {
+                        scroll: 0,
+                        resize: 120,
+                    },
+                }}
                 gl={{
                     alpha: true,
                     antialias: true,

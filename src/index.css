@@ -57,6 +57,15 @@ body::before {
     isolation: isolate;
 }
 
+.three-body-wallpaper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100svh;
+}
+
 .site-shell::after {
     content: none;
 }
@@ -138,4 +147,10 @@ body.wallpaper-dragging * {
 
 body.wallpaper-dragging {
     cursor: grabbing;
+}
+
+html.wallpaper-touch-dragging,
+body.wallpaper-touch-dragging {
+    touch-action: none;
+    overscroll-behavior: none;
 }
