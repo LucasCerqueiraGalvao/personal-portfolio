@@ -79,12 +79,12 @@ type SeedState = {
 const WALLPAPER_CONFIG = {
     stepMs: 0.75,
     kg: 1000,
-    ras: 0.1,
-    kSoft: 2.8,
+    ras: 0.06,
+    kSoft: 1.9,
     hardConstraint: true,
     re: 0.1,
     rc: 0.2,
-    Rc: 2.1,
+    Rc: 2.45,
     escapeDistance: 4,
     fov: 40,
     cameraDistance: 2.4519999,
@@ -92,7 +92,7 @@ const WALLPAPER_CONFIG = {
     randomVelocityRange: 0.1,
     constraintMass: 15_000_000,
     constraintK1: 0,
-    constraintK2: 0.5,
+    constraintK2: 0.3,
     constraintN: 2,
     fixedSeed: 3509243656,
     timeScale: 1,
@@ -184,7 +184,7 @@ const BACKGROUND_ROTATION_FOLLOW = 0.32;
 const BACKGROUND_VERTICAL_FOLLOW = 0.035;
 const BACKGROUND_MIN_VERTICAL_OFFSET = 0;
 const BACKGROUND_MAX_VERTICAL_OFFSET = 1 - BACKGROUND_TEXTURE_ZOOM;
-const MOUSE_GRAVITY_MASS = STAR_MASS * 0;
+const MOUSE_GRAVITY_MASS = STAR_MASS * 0.10;
 const MOUSE_GRAVITY_SOFTENING = 0.16;
 const MOUSE_GRAVITY_INFLUENCE_RADIUS = 1.9;
 const MOUSE_GRAVITY_MAX_ACCEL = 1.6;
@@ -212,6 +212,11 @@ const G_SIM =
     (1e30 / 5e6) *
     Math.pow(60 * 60 * 24 * 365, 2) /
     Math.pow(1e12, 3);
+const EDGE_DAMPING_START = WALLPAPER_CONFIG.Rc;
+const EDGE_DAMPING_END = WALLPAPER_CONFIG.escapeDistance * 0.96;
+const EDGE_RADIAL_DAMPING = 2.4;
+const EDGE_SPEED_LIMIT_NEAR = 5.4;
+const EDGE_SPEED_LIMIT_FAR = 3.7;
 
 const TEXTURE_HMR_KEY = (() => {
     if (import.meta.hot) {
@@ -612,33 +617,10 @@ function constraintAccelerationMagnitude(distance: number) {
         re,
         rc,
         Rc,
+        escapeDistance,
     } = WALLPAPER_CONFIG;
 
-    if (hardConstraint) {
-        if (distance <= re) {
-            return (
-                -constraintK1 *
-                G_SIM *
-                constraintMass *
-                Math.pow(1 - Math.pow(distance / re, 2), 2)
-            );
-        }
-
-        if (distance <= rc) {
-            return 0;
-        }
-
-        if (distance < Rc) {
-            const delta = distance - rc;
-            const denominator = Math.sqrt(Math.max(Rc * Rc - delta * delta, MIN_DISTANCE));
-
-            return (constraintK2 * G_SIM * constraintMass * delta) / denominator;
-        }
-
-        return 100 * constraintK2 * G_SIM * constraintMass;
-    }
-
-    if (distance <= re) {
+    if (hardConstraint && distance <= re) {
         return (
             -constraintK1 *
             G_SIM *
@@ -647,16 +629,32 @@ function constraintAccelerationMagnitude(distance: number) {
         );
     }
 
-    if (distance > rc) {
-        return (
-            constraintK2 *
-            G_SIM *
-            constraintMass *
-            Math.pow(distance - rc, constraintN)
-        );
+    if (distance <= rc) {
+        return 0;
     }
 
-    return 0;
+    const span = Math.max(Rc - rc, MIN_DISTANCE);
+    const edgeAcceleration =
+        (constraintK2 * G_SIM * constraintMass) / Math.max(Rc * Rc, MIN_DISTANCE);
+
+    if (distance < Rc) {
+        const t = THREE.MathUtils.clamp((distance - rc) / span, 0, 1);
+        const smooth = t * t * (3 - 2 * t);
+
+        return edgeAcceleration * smooth;
+    }
+
+    const normalizedBeyond = THREE.MathUtils.clamp(
+        (distance - Rc) / Math.max(escapeDistance - Rc, MIN_DISTANCE),
+        0,
+        2.5
+    );
+    const outerRamp =
+        1 +
+        1.6 * normalizedBeyond +
+        0.8 * Math.pow(normalizedBeyond, Math.max(1, constraintN));
+
+    return edgeAcceleration * outerRamp;
 }
 
 function makeStableSeedStates(): SeedState[] {
@@ -791,6 +789,51 @@ function centerPhysicsState(bodies: SimBody[]) {
     bodies.forEach((body) => {
         body.position.sub(center);
         body.velocity.sub(velocityCenter);
+    });
+}
+
+function applyEdgeBoundaryControl(bodies: SimBody[], delta: number) {
+    const center = new THREE.Vector3();
+
+    computeCenterOfMass(bodies, center);
+
+    bodies.forEach((body) => {
+        const offset = new THREE.Vector3().subVectors(body.position, center);
+        const distance = offset.length();
+
+        if (distance <= EDGE_DAMPING_START || distance < MIN_DISTANCE) {
+            return;
+        }
+
+        const radialDirection = offset.multiplyScalar(1 / distance);
+        const t = THREE.MathUtils.clamp(
+            (distance - EDGE_DAMPING_START) /
+            Math.max(EDGE_DAMPING_END - EDGE_DAMPING_START, MIN_DISTANCE),
+            0,
+            1
+        );
+        const radialOutwardSpeed = Math.max(0, body.velocity.dot(radialDirection));
+        const radialDamping = EDGE_RADIAL_DAMPING * t * t * delta;
+
+        if (radialOutwardSpeed > 0 && radialDamping > 0) {
+            body.velocity.addScaledVector(
+                radialDirection,
+                -radialOutwardSpeed * radialDamping
+            );
+        }
+
+        const speed = body.velocity.length();
+        const speedLimit = THREE.MathUtils.lerp(
+            EDGE_SPEED_LIMIT_NEAR,
+            EDGE_SPEED_LIMIT_FAR,
+            t
+        );
+
+        if (speed > speedLimit && speed > MIN_DISTANCE) {
+            const blend = THREE.MathUtils.clamp(0.18 + t * 0.42, 0.18, 0.6);
+            const target = THREE.MathUtils.lerp(speed, speedLimit, blend);
+            body.velocity.multiplyScalar(target / speed);
+        }
     });
 }
 
@@ -937,6 +980,7 @@ function yoshidaStep(
     kick(bodies, YOSHIDA_COEFFICIENTS.d3, delta, mouseGravity);
     drift(bodies, YOSHIDA_COEFFICIENTS.c4, delta);
     centerPhysicsState(bodies);
+    applyEdgeBoundaryControl(bodies, delta);
 }
 
 function systemNeedsReset(bodies: SimBody[]) {
@@ -947,8 +991,8 @@ function systemNeedsReset(bodies: SimBody[]) {
         return (
             !Number.isFinite(distance) ||
             !Number.isFinite(speed) ||
-            distance > WALLPAPER_CONFIG.escapeDistance * 1.28 ||
-            speed > 12
+            distance > WALLPAPER_CONFIG.escapeDistance * 2.8 ||
+            speed > 20
         );
     });
 }
