@@ -217,6 +217,10 @@ const EDGE_DAMPING_END = WALLPAPER_CONFIG.escapeDistance * 0.9;
 const EDGE_RADIAL_DAMPING = 3.9;
 const EDGE_SPEED_LIMIT_NEAR = 4.4;
 const EDGE_SPEED_LIMIT_FAR = 2.7;
+const INTRO_BACKGROUND_FADE_SECONDS = 1.3;
+const INTRO_BODY_START_DELAY_SECONDS = INTRO_BACKGROUND_FADE_SECONDS + 0.1;
+const INTRO_BODY_STAGGER_SECONDS = 0.34;
+const INTRO_BODY_FADE_SECONDS = 0.72;
 
 const TEXTURE_HMR_KEY = (() => {
     if (import.meta.hot) {
@@ -235,6 +239,12 @@ function getBodyGlowStrength(config: BodyConfig) {
     }
 
     return THREE.MathUtils.clamp(config.brightness, 0, 1);
+}
+
+function easeOutCubic(value: number) {
+    const t = THREE.MathUtils.clamp(value, 0, 1);
+
+    return 1 - Math.pow(1 - t, 3);
 }
 
 function getBodyGlowScaleFactor(config: BodyConfig) {
@@ -1050,7 +1060,15 @@ function updateTrailGeometry(body: SimBody, trail: TrailGeometry) {
     trail.color.needsUpdate = true;
 }
 
-function TrailLine({ trail, index }: { trail: TrailGeometry; index: number }) {
+function TrailLine({
+    trail,
+    index,
+    onLineReady,
+}: {
+    trail: TrailGeometry;
+    index: number;
+    onLineReady?: (line: THREE.Line | null) => void;
+}) {
     const line = useMemo(() => {
         const material = new THREE.LineBasicMaterial({
             transparent: true,
@@ -1064,6 +1082,14 @@ function TrailLine({ trail, index }: { trail: TrailGeometry; index: number }) {
         return new THREE.Line(trail.geometry, material);
     }, [index, trail.geometry]);
 
+    useEffect(() => {
+        onLineReady?.(line);
+
+        return () => {
+            onLineReady?.(null);
+        };
+    }, [line, onLineReady]);
+
     return <primitive object={line} />;
 }
 
@@ -1074,6 +1100,8 @@ function OriginalSkyboxBackdrop({
 }) {
     const { camera, gl, size } = useThree();
     const galaxyTexture = useLoader(THREE.TextureLoader, GALAXY_TEXTURE_URL);
+    const materialRef = useRef<THREE.MeshBasicMaterial>(null);
+    const fadeElapsedRef = useRef(0);
     const planeFrame = useMemo(() => {
         const perspectiveCamera = camera as THREE.PerspectiveCamera;
         const aspect = size.width / Math.max(size.height, 1);
@@ -1106,7 +1134,7 @@ function OriginalSkyboxBackdrop({
         galaxyTexture.needsUpdate = true;
     }, [galaxyTexture, gl]);
 
-    useFrame(() => {
+    useFrame((_, delta) => {
         const dragState = dragStateRef.current;
         const horizontalOffset =
             BACKGROUND_TEXTURE_OFFSET_X +
@@ -1121,6 +1149,16 @@ function OriginalSkyboxBackdrop({
 
         galaxyTexture.offset.x = THREE.MathUtils.euclideanModulo(horizontalOffset, 1);
         galaxyTexture.offset.y = verticalOffset;
+
+        if (materialRef.current) {
+            fadeElapsedRef.current += Math.min(delta, 0.05);
+            const fadeProgress = THREE.MathUtils.clamp(
+                fadeElapsedRef.current / INTRO_BACKGROUND_FADE_SECONDS,
+                0,
+                1
+            );
+            materialRef.current.opacity = easeOutCubic(fadeProgress);
+        }
     });
 
     return (
@@ -1131,9 +1169,12 @@ function OriginalSkyboxBackdrop({
         >
             <planeGeometry args={[1, 1]} />
             <meshBasicMaterial
+                ref={materialRef}
                 map={galaxyTexture}
                 color="#ffffff"
                 fog={false}
+                transparent
+                opacity={0}
                 depthTest={false}
                 depthWrite={false}
             />
@@ -1152,6 +1193,7 @@ function ThreeBodyWallpaper({
     const bodyRefs = useRef<Array<Mesh | null>>([]);
     const glowRefs = useRef<Array<Sprite | null>>([]);
     const lightRefs = useRef<Array<PointLight | null>>([]);
+    const trailRefs = useRef<Array<THREE.Line | null>>([]);
     const bodiesRef = useRef<SimBody[]>(makeBodies());
     const accumulatorRef = useRef(0);
     const frameRef = useRef(0);
@@ -1168,13 +1210,15 @@ function ThreeBodyWallpaper({
         strength: 0,
         target: new THREE.Vector3(),
     });
+    const introElapsedRef = useRef(0);
 
     useFrame(({ clock, camera }, delta) => {
         const elapsed = clock.getElapsedTime();
         const dragState = dragStateRef.current;
         const mouseGravity = mouseGravityRef.current;
         const bodies = bodiesRef.current;
-        const safeDelta = Math.min(delta, 0.05) * WALLPAPER_CONFIG.timeScale;
+        const frameDelta = Math.min(delta, 0.05);
+        const safeDelta = frameDelta * WALLPAPER_CONFIG.timeScale;
         let steps = 0;
         const stepDuration =
             mouseGravity.active || mouseGravity.strength < 1 ? MOUSE_GRAVITY_RAMP_IN : MOUSE_GRAVITY_RAMP_OUT;
@@ -1270,8 +1314,22 @@ function ThreeBodyWallpaper({
         camera.lookAt(0, 0, 0);
 
         frameRef.current += 1;
+        introElapsedRef.current += frameDelta;
+        const introElapsed = introElapsedRef.current;
+        const bodyOpacityScales = BODY_CONFIGS.map((_, index) => {
+            const start =
+                INTRO_BODY_START_DELAY_SECONDS + index * INTRO_BODY_STAGGER_SECONDS;
+            const progress = THREE.MathUtils.clamp(
+                (introElapsed - start) / INTRO_BODY_FADE_SECONDS,
+                0,
+                1
+            );
+
+            return easeOutCubic(progress);
+        });
 
         bodies.forEach((body, index) => {
+            const bodyOpacity = bodyOpacityScales[index];
             const x = body.position.x * SCENE_SCALE;
             const y = body.position.y * SCENE_SCALE;
             const z = body.position.z * SCENE_SCALE;
@@ -1294,16 +1352,21 @@ function ThreeBodyWallpaper({
             if (mesh) {
                 mesh.rotation.y += delta * body.config.spinSpeed;
                 mesh.rotation.x += delta * body.config.spinSpeed * 0.23;
+                const material = mesh.material as THREE.MeshStandardMaterial;
+                material.transparent = true;
+                material.opacity = bodyOpacity;
             }
 
             const glow = glowRefs.current[index];
 
             if (glow) {
-                glow.visible = glowStrength > 0.01;
+                glow.visible = glowStrength > 0.01 && bodyOpacity > 0.001;
 
                 if (glow.visible) {
                     glow.position.set(x, y, z);
                     glow.scale.set(glowSize, glowSize, glowSize);
+                    const glowMaterial = glow.material as THREE.SpriteMaterial;
+                    glowMaterial.opacity = getBodyGlowOpacity(body.config) * bodyOpacity;
                 }
             }
 
@@ -1311,11 +1374,21 @@ function ThreeBodyWallpaper({
 
             if (light) {
                 light.position.set(x, y, z);
-                light.intensity = getBodyLightIntensity(body.config);
+                light.intensity = getBodyLightIntensity(body.config) * bodyOpacity;
             }
 
-            if (frameRef.current % 2 === 0) {
+            const trail = trailRefs.current[index];
+
+            if (trail && trail.material instanceof THREE.LineBasicMaterial) {
+                const baseTrailOpacity =
+                    BODY_CONFIGS[index].kind === "planet" ? 0.56 : TRAIL_OPACITY;
+                trail.material.opacity = baseTrailOpacity * bodyOpacity;
+            }
+
+            if (frameRef.current % 2 === 0 && bodyOpacity > 0.02) {
                 updateTrailGeometry(body, trails[index]);
+            } else if (bodyOpacity <= 0.02) {
+                body.trail.length = 0;
             }
         });
     });
@@ -1330,12 +1403,18 @@ function ThreeBodyWallpaper({
                         key={`trail-${BODY_CONFIGS[index].name}`}
                         trail={trail}
                         index={index}
+                        onLineReady={(line) => {
+                            trailRefs.current[index] = line;
+                        }}
                     />
                 ))}
 
                 {BODY_CONFIGS.map((body, index) => (
                     <group key={body.name}>
-                        <sprite ref={(node) => { glowRefs.current[index] = node; }}>
+                        <sprite
+                            ref={(node) => { glowRefs.current[index] = node; }}
+                            frustumCulled={false}
+                        >
                             <spriteMaterial
                                 map={glowTexture}
                                 color={body.glow}
@@ -1347,7 +1426,10 @@ function ThreeBodyWallpaper({
                             />
                         </sprite>
 
-                        <mesh ref={(node) => { bodyRefs.current[index] = node; }}>
+                        <mesh
+                            ref={(node) => { bodyRefs.current[index] = node; }}
+                            frustumCulled={false}
+                        >
                             <sphereGeometry args={[1, 48, 48]} />
                             <meshStandardMaterial
                                 map={bodyTextures[index] as Texture}
@@ -1357,13 +1439,15 @@ function ThreeBodyWallpaper({
                                 emissiveIntensity={getBodyEmissiveIntensity(body)}
                                 roughness={body.kind === "planet" ? 0.52 : 0.22}
                                 metalness={0}
+                                transparent
+                                opacity={0}
                             />
                         </mesh>
 
                         <pointLight
                             ref={(node) => { lightRefs.current[index] = node; }}
                             color={body.emissive}
-                            intensity={getBodyLightIntensity(body)}
+                            intensity={0}
                             distance={body.kind === "planet" ? 0 : 5.2}
                             decay={2}
                         />
