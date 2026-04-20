@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/personal-portfolio/lc.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Lucas Cerqueira Galvao</title>
+        <script>
+            // Handles GitHub Pages SPA redirect from 404.html
+            (function (location) {
+                if (!location.search || location.search[1] !== "/") return;
+                var decoded = location.search
+                    .slice(1)
+                    .split("&")
+                    .map(function (value) {
+                        return value.replace(/~and~/g, "&");
+                    })
+                    .join("?");
+                window.history.replaceState(
+                    null,
+                    "",
+                    location.pathname.slice(0, -1) + decoded + location.hash
+                );
+            })(window.location);
+        </script>
+      <script type="module" crossorigin src="/personal-portfolio/assets/index-DY1j3TKX.js"></script>
+      <link rel="stylesheet" crossorigin href="/personal-portfolio/assets/index-OIuYQ1K-.css">
+    </head>
+    <body>
+        <div id="root"></div>
+    </body>
+</html>
+
