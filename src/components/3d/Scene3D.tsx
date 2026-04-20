@@ -81,8 +81,8 @@ type DragPointerType = "mouse" | "touch" | "pen";
 const WALLPAPER_CONFIG = {
     stepMs: 0.75,
     kg: 1000,
-    ras: 0.06,
-    kSoft: 1.9,
+    ras: 0.2,
+    kSoft: 5.0,
     hardConstraint: true,
     re: 0.1,
     rc: 0.2,
