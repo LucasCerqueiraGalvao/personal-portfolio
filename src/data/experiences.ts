@@ -175,8 +175,8 @@ const experienceCompaniesSeed: ExperienceCompanySeed[] = [
                     pt: "Instrutor de Programacao de Software",
                     en: "Software Programming Instructor",
                 },
-                startDate: "2023-02",
-                endDate: "2023-09",
+                startDate: "2022-08",
+                endDate: "2023-01",
                 description: {
                     pt: "Estruturei a trilha de Computational Thinking para 4 turmas, aumentando a taxa de conclusao dos modulos de 68% para 89% (+21 p.p.) em 6 meses.\nReformulei as aulas de Algorithms com exercicios progressivos, reduzindo o tempo medio de resolucao de desafios de 45 para 28 minutos (-38%).\nPadronizei o conteudo de Programming Fundamentals com pratica guiada, elevando a media das avaliacoes de 6,7 para 8,4 (+25%) no semestre.\nImplementei rotinas semanais de Problem Solving com revisao de erros, aumentando a taxa de acerto na primeira tentativa de 52% para 76% (+24 p.p.).\nConduzi projetos praticos de Software Development em equipe, aumentando a entrega de projetos completos de 61% para 87% (+26 p.p.) e reduzindo retrabalho em 34%.",
                     en: "Structured the Computational Thinking track for 4 classes, increasing module completion rates from 68% to 89% (+21 p.p.) in 6 months.\nRedesigned Algorithms classes with progressive exercises, reducing average challenge resolution time from 45 to 28 minutes (-38%).\nStandardized Programming Fundamentals content with guided practice, raising average assessment scores from 6.7 to 8.4 (+25%) in the semester.\nImplemented weekly Problem Solving routines with error review, increasing first-attempt accuracy from 52% to 76% (+24 p.p.).\nLed hands-on Software Development team projects, increasing complete project delivery from 61% to 87% (+26 p.p.) and reducing rework by 34%.",
@@ -213,8 +213,8 @@ const experienceCompaniesSeed: ExperienceCompanySeed[] = [
                     pt: "Estagiario de Dados",
                     en: "Data Analyst Intern",
                 },
-                startDate: "2023-09",
-                endDate: "2023-12",
+                startDate: "2023-01",
+                endDate: "2023-06",
                 description: {
                     pt: "Automatizei relatorios de marketing via API do Google Analytics, usando Google Analytics API e Python, melhorando os resultados das campanhas de marketing em 70%.\nDesenvolvi dashboard de dados de marketing em Power BI, usando SQL para modelagem das consultas, facilitando a interpretacao de campanhas.\nDesenvolvi dashboard de analise de dados de frete em Power BI, usando SQL e Python para consolidacao da base, diminuindo o gasto com armadores em 22%.",
                     en: "Automated marketing reports through the Google Analytics API using Google Analytics API and Python, improving marketing campaign results by 70%.\nDeveloped a marketing data dashboard in Power BI, using SQL for query modeling, making campaign interpretation easier.\nDeveloped a freight data analysis dashboard in Power BI, using SQL and Python to consolidate the dataset, reducing shipping carrier costs by 22%.",
@@ -232,8 +232,8 @@ const experienceCompaniesSeed: ExperienceCompanySeed[] = [
                     pt: "Analista de Dados Junior",
                     en: "Data Analyst Junior",
                 },
-                startDate: "2023-12",
-                endDate: "2024-11",
+                startDate: "2023-06",
+                endDate: "2024-03",
                 description: {
                     pt: "Implementei scraping completo e automatico de dados de frete, usando Python e Web Scraping, poupando 20 horas de trabalho manual por semana.\nAutomatizei a migracao de banco de dados, usando Python e SQL para migrar dados de MySQL para PostgreSQL, possibilitando levar novos dados ao novo sistema.\nAutomatizei publicacoes no site da empresa, usando Docker, PHP e Python, poupando 10 horas semanais.",
                     en: "Implemented complete and automated freight data scraping using Python and web scraping, saving 20 hours of manual work per week.\nAutomated database migration using Python and SQL to migrate data from MySQL to PostgreSQL, enabling new data ingestion into the new system.\nAutomated website publishing workflows using Docker, PHP, and Python, saving 10 hours per week.",
@@ -270,8 +270,8 @@ const experienceCompaniesSeed: ExperienceCompanySeed[] = [
                     pt: "Analista de Dados Junior",
                     en: "Data Analyst Junior",
                 },
-                startDate: "2024-11",
-                endDate: "2025-03",
+                startDate: "2024-03",
+                endDate: "2024-12",
                 description: {
                     pt: "Resolvi inconsistencias de dados financeiros usando SQL no BigQuery e Python no Hex.app, disponibilizando dados financeiros diarios para investidores.\nCriei dashboards comerciais com filtros dinamicos em Power BI e SQL, usados semanalmente pela equipe de vendas para decisoes estrategicas.\nAutomatizei alertas por e-mail para divergencias no HubSpot com Python e integracao de dados, reduzindo cerca de 15 horas de retrabalho por semana.",
                     en: "Resolved financial data inconsistencies using SQL in BigQuery and Python in Hex.app, enabling daily financial data availability for investors.\nBuilt commercial dashboards with dynamic filters in Power BI and SQL, used weekly by the sales team for strategic decisions.\nAutomated email alerts for HubSpot data divergences using Python and data integration routines, reducing rework by around 15 hours per week.",
@@ -289,8 +289,8 @@ const experienceCompaniesSeed: ExperienceCompanySeed[] = [
                     pt: "Engenheiro de Dados Junior",
                     en: "Data Engineer Junior",
                 },
-                startDate: "2025-03",
-                endDate: "2025-09",
+                startDate: "2024-12",
+                endDate: "2025-12",
                 description: {
                     pt: "Configurei ETL via API do HubSpot com Python e BigQuery, substituindo aproximadamente 16 horas semanais de trabalho manual.\nEstruturei pipelines ETL com dbt e Data Vault para padronizar dados do HubSpot, aumentando a consistencia dos relatorios.\nAutomatizei a coleta do Diario Oficial com AWS Lambda, S3 e Python, garantindo extracao continua de dados juridicos.\nModelei armazenamento e consulta de dados nao estruturados com MongoDB, melhorando o registro e a rastreabilidade de processos.\nModelei e carreguei dados analiticos no BigQuery com SQL, otimizando a identificacao de processos relevantes.\nDesenvolvi algoritmos em Python e SQL para detectar transito em julgado, prazos e valores, acelerando analises juridicas em ate 70%.",
                     en: "Configured ETL through the HubSpot API using Python and BigQuery, replacing approximately 16 hours of manual work per week.\nStructured ETL pipelines with dbt and Data Vault to standardize HubSpot data, improving report consistency.\nAutomated Brazilian Official Gazette (Diario Oficial) data collection with AWS Lambda, S3, and Python, ensuring continuous legal data extraction.\nModeled storage and querying of unstructured data with MongoDB, improving process tracking and traceability.\nModeled and loaded analytical data in BigQuery with SQL, improving identification of relevant legal cases.\nDeveloped algorithms in Python and SQL to detect final judgment status, deadlines, and values, accelerating legal analysis by up to 70%.",
@@ -354,21 +354,21 @@ const experienceCompaniesSeed: ExperienceCompanySeed[] = [
             en: "Santos, SP, Brazil",
         },
         employmentType: {
-            pt: "PJ",
-            en: "Independent contractor",
+            pt: "Consultoria",
+            en: "Consulting contract",
         },
         summary: {
-            pt: "Liderei fluxos de engenharia e analise de dados com ETL, modelagem relacional e BI.",
-            en: "Led data engineering and analytics workflows with ETL automation, relational modeling, and BI.",
+            pt: "Atuei em consultoria de engenharia de dados com automacao, modelagem e analytics para a operacao logistica.",
+            en: "Worked in a data engineering consulting engagement focused on automation, modeling, and analytics for logistics operations.",
         },
         roles: [
             {
                 title: {
-                    pt: "Engenheiro de Dados",
-                    en: "Data Engineer",
+                    pt: "Engenheiro de Dados (Consultor)",
+                    en: "Data Engineer (Consulting)",
                 },
                 startDate: "2025-09",
-                endDate: null,
+                endDate: "2026-04",
                 description: {
                     pt: "Automatizei o scraping de cotacoes de frete maritimo (Maersk, CMA, MSC e ONE) usando Python e Playwright, centralizando dados de cotacao para analise e comparacao operacional.\nCriei pipelines de dados e dashboards no Power BI integrados ao SharePoint e Salesforce, usando Python e SQL, melhorando a visibilidade de indicadores comerciais e operacionais.\nModelei e analisei dados logisticos e financeiros para KPIs operacionais e comerciais, usando SQL, Pandas e Power BI, apoiando o acompanhamento continuo de performance.\nAutomatizei a extracao e validacao de documentos de importacao com Python e OpenAI API, reduzindo etapas manuais e aumentando a confiabilidade da conferencia documental.",
                     en: "Automated ocean freight quote scraping (Maersk, CMA, MSC, and ONE) using Python and Playwright, centralizing quote data for operational analysis and comparison.\nBuilt data pipelines and Power BI dashboards integrated with SharePoint and Salesforce using Python and SQL, improving visibility of commercial and operational indicators.\nModeled and analyzed logistics and financial data for operational and commercial KPIs using SQL, Pandas, and Power BI, supporting continuous performance tracking.\nAutomated import document extraction and validation with Python and the OpenAI API, reducing manual steps and improving document review reliability.",

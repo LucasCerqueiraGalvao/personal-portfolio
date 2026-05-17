@@ -97,26 +97,26 @@
     "notProvided": "Not provided",
     "careerTimeline": "Role timeline",
     "linus_2026": {
-      "title": "Mid-level Data Engineer",
+      "title": "Data Engineer",
       "company": "Linus",
       "period": "2026 - Present",
       "description": "- Developed ETL/ELT pipelines integrating data from platforms such as Shopify, Omie, and Tiny ERP.\n- Modeled analytics layers in BigQuery for reliable reporting.\n- Built strategic dashboards for sales, marketing, and operations.\n- Deployed APIs and automations in Docker on GCP."
     },
     "excel_santos_2025": {
-      "title": "Mid-level Data Engineer",
+      "title": "Data Engineer (Consulting)",
       "company": "Excel Santos",
       "period": "2025 - 2026",
       "description": "- Automated maritime freight quote scraping with Python and Playwright.\n- Built data pipelines and Power BI dashboards integrated with SharePoint and Salesforce.\n- Modeled logistics and financial datasets for operational and commercial KPIs.\n- Integrated OpenAI API workflows and deployed services in Docker on Azure."
     },
     "cp_legal_claims_2024": {
-      "title": "Junior Data Analyst",
+      "title": "Junior Data Engineer",
       "company": "CP Legal Claims",
       "period": "2024 - 2025",
       "description": "- Automated legal journal scraping with AWS Lambda/S3.\n- Structured and queried unstructured data in MongoDB and BigQuery.\n- Built ELT pipelines with DBT and Data Vault standards.\n- Delivered dashboards and quality alerts to reduce manual rework."
     },
     "lecex_brasil_2023": {
       "title": "Junior Data Analyst",
-      "company": "Lecex Brasil",
+      "company": "LECEX",
       "period": "2023 - 2024",
       "description": "- Developed financial and marketing dashboards to improve predictability.\n- Integrated data from multiple SQL sources into unified flows.\n- Built Python automations to accelerate analytics operations and remove repetitive work."
     }
@@ -135,6 +135,13 @@
       "company": "Catholic University of Santos (UNISANTA)",
       "period": "Expected graduation: 06/2026",
       "description": "Evening program.",
+      "link": ""
+    },
+    "unifesp_mestrado_redes_neurais_2027": {
+      "title": "Masters degree focused on Applied Neural Networks",
+      "company": "Federal University of Sao Paulo (UNIFESP)",
+      "period": "Planned start: 01/2027",
+      "description": "Research line within a FAPESP group focused on model generation through an integrated workflow with Full Waveform Inversion (FWI) for predicting geological CO2 storage targets.",
       "link": ""
     },
     "usp_fisica_2023": {

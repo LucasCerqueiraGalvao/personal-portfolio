@@ -97,26 +97,26 @@
                         "notProvided":  "Nao informado",
                         "careerTimeline":  "Timeline de cargos",
                         "linus_2026":  {
-                                           "title":  "Engenheiro de Dados Pleno",
+                                           "title":  "Engenheiro de Dados",
                                            "company":  "Linus",
                                            "period":  "2026 - Atual",
                                            "description":  "- Desenvolvimento de pipelines ETL/ELT para integração de dados de plataformas como Shopify, Omie e Tiny ERP.\n- Modelagem de dados em BigQuery com organização por camadas analíticas.\n- Criação de dashboards estratégicos para vendas, marketing e operações.\n- Deploy de APIs e automações em Docker na GCP."
                                        },
                         "excel_santos_2025":  {
-                                                  "title":  "Engenheiro de Dados Pleno",
+                                                  "title":  "Engenheiro de Dados (Consultor)",
                                                   "company":  "Excel Santos",
                                                   "period":  "2025 - 2026",
                                                   "description":  "- Automação de scraping de cotações de frete marítimo com Python e Playwright.\n- Pipelines e dashboards Power BI integrados a SharePoint e Salesforce.\n- Análise de dados logísticos e financeiros para KPIs operacionais e comerciais.\n- Integração com API OpenAI e deploy em Docker na Azure."
                                               },
                         "cp_legal_claims_2024":  {
-                                                     "title":  "Analista de Dados Junior",
+                                                     "title":  "Engenheiro de Dados Junior",
                                                      "company":  "CP Legal Claims",
                                                      "period":  "2024 - 2025",
                                                      "description":  "- Scraping do Diário Oficial com AWS Lambda/S3 para extração jurídica.\n- Estruturação de dados em MongoDB e BigQuery para análise.\n- Pipelines ELT com DBT e Data Vault para padronização.\n- Dashboards e alertas de qualidade para reduzir retrabalho."
                                                  },
                         "lecex_brasil_2023":  {
                                                   "title":  "Analista de Dados Junior",
-                                                  "company":  "Lecex Brasil",
+                                                  "company":  "LECEX",
                                                   "period":  "2023 - 2024",
                                                   "description":  "- Desenvolvimento de dashboards financeiros e de marketing para ganho de previsibilidade.\n- Integração de dados de múltiplas bases SQL em fluxo unificado.\n- Automações em Python para acelerar operações analíticas e reduzir tarefas repetitivas."
                                               }
@@ -137,6 +137,13 @@
                                                "description":  "Turno: Noturno",
                                                "link":  ""
                                            },
+                      "unifesp_mestrado_redes_neurais_2027":  {
+                                                                     "title":  "Mestrado com foco em Redes Neurais Aplicadas",
+                                                                     "company":  "Universidade Federal de São Paulo (UNIFESP)",
+                                                                     "period":  "Início previsto: 01/2027",
+                                                                     "description":  "Linha de pesquisa em grupo FAPESP voltada à geração de modelos por workflow integrado com Full Waveform Inversion (FWI) para predição de alvos de armazenamento geológico de CO2.",
+                                                                     "link":  ""
+                                                                 },
                       "usp_fisica_2023":  {
                                               "title":  "Bacharelado em Física",
                                               "company":  "Universidade de São Paulo (USP)",

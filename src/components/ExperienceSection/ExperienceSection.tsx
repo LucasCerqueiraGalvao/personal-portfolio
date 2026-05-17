@@ -45,8 +45,9 @@ const ExperienceSection = () => {
     const educationKeys = [
         "fatec_ads_2026",
         "unisanta_cc_2026",
-        "usp_fisica_2023",
+        "unifesp_mestrado_redes_neurais_2027",
         "usp_poli_mba_2027",
+        "usp_fisica_2023",
     ];
 
     const education = educationKeys.map((key) => ({
