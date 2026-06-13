@@ -1,0 +1,17 @@
+{
+  "assets": [
+    {
+      "file": "milky-way-8k.jpg",
+      "sourceEntry": "materials/st2.tex",
+      "sourceTexture": "embedded PNG",
+      "sourceDimensions": {
+        "width": 8192,
+        "height": 4096
+      },
+      "maxDimensions": {
+        "width": 8192,
+        "height": 4096
+      }
+    }
+  ]
+}
