@@ -10,6 +10,7 @@ type Props = {
     navLinks: { to: string; label: string }[];
     language: "en" | "pt";
     cvHref: string;
+    cvDownloadName: string;
     cvLabel: string;
 };
 
@@ -20,6 +21,7 @@ function MenuMobile({
     navLinks,
     language,
     cvHref,
+    cvDownloadName,
     cvLabel,
 }: Props) {
     return (
@@ -69,7 +71,7 @@ function MenuMobile({
                 <div className="mt-8">
                     <a
                         href={cvHref}
-                        download
+                        download={cvDownloadName}
                         onClick={() => setIsMobileMenuOpen(false)}
                         className="inline-flex w-full items-center justify-center whitespace-nowrap rounded-xl border border-[var(--line-soft)] bg-white/5 px-5 py-2.5 text-sm font-semibold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/12 hover:border-white/45 active:translate-y-0"
                     >

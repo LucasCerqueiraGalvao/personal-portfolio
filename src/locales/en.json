@@ -132,21 +132,21 @@
     },
     "unisanta_cc_2026": {
       "title": "Bachelors Degree in Computer Science",
-      "company": "Catholic University of Santos (UNISANTA)",
+      "company": "Catholic University of Santos (UNISANTOS)",
       "period": "Expected graduation: 06/2026",
       "description": "Evening program.",
       "link": ""
     },
     "unifesp_mestrado_redes_neurais_2027": {
       "title": "Masters degree focused on Applied Neural Networks",
-      "company": "Federal University of Sao Paulo (UNIFESP)",
+      "company": "Federal University of São Paulo (UNIFESP)",
       "period": "Planned start: 01/2027",
       "description": "Research line within a FAPESP group focused on model generation through an integrated workflow with Full Waveform Inversion (FWI) for predicting geological CO2 storage targets.",
       "link": ""
     },
     "usp_fisica_2023": {
       "title": "Bachelors Degree in Physics",
-      "company": "University of Sao Paulo (USP)",
+      "company": "University of São Paulo (USP)",
       "period": "Interrupted in 10/2023",
       "description": "Program interrupted during career transition.",
       "link": ""
@@ -222,6 +222,6 @@
     }
   },
   "footer": {
-    "text": "© 2026 Lucas Cerqueira Galvao. All rights reserved."
+    "text": "© 2026 Lucas Galvao. All rights reserved."
   }
 }

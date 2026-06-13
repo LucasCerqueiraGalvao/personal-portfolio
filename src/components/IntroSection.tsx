@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
 import { useTranslation } from "react-i18next";
-import { profile } from "../data/profile";
+import { getProfileFullName } from "../data/profile";
 import i18n from "../utils/i18n";
 
 function IntroSection() {
@@ -22,7 +22,7 @@ function IntroSection() {
                     <TypeAnimation
                         key={language}
                         sequence={[
-                            profile.fullName.toUpperCase(),
+                            getProfileFullName(language).toUpperCase(),
                             2000,
                             t("hero.title"),
                             2000,

@@ -1,9 +1,15 @@
-﻿import { useEffect, useState } from "react";
-import { profile } from "../data/profile";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { getProfileFullName, profile, type SupportedLanguage } from "../data/profile";
 
 function SiteFooter() {
     const year = new Date().getFullYear();
     const [isVisible, setIsVisible] = useState(false);
+    const { i18n } = useTranslation();
+    const language: SupportedLanguage = i18n.language.startsWith("pt") ? "pt" : "en";
+    const fullName = getProfileFullName(language);
+    const rightsLabel =
+        language === "pt" ? "Todos os direitos reservados." : "All rights reserved.";
 
     useEffect(() => {
         const handleScroll = () => {
@@ -30,7 +36,7 @@ function SiteFooter() {
                         <span className="font-['Michroma'] text-sm text-white">
                             {profile.initials}
                         </span>
-                        <span>{profile.fullName}</span>
+                        <span>{fullName}</span>
                     </div>
 
                     <div className="flex flex-wrap gap-4 text-white/80">
@@ -60,7 +66,7 @@ function SiteFooter() {
                 </div>
 
                 <p className="mt-4 text-[11px] uppercase tracking-[0.14em] text-[var(--text-muted)]">
-                    {("(c) " + year + " " + profile.fullName + ". All rights reserved.")}
+                    {`(c) ${year} ${fullName}. ${rightsLabel}`}
                 </p>
             </div>
         </footer>

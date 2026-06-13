@@ -1,4 +1,5 @@
-﻿import SiteFooter from "./components/SiteFooter";
+import AnalyticsTracker from "./components/AnalyticsTracker";
+import SiteFooter from "./components/SiteFooter";
 import TopNav from "./components/TopNav";
 import ScrollToTop from "./components/ScrollToTop";
 import SmoothScroll from "./components/SmoothScroll";
@@ -62,6 +63,7 @@ function LegacyJourneyDetailRedirect() {
 function App() {
     return (
         <BrowserRouter basename={import.meta.env.BASE_URL}>
+            <AnalyticsTracker />
             <ScrollToTop />
             <Routes>
                 <Route element={<AppLayout />}>

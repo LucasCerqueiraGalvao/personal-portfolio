@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { APP_ROUTES } from "../config/routes";
-import { getCvPath, profile } from "../data/profile";
+import {
+    getCvDownloadName,
+    getCvPath,
+    getProfileFullName,
+    profile,
+} from "../data/profile";
 import i18n from "../utils/i18n";
 import { withBasePath } from "../utils/withBasePath";
 import Button from "./Button";
@@ -24,6 +29,10 @@ function TopNav() {
     const { setSidebarAnchor } = useSocialIconAnchors();
     const isContactRoute =
         location.pathname === APP_ROUTES.reach || location.pathname === "/reach";
+
+    useEffect(() => {
+        document.title = getProfileFullName(language);
+    }, [language]);
 
     const navLinks: NavItem[] = [
         { to: APP_ROUTES.about, label: t("header.nav.home") },
@@ -99,7 +108,10 @@ function TopNav() {
 
                             <div className="w-[208px] flex-none">
                                 <Button type="secondary" className="w-full">
-                                    <a href={getCvPath(language)} download>
+                                    <a
+                                        href={getCvPath(language)}
+                                        download={getCvDownloadName(language)}
+                                    >
                                         {t("header.button2")}
                                     </a>
                                 </Button>
@@ -147,6 +159,7 @@ function TopNav() {
                 navLinks={navLinks}
                 language={language}
                 cvHref={getCvPath(language)}
+                cvDownloadName={getCvDownloadName(language)}
                 cvLabel={t("header.button2")}
             />
 

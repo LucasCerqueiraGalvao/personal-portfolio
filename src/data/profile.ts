@@ -13,21 +13,29 @@ type SocialLinks = {
     email: string;
 };
 
-type CvPaths = {
-    pt: string;
-    en: string;
+type CvAsset = {
+    path: string;
+    filename: string;
+};
+
+type CvAssets = {
+    pt: CvAsset;
+    en: CvAsset;
 };
 
 export type ProfileData = {
-    fullName: string;
+    fullName: LocalizedText;
     initials: string;
     role: LocalizedText;
     social: SocialLinks;
-    cv: CvPaths;
+    cv: CvAssets;
 };
 
 export const profile: ProfileData = {
-    fullName: "Lucas Cerqueira Galvão",
+    fullName: {
+        pt: "Lucas Galvão",
+        en: "Lucas Galvao",
+    },
     initials: "LG",
     role: {
         pt: "Engenheiro de Dados e Analista de Dados",
@@ -39,11 +47,25 @@ export const profile: ProfileData = {
         email: "mailto:lucas_galvao01@hotmail.com",
     },
     cv: {
-        pt: "/cv/cv_lucas_galvao_data_engineer_pt.pdf",
-        en: "/cv/cv_lucas_galvao_data_engineer_en.pdf",
+        pt: {
+            path: "/cv/PT_Lucas_Galvao_CV_Data_Engineer.pdf",
+            filename: "PT_Lucas_Galvao_CV_Data_Engineer.pdf",
+        },
+        en: {
+            path: "/cv/EN_Lucas_Galvao_CV_Data_Engineer.pdf",
+            filename: "EN_Lucas_Galvao_CV_Data_Engineer.pdf",
+        },
     },
 };
 
+export function getProfileFullName(language: SupportedLanguage): string {
+    return profile.fullName[language] ?? profile.fullName.en;
+}
+
 export function getCvPath(language: SupportedLanguage): string {
-    return withBasePath(profile.cv[language] ?? profile.cv.pt);
+    return withBasePath(profile.cv[language]?.path ?? profile.cv.pt.path);
+}
+
+export function getCvDownloadName(language: SupportedLanguage): string {
+    return profile.cv[language]?.filename ?? profile.cv.pt.filename;
 }

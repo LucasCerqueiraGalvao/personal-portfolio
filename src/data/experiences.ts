@@ -166,19 +166,19 @@ const experienceCompaniesSeed: ExperienceCompanySeed[] = [
             en: "Independent contractor",
         },
         summary: {
-            pt: "Atuei como instrutor de programacao, com foco em logica, algoritmos e aprendizado baseado em projetos.",
+            pt: "Atuei como instrutor de programação, com foco em lógica, algoritmos e aprendizado baseado em projetos.",
             en: "Worked as a programming instructor focused on logic, algorithms, and project-based learning.",
         },
         roles: [
             {
                 title: {
-                    pt: "Instrutor de Programacao de Software",
+                    pt: "Instrutor de Programação de Software",
                     en: "Software Programming Instructor",
                 },
                 startDate: "2022-08",
                 endDate: "2023-01",
                 description: {
-                    pt: "Estruturei a trilha de Computational Thinking para 4 turmas, aumentando a taxa de conclusao dos modulos de 68% para 89% (+21 p.p.) em 6 meses.\nReformulei as aulas de Algorithms com exercicios progressivos, reduzindo o tempo medio de resolucao de desafios de 45 para 28 minutos (-38%).\nPadronizei o conteudo de Programming Fundamentals com pratica guiada, elevando a media das avaliacoes de 6,7 para 8,4 (+25%) no semestre.\nImplementei rotinas semanais de Problem Solving com revisao de erros, aumentando a taxa de acerto na primeira tentativa de 52% para 76% (+24 p.p.).\nConduzi projetos praticos de Software Development em equipe, aumentando a entrega de projetos completos de 61% para 87% (+26 p.p.) e reduzindo retrabalho em 34%.",
+                    pt: "Estruturei a trilha de Computational Thinking para 4 turmas, aumentando a taxa de conclusão dos módulos de 68% para 89% (+21 p.p.) em 6 meses.\nReformulei as aulas de Algorithms com exercícios progressivos, reduzindo o tempo médio de resolução de desafios de 45 para 28 minutos (-38%).\nPadronizei o conteúdo de Programming Fundamentals com prática guiada, elevando a média das avaliações de 6,7 para 8,4 (+25%) no semestre.\nImplementei rotinas semanais de Problem Solving com revisão de erros, aumentando a taxa de acerto na primeira tentativa de 52% para 76% (+24 p.p.).\nConduzi projetos práticos de Software Development em equipe, aumentando a entrega de projetos completos de 61% para 87% (+26 p.p.) e reduzindo retrabalho em 34%.",
                     en: "Structured the Computational Thinking track for 4 classes, increasing module completion rates from 68% to 89% (+21 p.p.) in 6 months.\nRedesigned Algorithms classes with progressive exercises, reducing average challenge resolution time from 45 to 28 minutes (-38%).\nStandardized Programming Fundamentals content with guided practice, raising average assessment scores from 6.7 to 8.4 (+25%) in the semester.\nImplemented weekly Problem Solving routines with error review, increasing first-attempt accuracy from 52% to 76% (+24 p.p.).\nLed hands-on Software Development team projects, increasing complete project delivery from 61% to 87% (+26 p.p.) and reducing rework by 34%.",
                 },
                 skills: [
@@ -204,19 +204,19 @@ const experienceCompaniesSeed: ExperienceCompanySeed[] = [
             en: "Full-time employee",
         },
         summary: {
-            pt: "Evolui de estagiario para analista junior, fortalecendo automacoes, relatorios e processos analiticos.",
+            pt: "Evoluí de estagiário para analista júnior, fortalecendo automações, relatórios e processos analíticos.",
             en: "Progressed from intern to junior analyst, improving automation, reporting, and analytics workflows.",
         },
         roles: [
             {
                 title: {
-                    pt: "Estagiario de Dados",
+                    pt: "Estagiário de Dados",
                     en: "Data Analyst Intern",
                 },
                 startDate: "2023-01",
                 endDate: "2023-06",
                 description: {
-                    pt: "Automatizei relatorios de marketing via API do Google Analytics, usando Google Analytics API e Python, melhorando os resultados das campanhas de marketing em 70%.\nDesenvolvi dashboard de dados de marketing em Power BI, usando SQL para modelagem das consultas, facilitando a interpretacao de campanhas.\nDesenvolvi dashboard de analise de dados de frete em Power BI, usando SQL e Python para consolidacao da base, diminuindo o gasto com armadores em 22%.",
+                    pt: "Automatizei relatórios de marketing via API do Google Analytics, usando Google Analytics API e Python, melhorando os resultados das campanhas de marketing em 70%.\nDesenvolvi dashboard de dados de marketing em Power BI, usando SQL para modelagem das consultas, facilitando a interpretação de campanhas.\nDesenvolvi dashboard de análise de dados de frete em Power BI, usando SQL e Python para consolidação da base, diminuindo o gasto com armadores em 22%.",
                     en: "Automated marketing reports through the Google Analytics API using Google Analytics API and Python, improving marketing campaign results by 70%.\nDeveloped a marketing data dashboard in Power BI, using SQL for query modeling, making campaign interpretation easier.\nDeveloped a freight data analysis dashboard in Power BI, using SQL and Python to consolidate the dataset, reducing shipping carrier costs by 22%.",
                 },
                 skills: [
@@ -229,13 +229,13 @@ const experienceCompaniesSeed: ExperienceCompanySeed[] = [
             },
             {
                 title: {
-                    pt: "Analista de Dados Junior",
-                    en: "Data Analyst Junior",
+                    pt: "Analista de Dados Júnior",
+                    en: "Junior Data Analyst",
                 },
                 startDate: "2023-06",
                 endDate: "2024-03",
                 description: {
-                    pt: "Implementei scraping completo e automatico de dados de frete, usando Python e Web Scraping, poupando 20 horas de trabalho manual por semana.\nAutomatizei a migracao de banco de dados, usando Python e SQL para migrar dados de MySQL para PostgreSQL, possibilitando levar novos dados ao novo sistema.\nAutomatizei publicacoes no site da empresa, usando Docker, PHP e Python, poupando 10 horas semanais.",
+                    pt: "Implementei scraping completo e automático de dados de frete, usando Python e Web Scraping, poupando 20 horas de trabalho manual por semana.\nAutomatizei a migração de banco de dados, usando Python e SQL para migrar dados de MySQL para PostgreSQL, possibilitando levar novos dados ao novo sistema.\nAutomatizei publicações no site da empresa, usando Docker, PHP e Python, poupando 10 horas semanais.",
                     en: "Implemented complete and automated freight data scraping using Python and web scraping, saving 20 hours of manual work per week.\nAutomated database migration using Python and SQL to migrate data from MySQL to PostgreSQL, enabling new data ingestion into the new system.\nAutomated website publishing workflows using Docker, PHP, and Python, saving 10 hours per week.",
                 },
                 skills: [
@@ -253,27 +253,27 @@ const experienceCompaniesSeed: ExperienceCompanySeed[] = [
         name: "CP Legal Claims",
         website: "https://cplc.com.br",
         location: {
-            pt: "Sao Paulo, SP, Brasil",
-            en: "Sao Paulo, SP, Brazil",
+            pt: "São Paulo, SP, Brasil",
+            en: "São Paulo, SP, Brazil",
         },
         employmentType: {
             pt: "PJ",
             en: "Independent contractor",
         },
         summary: {
-            pt: "Evolui de analista para engenheiro junior, escalando pipelines de ETL e a operacao analitica.",
+            pt: "Evoluí de analista para engenheiro júnior, escalando pipelines de ETL e a operação analítica.",
             en: "Progressed from analyst to junior engineer, scaling ETL pipelines and analytics operations.",
         },
         roles: [
             {
                 title: {
-                    pt: "Analista de Dados Junior",
-                    en: "Data Analyst Junior",
+                    pt: "Analista de Dados Júnior",
+                    en: "Junior Data Analyst",
                 },
                 startDate: "2024-03",
                 endDate: "2024-12",
                 description: {
-                    pt: "Resolvi inconsistencias de dados financeiros usando SQL no BigQuery e Python no Hex.app, disponibilizando dados financeiros diarios para investidores.\nCriei dashboards comerciais com filtros dinamicos em Power BI e SQL, usados semanalmente pela equipe de vendas para decisoes estrategicas.\nAutomatizei alertas por e-mail para divergencias no HubSpot com Python e integracao de dados, reduzindo cerca de 15 horas de retrabalho por semana.",
+                    pt: "Resolvi inconsistências de dados financeiros usando SQL no BigQuery e Python no Hex.app, disponibilizando dados financeiros diários para investidores.\nCriei dashboards comerciais com filtros dinâmicos em Power BI e SQL, usados semanalmente pela equipe de vendas para decisões estratégicas.\nAutomatizei alertas por e-mail para divergências no HubSpot com Python e integração de dados, reduzindo cerca de 15 horas de retrabalho por semana.",
                     en: "Resolved financial data inconsistencies using SQL in BigQuery and Python in Hex.app, enabling daily financial data availability for investors.\nBuilt commercial dashboards with dynamic filters in Power BI and SQL, used weekly by the sales team for strategic decisions.\nAutomated email alerts for HubSpot data divergences using Python and data integration routines, reducing rework by around 15 hours per week.",
                 },
                 skills: [
@@ -286,14 +286,14 @@ const experienceCompaniesSeed: ExperienceCompanySeed[] = [
             },
             {
                 title: {
-                    pt: "Engenheiro de Dados Junior",
-                    en: "Data Engineer Junior",
+                    pt: "Engenheiro de Dados Júnior",
+                    en: "Junior Data Engineer",
                 },
                 startDate: "2024-12",
                 endDate: "2025-12",
                 description: {
-                    pt: "Configurei ETL via API do HubSpot com Python e BigQuery, substituindo aproximadamente 16 horas semanais de trabalho manual.\nEstruturei pipelines ETL com dbt e Data Vault para padronizar dados do HubSpot, aumentando a consistencia dos relatorios.\nAutomatizei a coleta do Diario Oficial com AWS Lambda, S3 e Python, garantindo extracao continua de dados juridicos.\nModelei armazenamento e consulta de dados nao estruturados com MongoDB, melhorando o registro e a rastreabilidade de processos.\nModelei e carreguei dados analiticos no BigQuery com SQL, otimizando a identificacao de processos relevantes.\nDesenvolvi algoritmos em Python e SQL para detectar transito em julgado, prazos e valores, acelerando analises juridicas em ate 70%.",
-                    en: "Configured ETL through the HubSpot API using Python and BigQuery, replacing approximately 16 hours of manual work per week.\nStructured ETL pipelines with dbt and Data Vault to standardize HubSpot data, improving report consistency.\nAutomated Brazilian Official Gazette (Diario Oficial) data collection with AWS Lambda, S3, and Python, ensuring continuous legal data extraction.\nModeled storage and querying of unstructured data with MongoDB, improving process tracking and traceability.\nModeled and loaded analytical data in BigQuery with SQL, improving identification of relevant legal cases.\nDeveloped algorithms in Python and SQL to detect final judgment status, deadlines, and values, accelerating legal analysis by up to 70%.",
+                    pt: "Configurei ETL via API do HubSpot com Python e BigQuery, substituindo aproximadamente 16 horas semanais de trabalho manual.\nEstruturei pipelines ETL com dbt e Data Vault para padronizar dados do HubSpot, aumentando a consistência dos relatórios.\nAutomatizei a coleta do Diário Oficial com AWS Lambda, S3 e Python, garantindo extração contínua de dados jurídicos.\nModelei armazenamento e consulta de dados não estruturados com MongoDB, melhorando o registro e a rastreabilidade de processos.\nModelei e carreguei dados analíticos no BigQuery com SQL, otimizando a identificação de processos relevantes.\nDesenvolvi algoritmos em Python e SQL para detectar trânsito em julgado, prazos e valores, acelerando análises jurídicas em até 70%.",
+                    en: "Configured ETL through the HubSpot API using Python and BigQuery, replacing approximately 16 hours of manual work per week.\nStructured ETL pipelines with dbt and Data Vault to standardize HubSpot data, improving report consistency.\nAutomated Brazilian Official Gazette (Diário Oficial) data collection with AWS Lambda, S3, and Python, ensuring continuous legal data extraction.\nModeled storage and querying of unstructured data with MongoDB, improving process tracking and traceability.\nModeled and loaded analytical data in BigQuery with SQL, improving identification of relevant legal cases.\nDeveloped algorithms in Python and SQL to detect final judgment status, deadlines, and values, accelerating legal analysis by up to 70%.",
                 },
                 skills: [
                     "Python",
@@ -310,15 +310,15 @@ const experienceCompaniesSeed: ExperienceCompanySeed[] = [
         name: "Linus",
         website: "https://www.uselinus.com.br",
         location: {
-            pt: "Sao Paulo, SP, Brasil",
-            en: "Sao Paulo, SP, Brazil",
+            pt: "São Paulo, SP, Brasil",
+            en: "São Paulo, SP, Brazil",
         },
         employmentType: {
             pt: "CLT",
             en: "Full-time employee",
         },
         summary: {
-            pt: "Construo e mantenho pipelines ETL/ELT, camadas analiticas e dashboards para areas de negocio.",
+            pt: "Construo e mantenho pipelines ETL/ELT, camadas analíticas e dashboards para áreas de negócio.",
             en: "Build and maintain ETL/ELT pipelines, analytics layers, and business dashboards.",
         },
         roles: [
@@ -330,7 +330,7 @@ const experienceCompaniesSeed: ExperienceCompanySeed[] = [
                 startDate: "2026-01",
                 endDate: null,
                 description: {
-                    pt: "Desenvolvi pipelines ETL/ELT para integrar dados de plataformas como Shopify, Omie e Tiny ERP, usando Python e BigQuery, aumentando a confiabilidade e disponibilidade dos dados para analise.\nModelei camadas analiticas no BigQuery com SQL, garantindo reporting confiavel para as areas de negocio.\nConstrui dashboards estrategicos para vendas, marketing e operacoes em ferramentas de BI, acelerando o acompanhamento de KPIs e a tomada de decisao.\nRealizei deploy de APIs e automacoes com Docker na GCP, padronizando a entrega e estabilidade dos servicos de dados.",
+                    pt: "Desenvolvi pipelines ETL/ELT para integrar dados de plataformas como Shopify, Omie e Tiny ERP, usando Python e BigQuery, aumentando a confiabilidade e disponibilidade dos dados para análise.\nModelei camadas analíticas no BigQuery com SQL, garantindo reporting confiável para as áreas de negócio.\nConstruí dashboards estratégicos para vendas, marketing e operações em ferramentas de BI, acelerando o acompanhamento de KPIs e a tomada de decisão.\nRealizei deploy de APIs e automações com Docker na GCP, padronizando a entrega e estabilidade dos serviços de dados.",
                     en: "Developed ETL/ELT pipelines to integrate data from platforms such as Shopify, Omie, and Tiny ERP using Python and BigQuery, increasing data reliability and availability for analytics.\nModeled analytical layers in BigQuery with SQL, ensuring reliable reporting for business areas.\nBuilt strategic dashboards for sales, marketing, and operations in BI tools, accelerating KPI tracking and decision-making.\nDeployed APIs and automations with Docker on GCP, standardizing delivery and stability of data services.",
                 },
                 skills: [
@@ -358,7 +358,7 @@ const experienceCompaniesSeed: ExperienceCompanySeed[] = [
             en: "Consulting contract",
         },
         summary: {
-            pt: "Atuei em consultoria de engenharia de dados com automacao, modelagem e analytics para a operacao logistica.",
+            pt: "Atuei em consultoria de engenharia de dados com automação, modelagem e analytics para a operação logística.",
             en: "Worked in a data engineering consulting engagement focused on automation, modeling, and analytics for logistics operations.",
         },
         roles: [
@@ -370,7 +370,7 @@ const experienceCompaniesSeed: ExperienceCompanySeed[] = [
                 startDate: "2025-09",
                 endDate: "2026-04",
                 description: {
-                    pt: "Automatizei o scraping de cotacoes de frete maritimo (Maersk, CMA, MSC e ONE) usando Python e Playwright, centralizando dados de cotacao para analise e comparacao operacional.\nCriei pipelines de dados e dashboards no Power BI integrados ao SharePoint e Salesforce, usando Python e SQL, melhorando a visibilidade de indicadores comerciais e operacionais.\nModelei e analisei dados logisticos e financeiros para KPIs operacionais e comerciais, usando SQL, Pandas e Power BI, apoiando o acompanhamento continuo de performance.\nAutomatizei a extracao e validacao de documentos de importacao com Python e OpenAI API, reduzindo etapas manuais e aumentando a confiabilidade da conferencia documental.",
+                    pt: "Automatizei o scraping de cotações de frete marítimo (Maersk, CMA, MSC e ONE) usando Python e Playwright, centralizando dados de cotação para análise e comparação operacional.\nCriei pipelines de dados e dashboards no Power BI integrados ao SharePoint e Salesforce, usando Python e SQL, melhorando a visibilidade de indicadores comerciais e operacionais.\nModelei e analisei dados logísticos e financeiros para KPIs operacionais e comerciais, usando SQL, Pandas e Power BI, apoiando o acompanhamento contínuo de performance.\nAutomatizei a extração e validação de documentos de importação com Python e OpenAI API, reduzindo etapas manuais e aumentando a confiabilidade da conferência documental.",
                     en: "Automated ocean freight quote scraping (Maersk, CMA, MSC, and ONE) using Python and Playwright, centralizing quote data for operational analysis and comparison.\nBuilt data pipelines and Power BI dashboards integrated with SharePoint and Salesforce using Python and SQL, improving visibility of commercial and operational indicators.\nModeled and analyzed logistics and financial data for operational and commercial KPIs using SQL, Pandas, and Power BI, supporting continuous performance tracking.\nAutomated import document extraction and validation with Python and the OpenAI API, reducing manual steps and improving document review reliability.",
                 },
                 skills: [
@@ -465,7 +465,7 @@ export function formatExperienceDuration(
     const monthCount = getExperienceDurationMonths(period);
 
     if (language === "pt") {
-        return monthCount === 1 ? "1 mes" : `${monthCount} meses`;
+        return monthCount === 1 ? "1 mês" : `${monthCount} meses`;
     }
 
     return monthCount === 1 ? "1 month" : `${monthCount} months`;
